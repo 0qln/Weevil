@@ -1,0 +1,2 @@
+# Weevil
+ Music streaming CLI
