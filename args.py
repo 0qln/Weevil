@@ -36,6 +36,8 @@ def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
 
     if arg == "skip":
         mp.skip()
+        #TODO: --count  (tracks)
+        #TODO: --span   (time to skip)
 
     if arg == "pause":
         mp.pause()
