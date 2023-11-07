@@ -4,29 +4,34 @@ from pytube.exceptions import AgeRestrictedError
 import os
 import youtube
 import pytube
-import threading
+from threading import Thread
 import vlc
 import time
-from mpWrapper import MediaPlayer
+from mpWrapper import MediaPlayer, MediaPlayerState
+from threadPtr import ThreadPtr
 
 
 
-def handleArg(argv, argi):
+def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
     flagIndices = getFlags(argv, argi + 1)
     flags = { argv[f] for f in flagIndices }
     arg = argv[argi]
 
     #debug info
-    # print('handle arg: ')
-    # print (argv[argi])
-    # print('with flags: ') 
-    # for flag in flags: print(flag)
+    print('handle arg: ')
+    print (argv[argi])
+    print('with flags: ') 
+    for flag in flags: print(flag)
     
     if arg == "help" or arg == "-h" or arg == "--help":
         printHelp()
 
     if arg == "exit":
         exit(0)
+
+    if arg == "skip":
+        #TODO
+        pass
 
     if arg == "pause":
         mp.pause()
@@ -39,9 +44,6 @@ def handleArg(argv, argi):
 
     if arg == "resume":
         mp.resume()
-
-    if (arg == "stop"):
-        mp.stop()    
 
     if arg == "play":
         # extract command information
@@ -59,14 +61,16 @@ def handleArg(argv, argi):
             #TODO: settings for playlist name generation
             #TODO: settings for selection of file to be downloaded (quality <-> data)
 
+        # stop previous playback
+        if (mpThread.getValue() is not None): 
+            mp.stop()
+
         # execute command with gathered information on a seperate thread
-        threading.Thread(target=play, args=[settings], daemon=True).start()
+        mpThread.setValue(Thread(target=play, args=[settings, mp], daemon=True))
+        mpThread.getValue().start()
 
 
-
-
-mp = MediaPlayer(vlc.Instance().media_player_new())
-def play(settings):
+def play(settings, mp:MediaPlayer) -> None:
     # create folder
     pId = youtube.extract_playlist_id(settings["url"])
     if pId is None: 
@@ -91,8 +95,6 @@ def play(settings):
                 print('Downloading ' + vId)
                 stream = (video.streams
                           .filter(only_audio=True)
-                          #.order_by(settings["orderby"])
-                          #.desc()
                           .first())
                 stream.download(path)     
                 default_filename = stream.default_filename           
@@ -102,18 +104,20 @@ def play(settings):
             
             # data playback
             filePath =  path + "\\" + default_filename
-            mp.vlc_mediaPlayer.set_media(vlc.Instance().media_new(filePath))
-            mp.play()
+            mp.play(filePath)
             time.sleep(0.5)
-            print ('start waiting')
-            mp.wait_for_stop()
-            print('stopped waiting')
+            while (mp.state == MediaPlayerState.PLAYING or
+                   mp.state == MediaPlayerState.PAUSED):
+                time.sleep(0.1)
 
         except AgeRestrictedError:
             print(video.watch_url + " is age-restricted and cannot be downloaded without logging in.")
         except Exception as e:
-            print("An error occurred:", str(e))
+            print("An unknown error occurred while playing " +video.watch_url+ ":", str(e))
 
+        if (mp.state == MediaPlayerState.STOPPED):
+            print('break')
+            break
 
 
 def printHelp():

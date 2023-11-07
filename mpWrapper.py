@@ -1,33 +1,45 @@
-import vlc, time
+import vlc, time, enum
+
+
+class MediaPlayerState(enum.Enum):
+    NONE = -1
+    PAUSED = 1
+    PLAYING = 2
+    STOPPED = 3
 
 
 class MediaPlayer:
-    def __init__(self, vlc_MediaPlayer) -> None:
-        self.paused = False
-        self.vlc_mediaPlayer = vlc_MediaPlayer
+    def __init__(self) -> None:
+        self.state = MediaPlayerState.NONE
+        self.vlc_mediaPlayer = None
 
-    def play(self):
-        self.paused = False
+    def play(self, mediaSource) -> None:
+        self.state = MediaPlayerState.PLAYING
+        self.vlc_mediaPlayer = vlc.Instance().media_player_new()
+        self.vlc_mediaPlayer.set_media(vlc.Instance().media_new(mediaSource))
         self.vlc_mediaPlayer.play()
 
-    def pause(self):
-        self.paused = True
+    def reset(self) -> None:
+        self.state = MediaPlayerState.NONE
+        self.vlc_mediaPlayer = None
+
+    def pause(self) -> None:
+        self.state = MediaPlayerState.PAUSED
         self.vlc_mediaPlayer.set_pause(69)
 
-    def resume(self):
-        self.paused = False
+    def resume(self) -> None:
+        self.state = MediaPlayerState.PLAYING
         self.vlc_mediaPlayer.set_pause(0)
 
-    def stop(self):
-        self.paused = False
-        self.vlc_mediaPlayer.stop()
+    def stop(self) -> None:
+        self.state = MediaPlayerState.STOPPED
+        self.vlc_mediaPlayer.set_pause(69)
 
     def is_playing(self) -> bool:
-        is_playing = self.vlc_mediaPlayer.is_playing() == 1
-        is_paused = self.paused
-        return (is_playing or is_paused)
+        return self.state == MediaPlayerState.PLAYING
+        
     
-    def wait_for_stop(self):        
+    def wait_for_stop(self) -> None:        
         while self.is_playing() == True:
             time.sleep(0.1)
         return
