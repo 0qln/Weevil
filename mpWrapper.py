@@ -6,6 +6,7 @@ class MediaPlayerState(enum.Enum):
     PAUSED = 1
     PLAYING = 2
     STOPPED = 3
+    SKIPPING = 4
 
 
 class MediaPlayer:
@@ -18,6 +19,10 @@ class MediaPlayer:
         self.vlc_mediaPlayer = vlc.Instance().media_player_new()
         self.vlc_mediaPlayer.set_media(vlc.Instance().media_new(mediaSource))
         self.vlc_mediaPlayer.play()
+
+    def skip(self) -> None:
+        self.state = MediaPlayerState.SKIPPING
+        self.vlc_mediaPlayer.set_pause(69)
 
     def reset(self) -> None:
         self.state = MediaPlayerState.NONE

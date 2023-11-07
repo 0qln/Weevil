@@ -18,20 +18,24 @@ def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
     arg = argv[argi]
 
     #debug info
-    print('handle arg: ')
-    print (argv[argi])
-    print('with flags: ') 
-    for flag in flags: print(flag)
+    # print('handle arg: ')
+    # print (argv[argi])
+    # print('with flags: ') 
+    # for flag in flags: print(flag)
     
     if arg == "help" or arg == "-h" or arg == "--help":
         printHelp()
+    
+    if arg == "set":
+        # TODO
+        # set --volume=50
+        pass
 
     if arg == "exit":
         exit(0)
 
     if arg == "skip":
-        #TODO
-        pass
+        mp.skip()
 
     if arg == "pause":
         mp.pause()
@@ -69,7 +73,6 @@ def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
         mpThread.setValue(Thread(target=play, args=[settings, mp], daemon=True))
         mpThread.getValue().start()
 
-
 def play(settings, mp:MediaPlayer) -> None:
     # create folder
     pId = youtube.extract_playlist_id(settings["url"])
@@ -86,11 +89,10 @@ def play(settings, mp:MediaPlayer) -> None:
 
     for video in p.videos:
         try:
+            # aquire data
             vId = video.video_id
             path = "D:\\Programmmieren\\Projects\\Weevil\\v0\\TODO_playlistname\\PLlfOcCY7-RxzP6JTxByf4gP2NUHtDRCOU\\" + vId
             default_filename = ""
-
-            # aquire data
             if not os.path.exists(path):
                 print('Downloading ' + vId)
                 stream = (video.streams
@@ -103,21 +105,27 @@ def play(settings, mp:MediaPlayer) -> None:
                 default_filename = os.listdir(path)[0]
             
             # data playback
+            print("Start Playback of " + vId)
             filePath =  path + "\\" + default_filename
             mp.play(filePath)
             time.sleep(0.5)
+
+            # handle player state (1/2)
             while (mp.state == MediaPlayerState.PLAYING or
                    mp.state == MediaPlayerState.PAUSED):
                 time.sleep(0.1)
 
+        # handle exceptions
         except AgeRestrictedError:
             print(video.watch_url + " is age-restricted and cannot be downloaded without logging in.")
         except Exception as e:
             print("An unknown error occurred while playing " +video.watch_url+ ":", str(e))
 
+        # handle player state (2/2)
         if (mp.state == MediaPlayerState.STOPPED):
-            print('break')
             break
+        if (mp.state == MediaPlayerState.SKIPPING):
+            continue
 
 
 def printHelp():
