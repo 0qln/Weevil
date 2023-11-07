@@ -9,7 +9,7 @@ import vlc
 import time
 from mpWrapper import MediaPlayer, MediaPlayerState
 from threadPtr import ThreadPtr
-
+from icecream import ic
 
 
 def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
@@ -18,10 +18,8 @@ def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
     arg = argv[argi]
 
     #debug info
-    # print('handle arg: ')
-    # print (argv[argi])
-    # print('with flags: ') 
-    # for flag in flags: print(flag)
+    ic(argv[argi])
+    ic(flags)
     
     if arg == "help" or arg == "-h" or arg == "--help":
         printHelp()
@@ -110,7 +108,6 @@ def play(settings, mp:MediaPlayer) -> None:
             print("Start Playback of " + vId)
             filePath =  path + "\\" + default_filename
             mp.play(filePath)
-            time.sleep(0.5)
 
             # handle player state (1/2)
             while (mp.state == MediaPlayerState.PLAYING or

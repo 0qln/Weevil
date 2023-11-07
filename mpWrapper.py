@@ -1,4 +1,5 @@
 import vlc, time, enum, threading
+from icecream import ic
 
 
 class MediaPlayerState(enum.Enum):
@@ -52,6 +53,6 @@ class MediaPlayer:
         while self.vlc_mediaPlayer.is_playing() == 1:
             time.sleep(0.1)
         if (self.state == MediaPlayerState.PLAYING):
-            print('change state')
             self.state = MediaPlayerState.NONE
+            ic(self.state)
         return
