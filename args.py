@@ -12,7 +12,7 @@ from threadPtr import ThreadPtr
 from icecream import ic
 
 
-def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
+def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr, arg_handler):
     flagIndices = getFlags(argv, argi + 1)
     flags = { argv[f] for f in flagIndices }
     arg = argv[argi]
@@ -23,58 +23,38 @@ def handleArg(argv, argi, mp:MediaPlayer, mpThread:ThreadPtr):
     
     if arg == "help" or arg == "-h" or arg == "--help":
         printHelp()
-    
-    if arg == "set":
-        # TODO
-        # set --volume=50
-        pass
-
-    if arg == "exit":
-        exit(0)
 
     if arg == "skip":
         mp.skip()
         #TODO: --count  (tracks)
         #TODO: --span   (time to skip)
 
-    if arg == "pause":
-        mp.pause()
-
-    if arg == "resume_play":
-        if (mp.is_playing()):
-            mp.pause()
-        else:
-            mp.resume()
-
-    if arg == "resume":
-        mp.resume()
-
     if arg == "play":
-        # extract command information
-        settings = { 
+        play(mp, mpThread, flags)
+
+
+def play(mp, mpThread, flags):
+    # extract command information
+    settings = { 
             "output": os.getcwd() + "/TODO_playlistname/",
-            "foobar": "C:\\Program Files\\foobar2000",
         }
-        for flag in flags:            
+    for flag in flags:            
             # playlist url
-            if "--url" in flag: settings["url"] = getValue(flag, "--url")
+        if "--url" in flag: settings["url"] = getValue(flag, "--url")
             # output folder in which to put the playlist
-            elif "--output" in flag: settings["output"] = getValue(flag, "--output") 
-            # path to foobar cli
-            elif "--foobar" in flag: settings["foobar"] = getValue(flag, "--foobar")
+        elif "--output" in flag: settings["output"] = getValue(flag, "--output") 
             #TODO: settings for playlist name generation
             #TODO: settings for selection of file to be downloaded (quality <-> data)
 
         # stop previous playback
-        if (mpThread.getValue() is not None): 
-            mp.stop()
+    if (mpThread.getValue() is not None): 
+        mp.stop()
 
         # execute command with gathered information on a seperate thread
-        mpThread.setValue(Thread(target=play, args=[settings, mp], daemon=True))
-        mpThread.getValue().start()
+    mpThread.setValue(Thread(target=play_playlist, args=[settings, mp], daemon=True))
+    mpThread.getValue().start()
 
-def play(settings, mp:MediaPlayer) -> None:
-    # create folder
+def play_playlist(settings, mp:MediaPlayer) -> None:
     pId = youtube.extract_playlist_id(settings["url"])
     if pId is None: 
         raise Exception("No playlist found.")

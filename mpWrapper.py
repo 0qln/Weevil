@@ -16,15 +16,16 @@ class MediaPlayer:
         self.vlc_mediaPlayer = None
 
 
-    def play(self, mediaSource) -> None:
+    def play(self) -> None:
+        self.vlc_mediaPlayer.play()
+
+    def load(self, mediaSource) -> None:
         self.vlc_mediaPlayer = vlc.Instance().media_player_new()
         self.vlc_mediaPlayer.set_media(vlc.Instance().media_new(mediaSource))
-        self.vlc_mediaPlayer.play()
-        self.resume()
 
     def skip(self) -> None:
         self.state = MediaPlayerState.SKIPPING
-        self.vlc_mediaPlayer.set_pause(69)
+        self.vlc_mediaPlayer.set_pause(1)
 
     def reset(self) -> None:
         self.state = MediaPlayerState.NONE
@@ -32,7 +33,7 @@ class MediaPlayer:
 
     def pause(self) -> None:
         self.state = MediaPlayerState.PAUSED
-        self.vlc_mediaPlayer.set_pause(69)
+        self.vlc_mediaPlayer.set_pause(1)
 
     def resume(self) -> None:
         self.state = MediaPlayerState.PLAYING
@@ -40,9 +41,15 @@ class MediaPlayer:
         # deactivate `MediaPlayerState.PLAYING` when media has finished
         threading.Thread(target=self.decay_state, daemon=True).start()
 
+    def toggle_pause(self) -> None:
+        if self.is_playing():
+            self.pause()
+        else:
+            self.resume()            
+
     def stop(self) -> None:
         self.state = MediaPlayerState.STOPPED
-        self.vlc_mediaPlayer.set_pause(69)
+        self.vlc_mediaPlayer.set_pause(1)
 
 
     def is_playing(self) -> bool:
