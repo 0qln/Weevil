@@ -72,4 +72,11 @@ class MediaPlayer:
 
     def resume(self) -> None:
         self.set_state(MediaPlayerState.PLAYING)
-        self.vlc_mediaPlayer.set_pause(0)
+        self.vlc_mediaPlayer.set_pause(0)  
+
+    def stop(self) -> None:
+        self.set_state(MediaPlayerState.STOPPED)
+        self.vlc_mediaPlayer.set_pause(1)
+        self.vlc_mediaPlayer.release()
+    
+        
