@@ -1,12 +1,12 @@
 
 from mpWrapper import MediaPlayer, MediaPlayerState
-import pytube, os, threading, youtube, re, enum
+import pytube, os, threading, re, enum, time
 from icecream import ic
 
 
 class PlaylistPlaybackManager(object):
     
-    def __init__(self, url, file_type, output_folder) -> None:
+    def __init__(self, url, output_folder, file_type) -> None:
         self.playlist = pytube.Playlist(url)
         self.videos = [MediaPlayer]
         self.current_mp = 0
@@ -20,16 +20,11 @@ class PlaylistPlaybackManager(object):
         if not os.path.exists(self.path):
             os.makedirs(self.path)
 
-    def play(self, callback) -> None:
-        for m in self.yield_iterate():
-            m.play()
-            state = MediaPlayerState.PLAYING
-            callback(m)
-            while (state != MediaPlayerState.STOPPED and 
-                   state != MediaPlayerState.SKIPPING): 
-                state = m.get_new_state()
-                ic(state)
 
+    def play(self, callback) -> None:
+        for media_player in self.yield_iterate():
+            callback(media_player)
+            VideoPlaybackManager.play(media_player)
                 
 
     def fill(self) -> [MediaPlayer]:
@@ -52,6 +47,14 @@ class PlaylistPlaybackManager(object):
 
 
 class VideoPlaybackManager:
+    def play(media_player:MediaPlayer) -> None:
+        media_player.play()
+        state = MediaPlayerState.PLAYING
+        while (state != MediaPlayerState.STOPPED and 
+                state != MediaPlayerState.SKIPPING): 
+            state = media_player.get_new_state()
+            ic(state)
+
     def create_playback_from_video(video:pytube.YouTube, output_folder, file_type) -> MediaPlayer:
         # output folder    
         if not os.path.exists(output_folder): os.makedirs(output_folder)
@@ -73,13 +76,9 @@ class VideoPlaybackManager:
 
         return mp
 
-    def create_playback(settings) -> MediaPlayer:
-        mp = VideoPlaybackManager.create_playback_from_video(
-            pytube.YouTube(settings["url"]), 
-            settings["output_folder"],
-            settings["file_type"])
-
-        return mp
+    def create_playback(url, output_folder, file_type) -> MediaPlayer:
+        return VideoPlaybackManager.create_playback_from_video(
+            pytube.YouTube(url), output_folder, file_type)
     
 
 class PlaybackManager:    
@@ -98,14 +97,20 @@ class PlaybackManager:
 
         ic (self.content_type)
 
+        def callback(mp): 
+            self.current = mp
+            ic ("Update mp: ")
+            ic (self.current)
+
         if self.content_type is ContentType.PLAYLIST:
             playback = PlaylistPlaybackManager(
-                settings["url"], settings["file_type"], settings["output_folder"])
-            def callback(mp): 
-                self.current = mp
-                ic ("Update mp: ")
-                ic (self.current)
+                settings["url"], settings["output_folder"], settings["file_type"])
             playback.play(callback)
+
+        if self.content_type is ContentType.VIDEO:
+            self.current = VideoPlaybackManager.create_playback(
+                settings["url"], settings["output_folder"], settings["file_type"])
+            VideoPlaybackManager.play(self.current)
 
 
 class ContentType(enum.Enum):

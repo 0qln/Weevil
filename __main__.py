@@ -54,14 +54,14 @@ arg_library = [
         ]
     },
     {
-        "names": [ "pause" ],
+        "names": [ "pause", "p" ],
         "function":lambda settings: playback.current.pause(),
         "flags": [ 
 
         ]
     },
     {
-        "names": [ "resume" ],
+        "names": [ "resume", "r" ],
         "function":lambda settings: playback.current.resume(),
         "flags": [
 
@@ -86,6 +86,15 @@ arg_library = [
     {
         "names": [ "resume_play", "toggle_play" ],
         "function": lambda settings: playback.current.toggle_pause()
+    },
+    {
+        "names": [ "skip" ],
+        "function": lambda settings: playback.current.skip(),
+        "flags": [
+
+        ]
+    },
+    {
     }
 ]
 
