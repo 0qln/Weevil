@@ -1,0 +1,52 @@
+
+
+    -< Weevil >-
+
+    
+
+    Available Commands:
+    
+    1. play
+        - Start playback of a track or playlist via it's yt-URL.
+        - Flags:
+            --url, -u: Specify the URL of the music.
+            --output, -o: Specify the output folder for downloaded music. (default: cwd)
+            --fileType, -f: Specify the file type (default: any).
+
+    2. pause, p
+        - Pause the current playback.
+
+    3. resume, r
+        - Resume playback from a paused state.
+
+    4. exit, close, quit
+        - Exit Weevil.
+
+    5. set
+        - Set various configuration options.
+        - Flags:
+            --key, -k: Specify the configuration key.
+            --value, -v: Specify the configuration value.
+
+            --info, -i: Wether to show casual information. (default: true)
+            --warnings, -w: Wether to show warnings. (default: true)
+            --volume, -vol: Set the volume (TODO).
+
+    6. skip
+        - Skip to the next track in the playlist.
+
+    7. list_playlists, lp
+        - List available playlists.
+        - Flags:
+            --directory, -dir: Specify the directory of playlists (default: cwd).
+            --show_id, -si: Show playlist IDs (default: true).
+
+    8. help, -h, --help
+        - Display this help message.
+
+    Example Usage:
+        $ play --url="<music_url>" --output="<output_folder>" --fileType="mp4"
+        $ pause
+        $ set -i="true"
+        $ lp --show_id="true"
+

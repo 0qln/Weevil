@@ -10,9 +10,9 @@ import threading
 import re
 from requests import HTTPError
 import logging
-from client import list_playlists, printHelp
-
-
+from client import list_playlists, printHelp, warn, info
+import settings
+import arguments
 
 debug_mode = True if len(argv)>1 and "DEBUG" in argv[1] else False
 if not debug_mode: 
@@ -22,7 +22,7 @@ if not debug_mode:
     ic.outputFunction = log_to_file
 
 
-arg_library = [
+arguments.initiate([
     {
         "names": [ "help", "-h", "--help" ],
         "function": lambda settings: ic(printHelp()),
@@ -47,7 +47,7 @@ arg_library = [
                 "names": [ "--fileType", "-f" ], 
                 "name_settings":"file_type",
                 "default":'any'
-            }
+            },
         ]
     },
     {
@@ -72,12 +72,33 @@ arg_library = [
         ]
     },
     {
-        #TODO
-        # ex: set --volume=50
         "names": [ "set" ],
-        "function": lambda settings: None,
+        "function": lambda s: settings.set(s), 
         "flags": [
-        
+            # dynamic
+            {
+                "names": [ "--key", "-k" ],
+                "name_settings": "key"
+            },
+            {
+                "names": [ "--value", "-v" ],
+                "name_settings": "value"
+            },
+
+            # hardcoded
+            {
+                "names": [ "--info", "-i"],
+                "name_settings": "info"
+            },     
+            {
+                "names": [ "--warnings", "-w"],
+                "name_settings": "warn"
+            },            
+            {
+                #TODO
+                "names": [ "--volume", "-vol"],
+                "name_settings": "volume"
+            },
         ]
     },
     {
@@ -103,7 +124,7 @@ arg_library = [
             }
         ]
     }
-]
+])
 
 exit_flag = False
 playback = PlaybackManager()
@@ -139,28 +160,32 @@ def handle_arg(argument, settings):
 def exit_success(): 
     ic("EXit success.")
     exit()
+
 def exit_failure(): 
     ic("Exit Failure.")
     exit()   
+
 def exit():
     global exit_flag
     exit_flag = True
 
 
-while exit_flag == False:
-    try:
-        tokens = ic(input())
-        argument, flags = ic(parse_tokens(tokens, arg_library))
-        ic(handle_arg(argument, flags))
-    except  HTTPError as e:
-        if debug_mode: 
-            raise(e)
-        else: 
-            print("An HTTP Error occured.")
-            ic(e)
-            exit_failure()
-    except Exception as e:
-        if debug_mode: 
-            raise(e)
-        else: 
-            ic(e)
+if __name__ == "__main__":
+    info("Type 'help' to retrieve documentation.")
+    while exit_flag == False:
+        try:
+            tokens = ic(input())
+            argument, flags = ic(parse_tokens(tokens, arguments.get()))
+            ic(handle_arg(argument, flags))
+        except  HTTPError as e:
+            if debug_mode: 
+                raise(e)
+            else: 
+                warn("An HTTP Error occured.")
+                ic(e)
+                exit_failure()
+        except Exception as e:
+            if debug_mode: 
+                raise(e)
+            else: 
+                ic(e)

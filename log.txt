@@ -517,3 +517,2522 @@ ic| def exit_success():
 ic| except  HTTPError as e:
     if: None
 ic| "names": [ "--d: None
+ic| while exit_flag == False:: 'exit'
+ic| while exit_flag == False:
+        try:
+            tokens = ic(input(: ({'flags': [],
+                                  'function': <function <lambda> at 0x000001B965803A60>,
+                                  'names': ['exit', 'close', 'quit']},
+                                 {})
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| return arg_def, flag_mapping
+    
+    
+    def handle_arg(argument, settings):
+        ic(threading.Th: None
+ic| while exit_flag == False:
+    try:: None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001D859B73C40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001D85AEF0AD0>
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001D859B73C40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| ic (self.content_type: <ContentType.PLAYLIST: 0>
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| ic (os.path.exists(file_pat): True
+ic| stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| ic(mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001D859C7E8D0>
+ic| input(): 'eexit'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001D859B73E20>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002090D4B3BA0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002090D4FB950>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002090D4B3D80>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000025B20BD3C40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000025B21F5C750>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000025B20BD3E20>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'eexit'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000015A599B3C40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000015A599FC590>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000015A599B3E20>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000024D980A3C40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000024D955A5010>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000024D980A3F60>,
+                                         'names': ['skip']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| handle_arg(argument, flags): None
+ic| playback.current.skip(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): False
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| stream.download(file_pat): ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000024D994B1010>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000024D980A3F60>,
+                                         'names': ['skip']},
+                                        {})
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| playback.current.skip(): None
+ic| handle_arg(argument, flags): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): False
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| self.stop(): None
+ic| stream.download(file_pat): ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                '[Momentum]\\m35814IPIZw\\Vois sur ton chemin (Techno Mix).mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000024D995580D0>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.stop(): None
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| MediaPlayerState.STOPPED an: <MediaPlayerState.STOPPED: 3>
+ic| self.stop(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| file_ext = None if file_type: False
+ic| s.path.join(output_folder, video.video_id) + "\\"
+    ic (os.path.: <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| = ic(video.streams.filter: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                '[Momentum]\\xsRPz9PF1EE\\Pixies - Where is my Mind (WhyAsk! Remix).mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| # create mediaplayer
+    mp = MediaPlayer(: None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| back(mp):: 'Update mp: '
+ic| self.current = m: <mpWrapper.MediaPlayer object at 0x0000024D988EA290>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| str(media_pl: None
+ic| MediaPlayerState.STOPPED an: <MediaPlayerState.PLAYING: 2>
+ic| input(): 'close'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000024D980A3E20>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001D1CAF14AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001D1CB0DCAD0>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| state = ic(media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| ic (os.path.exists(file_pat): True
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| self.stop(): None
+ic| stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| ic(mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| ic ("Update mp: ": 'Update mp: '
+ic| ic (self.current: <mpWrapper.MediaPlayer object at 0x000001D1CC49D310>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| ic(media_player.play(): None
+ic| state = ic(media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001D1CB08FF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001E5768F4AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001E576ABC9D0>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001E576A6FF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x00000206B6274A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000206B5DA6F50>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000206B63EFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002B5EF334A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002B5EF69A8D0>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002B5EF4AFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'eexit'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001CDD202BE20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001CDD34BBBD0>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001CDD2138040>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000027713F8BE20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002771158BE90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000027714098040>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001FE89C4BE20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001FE89D9CF90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001FE89D58040>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000023071924AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000023071AECF90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000023071A9FF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x00000187A8C54AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000187A8E1CF90>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000187A8DCFF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000022FB8514AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000022FB8046F50>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000022FB868FF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001E9366CBE20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001E9361A6F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001E9367D8040>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002165EA74AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002165EC38F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002165EBEFF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002B412BABE20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002B412666F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002B412CB8040>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000022B76C34AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000022B76766F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000022B76DAFF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000012CEC394AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000012CEC68BE90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000012CEC50FF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x00000234FFA44AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000234FFC06C10>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000234FFBBFF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x00000180A6764AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000180A692CF90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000180A68DFF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000029521D24AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000029521EE8F50>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000029521E9FF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001FEE0FE4C20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001FEDE68BE90>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001FEE11680E0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000021CDD924C20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000021CDD456F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000021CDDAA80E0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001E4B6B24C20>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001E4B74ECF90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001E4B6CA80E0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001F8F7384A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001F8F754CF90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001F8F7508040>,
+                                         'names': ['skip']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| handle_arg(argument, flags): None
+ic| playback.current.skip(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001F8F47B6090>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001F8F7508040>,
+                                         'names': ['skip']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| VideoPlaybackManager.play(media_player): None
+ic| handle_arg(argument, flags): None
+ic| playback.current.skip(): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| self.stop(): None
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\m35814IPIZw\\Vois sur ton chemin (Techno Mix).mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001F8F7548990>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.stop(): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002D4756D49A0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002D475A4C050>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002D47584FE20>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000028102924AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000281024A6F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000028102A680E0>,
+                                         'names': ['skip']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| handle_arg(argument, flags): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| playback.current.skip(): None
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000028102AA9010>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.stop(): None
+ic| while exit_flag == False:: 'exit'
+ic| try:
+    tokens = ic(input(): ({'flags': [],
+                           'function': <function <lambda> at 0x0000028102A5FF60>,
+                           'names': ['exit', 'close', 'quit']},
+                          {})
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| def handle_arg(argument, settings):
+        ic(threading.Thread(target=argument["function"],: None
+ic| exit_success(): None
+ic| try:
+    tokens = ic(input()): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000016D8226FEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002307DCDFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000021E69A8FEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001AA82E5FEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000020C9F28FEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000024F791BFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002957EA1FEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'clear'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'quit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000180895EFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'clear'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'quit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002646574FEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002128AD04AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002128A836E90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002128AE880E0>,
+                                         'names': ['skip']},
+                                        {})
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| playback.current.skip(): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002128C32C090>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.stop(): None
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x000002128AE88040>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002128AE7FF60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x00000216FF014A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000216FEB46F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x00000216FF18FF60>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000216FF18FEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000021BD2E74A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000021BD29A6F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x0000021BD2FEFF60>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000021BD2FEFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002344BC34A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002344C5F8C50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x000002344BDAFF60>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002344BDB8040>,
+                                         'names': ['skip']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| handle_arg(argument, flags): None
+ic| playback.current.skip(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002344C5F8850>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.stop(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002344BDAFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x00000278C2454A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000278C1F86F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x00000278C25CFF60>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'Changed settings: '
+ic| handle_arg(argument, flags): None
+ic| storage[key]: 'false'
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000278C25D8040>,
+                                         'names': ['skip']},
+                                        {})
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| handle_arg(argument, flags): None
+ic| playback.current.skip(): None
+ic| 'Generate Video: '
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000278C26F8950>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.stop(): None
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
+ic| VideoPlaybackManager.play(media_player): None
+ic| self.stop(): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\m35814IPIZw\\Vois sur ton chemin (Techno Mix).mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x00000278C3956DD0>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000278C25CFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001FBE8544A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001FBE8076F50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x000001FBE86BFF60>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001FBE86BFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000002280FC74A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x000002280FDEFF60>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000022811097FD0>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002280FDEFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x000001DF3EADFF60>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'Change settings: '
+ic| handle_arg(argument, flags): None
+ic| key: 'info', value: 'false'
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001DF3E964A40>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001DF400CC490>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001DF3EADFEC0>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x0000023B09AD4AE0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [Momentum]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x0000023B09C58040>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'Change settings: '
+ic| handle_arg(argument, flags): None
+ic| key: 'info', value: 'false'
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\
+                                        DUUxzoKBOE\\Storm Chaser.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000023B0B104190>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'set -i="true"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x0000023B09C58040>,
+                                         'names': ['set']},
+                                        {'info': 'true'})
+ic| 'Change settings: '
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| key: 'info', value: 'true'
+ic| handle_arg(argument, flags): None
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000023B09C580E0>,
+                                         'names': ['skip']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| handle_arg(argument, flags): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| playback.current.skip(): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\48uRdRLYtGc\\MIKICHAN.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000023B09C9BDD0>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| input(): 'set -i="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'key', 'names': ['--key', '-k']},
+                                                   {'name_settings': 'value', 'names': ['--value', '-v']},
+                                                   {'name_settings': 'info', 'names': ['--info', '-i']},
+                                                   {'name_settings': 'volume', 'names': ['--volume', '-vol']}],
+                                         'function': <function <lambda> at 0x0000023B09C58040>,
+                                         'names': ['set']},
+                                        {'info': 'false'})
+ic| 'Change settings: '
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| key: 'info', value: 'false'
+ic| handle_arg(argument, flags): None
+ic| input(): 'skip'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000023B09C580E0>,
+                                         'names': ['skip']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| media_player.get_new_state(): <MediaPlayerState.SKIPPING: 4>
+ic| self.set_state(MediaPlayerState.SKIPPING): <MediaPlayerState.SKIPPING: 4>
+ic| VideoPlaybackManager.play(media_player): None
+ic| handle_arg(argument, flags): None
+ic| playback.current.skip(): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| file_pat + stream.default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                         '[Momentum]\\m35814IPIZw\\Vois sur ton chemin (Techno Mix).mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource, video.title, video.length): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x0000023B09C9C990>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.stop(): None
+ic| self.stop(): None
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| k_from_video(video:pytube.Yo: <MediaPlayerState.STOPPED: 3>
+ic| self.stop(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| am = ic(video.streams.fi: True
+ic| msource = (
+        ic(stream.download(file_pat))
+    ) if os.path.exists(: <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| )
+    
+    # create mediaplayer
+    m: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+        '[Momentum]\\xsRPz9PF1EE\\Pixies - Where is my Mind (WhyAsk! Remix).mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| return mp
+    
+    def create_playback(url, outpu: None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| self.current): 'Update mp: '
+ic| .content_typ: <mpWrapper.MediaPlayer object at 0x0000023B0B19FD50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| te = MediaPlayerSta: None
+ic| k_from_video(video:pytube.Yo: <MediaPlayerState.PLAYING: 2>
+ic| o retri: 'exit'
+ic| documentation.")
+    
+    while exit_fla: ({'flags': [],
+                      'function': <function <lambda> at 0x0000023B09C4FF60>,
+                      'names': ['exit', 'close', 'quit']},
+                     {})
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| return arg_def, flag_mapping
+    
+    
+    def handle_arg(argument, settings):
+        ic(threading.Th: None
+ic| exit_success(): None
+ic| while exit_flag == False:
+        try:: None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000026338EA53A0>,
+                                         'names': ['help', '-h', '--help']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| in__":: 'exit'
+ic| ieve documentation.")
+    while e: ({'flags': [],
+               'function': <function <lambda> at 0x000002633B5E80E0>,
+               'names': ['exit', 'close', 'quit']},
+              {})
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| def handle_arg(argument, settings):
+    ic(threading.Thread(target=argument["function"], a: None
+ic| xit_flag == False:: None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x00000204DC5193A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x00000204DEC880E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000002A1E0F293A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000002A1E37080E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001AA912293A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001AA912293A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001AA939780E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001E5A71693A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001E5A98E80E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x00000154583B93A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001545AB480E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001F399F493A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001F39C6F80E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x00000200CB1D93A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x00000200CD8D80E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x00000185697093A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| printHelp(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x00000185697093A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| tokens = ic(input(): 'exit'
+ic| argument, flags = ic(parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                                                  'function': <function <lambda> at 0x000001856BE480E0>,
+                                                                  'names': ['exit', 'close', 'quit']},
+                                                                 {})
+ic| ic(threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| ic(handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001FF51508180>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001A8EED093A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| printHelp(): None
+ic| handle_arg(argument, flags): None
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001A8EED093A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'help'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001A8EED093A0>,
+                                             'names': ['help', '-h', '--help']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| printHelp(): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
+                                             'function': <function <lambda> at 0x000001A8F14D80E0>,
+                                             'names': ['exit', 'close', 'quit']},
+                                            {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None

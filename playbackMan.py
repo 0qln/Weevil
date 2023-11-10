@@ -1,7 +1,8 @@
 
 from mpWrapper import MediaPlayer, MediaPlayerState
-import pytube, os, threading, re, enum, time
+import pytube, os, threading, re, enum, time, datetime
 from icecream import ic
+import settings, client
 
 
 class PlaylistPlaybackManager(object):
@@ -51,6 +52,8 @@ class PlaylistPlaybackManager(object):
 
 class VideoPlaybackManager:
     def play(media_player:MediaPlayer) -> None:
+        client.info(str(media_player.get_content_title()),
+                    str(datetime.timedelta(seconds=media_player.get_duration())))
         ic(media_player.play())
         state = MediaPlayerState.PLAYING
         while (state != MediaPlayerState.STOPPED and 
@@ -74,7 +77,7 @@ class VideoPlaybackManager:
 
         # create mediaplayer
         mp = MediaPlayer()
-        ic(mp.load(msource))
+        ic(mp.load(msource, video.title, video.length))
 
         return mp
 

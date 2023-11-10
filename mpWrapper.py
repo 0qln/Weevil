@@ -1,5 +1,6 @@
 import vlc, time, enum, threading
 from icecream import ic
+import vlc
 
 
 class MediaPlayerState(enum.Enum):
@@ -17,6 +18,8 @@ class MediaPlayer:
         self.state = MediaPlayerState.NONE
         self.vlc_mediaPlayer = None
         self.on_state_change = threading.Event()
+        self.title = None
+        self.length = None
 
 
     def set_state(self, value:MediaPlayerState) -> MediaPlayerState:
@@ -50,11 +53,11 @@ class MediaPlayer:
             # handle a stop
             ic(self.stop())
 
-        ic(threading.Thread(target=decay_state, args=[], daemon=True).start())
-        
-        
+        ic(threading.Thread(target=decay_state, args=[], daemon=True).start())        
 
-    def load(self, mediaSource) -> None:
+    def load(self, mediaSource, title=None, length=None) -> None:
+        self.title = title
+        self.length = length
         if self.vlc_mediaPlayer is not None: self.vlc_mediaPlayer.release()
         self.vlc_mediaPlayer = vlc.Instance().media_player_new()
         self.vlc_mediaPlayer.set_media(vlc.Instance().media_new(mediaSource))
@@ -79,4 +82,8 @@ class MediaPlayer:
         self.vlc_mediaPlayer.set_pause(1)
         self.vlc_mediaPlayer.release()
     
-        
+    def get_duration(self) -> int:
+        return self.length
+
+    def get_content_title(self) -> str:
+        return self.title
