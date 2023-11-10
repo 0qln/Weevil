@@ -78,11 +78,4 @@ class MediaPlayer:
         if self.is_playing():
             self.pause()
         else:
-            self.resume()            
-
-    def stop(self) -> None:
-        self.set_state(MediaPlayerState.STOPPED)
-        self.vlc_mediaPlayer.set_pause(1)
-        self.vlc_mediaPlayer.release()
-    
-        
+            self.resume()

@@ -28,7 +28,7 @@ playback = PlaybackManager()
 arg_library = [
     {
         "names": [ "help", "-h", "--help" ],
-        "function": printHelp,
+        "function": lambda settings: printHelp(),
         "flags": [ 
 
         ]
@@ -94,8 +94,6 @@ arg_library = [
 
         ]
     },
-    {
-    }
 ]
 
 
