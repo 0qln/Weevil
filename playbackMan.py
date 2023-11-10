@@ -1,19 +1,36 @@
 
-from mpWrapper import MediaPlayer
+from mpWrapper import MediaPlayer, MediaPlayerState
 import pytube, os, threading
 from icecream import ic
+import re
+import enum
 
 
 class PlaylistPlaybackManager(object):
+    
     def __init__(self, settings) -> None:
         self.playlist = pytube.Playlist(settings["url"])
         self.videos = [MediaPlayer]
         self.current_mp = 0
         self.preferred_file_type = settings["file_type"]
-        self.path = settings["output_folder"] + self.playlist.title + "\\"
+        
+        # Replace invalid characters with underscores in the playlist title
+        sanitized_title = re.sub(r'[\\/:*?"<>|]', '_', self.playlist.title)
+        self.path = settings["output_folder"] + sanitized_title + "\\"
+        
         if not os.path.exists(self.path):
             os.makedirs(self.path)
-            
+
+    def play(self) -> None:
+        for m in self.yield_iterate():
+            m.play()
+            state = MediaPlayerState.PLAYING
+            while (state != MediaPlayerState.STOPPED and 
+                   state != MediaPlayerState.SKIPPING): 
+                state = m.get_new_state()
+                ic(state)
+
+                
 
     def fill(self) -> [MediaPlayer]:
         for video in self.playlist.videos:
@@ -40,11 +57,11 @@ class VideoPlaybackManager:
             os.makedirs(output_folder)
             
         # aquire data
-        msource = os.path.join(output_folder, (video.title+file_type))
+        streams = video.streams
+        msource = os.path.join(output_folder, (video.title)) #+file_type
         if not os.path.exists(msource):
             stream = (video.streams
-                    .filter(only_audio=True, 
-                            file_extension=file_type)
+                    .filter(only_audio=True) #, file_extension=file_type
                     .first())
             msource = stream.download(output_folder)     
         ic(msource)
@@ -67,8 +84,17 @@ class VideoPlaybackManager:
 class PlaybackManager:    
     def __init__(self):
         self.current = MediaPlayer()
-        self.playlist = None
-
-    def load(self, settings):
-        print(settings)
+        self.content_type = ContentType.NONE
     
+    def play(self, settings):
+        # determine content type
+        
+
+        #self.content_type = ContentType.NONE
+        ic(self.content_type)
+
+
+class ContentType(enum.Enum):
+    NONE = -1
+    PLAYLIST = 0
+    VIDEO = 1

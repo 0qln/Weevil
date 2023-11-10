@@ -1,3 +1,15 @@
+# https://clig.dev/#arguments-and-flags
+
+# "output_folder":"D:\\Programmmieren\\Projects\\Weevil\\v0\\v1_output_folder_[Testing]\\",
+# "url":"https://www.youtube.com/playlist?list=PLlfOcCY7-Rxyl2fU_elKD0_Zv-6Fm-kl2",
+# "file_type": '.mp4'
+
+# ppm = PlaylistPlaybackManager({
+#     # "url":"https://www.youtube.com/playlist?list=PLlfOcCY7-RxyZ5-OErC7MuV32Qc0JHi0o",
+#     "url": "https://www.youtube.com/playlist?list=PLlfOcCY7-RxxAGKtjCtiv4vZs_DnlVvNZ",
+#     "output_folder":"D:\\Programmmieren\\Projects\\Weevil\\v0\\v1_output_folder_[Testing]\\",
+#     "file_type": '.mp4'
+# })
 from pytube import YouTube
 from playbackMan import VideoPlaybackManager, PlaylistPlaybackManager, PlaybackManager
 from mpWrapper import MediaPlayer
@@ -5,51 +17,25 @@ from threadPtr import ThreadPtr
 from icecream import ic
 from os import getcwd
 import threading
+from help import printHelp
+import re
 
 
-# https://clig.dev/#arguments-and-flags
+
 playback = PlaybackManager()
-
-# "output_folder":"D:\\Programmmieren\\Projects\\Weevil\\v0\\v1_output_folder_[Testing]\\",
-# "url":"https://www.youtube.com/playlist?list=PLlfOcCY7-Rxyl2fU_elKD0_Zv-6Fm-kl2",
-# "file_type": '.mp4'
 
 
 arg_library = [
     {
         "names": [ "help", "-h", "--help" ],
-        "function":None,
+        "function": printHelp,
         "flags": [ 
 
         ]
     },
     {
-        "names": [ "load" ],
-        "function": lambda settings: playback.load(settings),
-        "flags": [
-            {
-                "names": [ "--type", "-t" ], #video or playlist?
-                "name_settings":"type",
-                "default":"video"
-            },
-            { 
-                "names": [ "--url", "-u" ],
-                "name_settings":"url"
-            },
-        ]
-    },
-    {
-        "names": [ "clear" ]
-    },
-    {
-        "names": [ "video" ]
-    },
-    {
-        "names": [ "playlist" ]
-    },
-    {
         "names": [ "play" ],
-        "function":lambda settings: playback.current.play(settings),
+        "function":lambda settings: playback.play(settings),
         "flags": [
             { 
                 "names": [ "--url", "-u" ],
@@ -69,21 +55,21 @@ arg_library = [
     },
     {
         "names": [ "pause" ],
-        "function":lambda: playback.current.pause(),
+        "function":lambda settings: playback.current.pause(),
         "flags": [ 
 
         ]
     },
     {
         "names": [ "resume" ],
-        "function":lambda: playback.current.resume(),
+        "function":lambda settings: playback.current.resume(),
         "flags": [
 
         ]
     },
     {
         "names": [ "exit", "close" ],
-        "function":exit,
+        "function":lambda settings: exit_success(),
         "flags": [
 
         ]
@@ -92,60 +78,69 @@ arg_library = [
         #TODO
         # ex: set --volume=50
         "names": [ "set" ],
-        "function":NotImplementedError,
+        "function": lambda settings: None,
         "flags": [
         
         ]
     },
     {
         "names": [ "resume_play", "toggle_play" ],
-        "function": lambda: playback.current.toggle_pause()
+        "function": lambda settings: playback.current.toggle_pause()
     }
 ]
 
 
+def parse_tokens(input, arg_library):
+    argument = input.split(' ')[0]
+    arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
+    if arg_def is None: raise Exception("Specified argument does not exist!")
+    ic (arg_def)
 
-def parse_tokens(input_tokens, arg_library):
-    argument = input_tokens.pop(0)
+    # extract the flags and their values from the input string
+    flags = re.findall(r"(?<= )-.+?(?=\=\".+?\")", input)
+    vals = re.findall(r"(?<=\=\").+?(?=\")", input)
+    ic(flags)
+    ic(vals)
 
-    arg_conf = lambda arg: argument in arg["names"]
-    found_arg = next((arg for arg in arg_library if arg_conf(arg)), None)
+    # merge the regiesterd flags and their values
+    # set default values
+    flag_mapping = {
+        flag_def["name_settings"]: flag_def["default"]
+        for flag_def in arg_def["flags"]
+        if "default" in flag_def
+    }
+    # override with custom values, if any
+    flag_mapping.update({flag_def["name_settings"]: val
+                        for flag, val in zip(flags, vals)
+                        for flag_def in arg_def["flags"] 
+                        if flag in flag_def["names"]})
 
-    if found_arg is None:
-        raise Exception("Specified argument does not exist!")
+    ic(flag_mapping)
 
-    flag_gen = lambda flag: {"name": flag.split('=')[0], "value": flag.split('=')[1]}
-    return found_arg, [flag_gen(flag) for flag in input_tokens]
+    return arg_def, flag_mapping
 
 
-def handle_arg(argument, flags):
+def handle_arg(argument, settings):
     # debug
     ic(argument)
-    ic(flags)
-
-    # construct argument settings
-    settings = {}
-    for flag in argument["flags"]:
-        # write default value to settings, if one is specified
-        if "default" in flag:
-            settings[flag["name_settings"]] = flag["default"]
-
-        # if the user provided an override for the settings, use that
-        for flagV in flags:
-            if flagV["name"] in flag["names"]:
-                settings[flag["name_settings"]] = flagV["value"]
-
     ic(settings)
 
     # execute
     threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
 
 
-while True:
+def exit_success():
+    global exit_flag
+    exit_flag = True
+    
+
+exit_flag = False
+while exit_flag == False:
     try:
-        tokens = input().split(' ')
+        tokens = input()
         argument, flags = parse_tokens(tokens, arg_library)
         handle_arg(argument, flags)
 
     except Exception as e:
-        print(e)
+        ic(e)
+        raise(e)
