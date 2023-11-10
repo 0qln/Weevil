@@ -3,6 +3,7 @@ from mpWrapper import MediaPlayer, MediaPlayerState
 import pytube, os, threading, re, enum, time, datetime
 from icecream import ic
 import settings, client
+from pytube.exceptions import AgeRestrictedError
 
 
 class PlaylistPlaybackManager(object):
@@ -26,6 +27,7 @@ class PlaylistPlaybackManager(object):
 
     def play(self, callback) -> None:
         for media_player in self.yield_iterate():
+            if media_player is None: continue
             callback(media_player)
             ic(VideoPlaybackManager.play(media_player))
                 
@@ -60,7 +62,8 @@ class VideoPlaybackManager:
                 state != MediaPlayerState.SKIPPING): 
             state = ic(media_player.get_new_state())
 
-    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type) -> MediaPlayer:
+
+    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type) -> MediaPlayer | None:
         # output folder    
         if not os.path.exists(output_folder): os.makedirs(output_folder)
 
@@ -68,7 +71,13 @@ class VideoPlaybackManager:
         file_ext = None if file_type == "any" else file_type
         file_pat = os.path.join(output_folder, video.video_id) + "\\"
         ic (os.path.exists(file_pat))
-        stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
+        try:
+            stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
+        except AgeRestrictedError as e:
+            client.fail("'" + video.title + "' is age restricted, and can't be accessed without logging in.", 
+                        "<ID=" + video.video_id + ">")
+            return None
+        
         msource = (
             ic(stream.download(file_pat))
         ) if os.path.exists(file_pat) is False else (
@@ -80,8 +89,9 @@ class VideoPlaybackManager:
         ic(mp.load(msource, video.title, video.length))
 
         return mp
+    
 
-    def create_playback(url, output_folder, file_type) -> MediaPlayer:
+    def create_playback(url, output_folder, file_type) -> MediaPlayer | None:
         return ic(VideoPlaybackManager.create_playback_from_video(
             pytube.YouTube(url), output_folder, file_type))
     
@@ -111,9 +121,11 @@ class PlaybackManager:
             playback.play(callback)
 
         if self.content_type is ContentType.VIDEO:
-            self.current = VideoPlaybackManager.create_playback(
+            playback = VideoPlaybackManager.create_playback(
                 settings["url"], settings["output_folder"], settings["file_type"])
-            VideoPlaybackManager.play(self.current)
+            if playback is not None:
+                self.current = playback
+                VideoPlaybackManager.play(playback)
 
 
 class ContentType(enum.Enum):
