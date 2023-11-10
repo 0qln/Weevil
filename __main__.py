@@ -1,15 +1,3 @@
-# https://clig.dev/#arguments-and-flags
-
-# "output_folder":"D:\\Programmmieren\\Projects\\Weevil\\v0\\v1_output_folder_[Testing]\\",
-# "url":"https://www.youtube.com/playlist?list=PLlfOcCY7-Rxyl2fU_elKD0_Zv-6Fm-kl2",
-# "file_type": '.mp4'
-
-# ppm = PlaylistPlaybackManager({
-#     # "url":"https://www.youtube.com/playlist?list=PLlfOcCY7-RxyZ5-OErC7MuV32Qc0JHi0o",
-#     "url": "https://www.youtube.com/playlist?list=PLlfOcCY7-RxxAGKtjCtiv4vZs_DnlVvNZ",
-#     "output_folder":"D:\\Programmmieren\\Projects\\Weevil\\v0\\v1_output_folder_[Testing]\\",
-#     "file_type": '.mp4'
-# })
 from pytube import YouTube
 from playbackMan import VideoPlaybackManager, PlaylistPlaybackManager, PlaybackManager
 from mpWrapper import MediaPlayer
@@ -82,10 +70,6 @@ arg_library = [
         "flags": [
         
         ]
-    },
-    {
-        "names": [ "resume_play", "toggle_play" ],
-        "function": lambda settings: playback.current.toggle_pause()
     },
     {
         "names": [ "skip" ],
