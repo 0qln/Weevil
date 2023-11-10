@@ -44,12 +44,12 @@ arg_library = [
             { 
                 "names": [ "--output", "-o" ],
                 "name_settings":"output_folder",
-                "default":getcwd()
+                "default":getcwd() + "\\"
             },
             { 
                 "names": [ "--fileType", "-f" ], 
                 "name_settings":"file_type",
-                "default":'.mp4'
+                "default":'any'
             }
         ]
     },
@@ -138,9 +138,9 @@ exit_flag = False
 while exit_flag == False:
     try:
         tokens = input()
+        ic.disable()
         argument, flags = parse_tokens(tokens, arg_library)
+        ic.enable()
         handle_arg(argument, flags)
-
     except Exception as e:
         ic(e)
-        raise(e)

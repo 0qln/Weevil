@@ -38,14 +38,14 @@ class MediaPlayer:
         self.vlc_mediaPlayer.play()
 
         def decay_state():
+            # wait for it to start playing
             while (self.vlc_mediaPlayer.is_playing() != 1 and
-                MediaPlayerState.STOPPED != self.state):
-                # wait for it to start playing
+                   MediaPlayerState.STOPPED != self.state):
                 time.sleep(0.05)
                 pass
-            while (self.vlc_mediaPlayer.is_playing() == 1 and 
-                   MediaPlayerState.STOPPED != self.state):
-                # wait for playback to finish
+            # wait for playback to finish
+            while (self.vlc_mediaPlayer.is_playing() == 1 or 
+                   MediaPlayerState.PAUSED == self.state):
                 time.sleep(0.05)
             # handle a stop
             ic(self.stop())
