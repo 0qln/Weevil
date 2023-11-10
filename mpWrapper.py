@@ -19,9 +19,10 @@ class MediaPlayer:
         self.on_state_change = threading.Event()
 
 
-    def set_state(self, value:MediaPlayerState) -> None:
+    def set_state(self, value:MediaPlayerState) -> MediaPlayerState:
         self.state = value
         self.on_state_change.set()
+        return value
 
     def get_state_once(self) -> MediaPlayerState:
         self.on_state_change.clear()
@@ -29,13 +30,12 @@ class MediaPlayer:
 
     def get_new_state(self) -> MediaPlayerState:
         self.on_state_change.wait()
-        return self.get_state_once()
-        
+        return self.get_state_once()        
 
 
     def play(self) -> None:
-        self.set_state(MediaPlayerState.PLAYING)
-        self.vlc_mediaPlayer.play()
+        ic(self.set_state(MediaPlayerState.PLAYING))
+        ic(self.vlc_mediaPlayer.play())
 
         def decay_state():
             # wait for it to start playing
@@ -50,7 +50,7 @@ class MediaPlayer:
             # handle a stop
             ic(self.stop())
 
-        threading.Thread(target=decay_state, args=[], daemon=True).start()
+        ic(threading.Thread(target=decay_state, args=[], daemon=True).start())
         
         
 
@@ -58,24 +58,24 @@ class MediaPlayer:
         if self.vlc_mediaPlayer is not None: self.vlc_mediaPlayer.release()
         self.vlc_mediaPlayer = vlc.Instance().media_player_new()
         self.vlc_mediaPlayer.set_media(vlc.Instance().media_new(mediaSource))
-        self.set_state(MediaPlayerState.LOADED)
+        ic(self.set_state(MediaPlayerState.LOADED))
 
     # TODO: `get_time()` `set_time()`
     # `get_time()` seems broken, does not update regualy
     def skip(self) -> None:
-        self.set_state(MediaPlayerState.SKIPPING)
+        ic(self.set_state(MediaPlayerState.SKIPPING))
         self.vlc_mediaPlayer.set_pause(1)
 
     def pause(self) -> None:
-        self.set_state(MediaPlayerState.PAUSED)
+        ic(self.set_state(MediaPlayerState.PAUSED))
         self.vlc_mediaPlayer.set_pause(1)
 
     def resume(self) -> None:
-        self.set_state(MediaPlayerState.PLAYING)
+        ic(self.set_state(MediaPlayerState.PLAYING))
         self.vlc_mediaPlayer.set_pause(0)  
 
     def stop(self) -> None:
-        self.set_state(MediaPlayerState.STOPPED)
+        ic(self.set_state(MediaPlayerState.STOPPED))
         self.vlc_mediaPlayer.set_pause(1)
         self.vlc_mediaPlayer.release()
     

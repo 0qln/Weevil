@@ -4,26 +4,26 @@ from mpWrapper import MediaPlayer
 from threadPtr import ThreadPtr
 from icecream import ic
 from os import getcwd
+import os
+from sys import argv
 import threading
 from help import printHelp
 import re
-
-
-
-playback = PlaybackManager()
+from requests import HTTPError
+import logging
 
 
 arg_library = [
     {
         "names": [ "help", "-h", "--help" ],
-        "function": lambda settings: printHelp(),
+        "function": lambda settings: ic(printHelp()),
         "flags": [ 
 
         ]
     },
     {
         "names": [ "play" ],
-        "function":lambda settings: playback.play(settings),
+        "function":lambda settings: ic(playback.play(settings)),
         "flags": [
             { 
                 "names": [ "--url", "-u" ],
@@ -43,21 +43,21 @@ arg_library = [
     },
     {
         "names": [ "pause", "p" ],
-        "function":lambda settings: playback.current.pause(),
+        "function":lambda settings: ic(playback.current.pause()),
         "flags": [ 
 
         ]
     },
     {
         "names": [ "resume", "r" ],
-        "function":lambda settings: playback.current.resume(),
+        "function":lambda settings: ic(playback.current.resume()),
         "flags": [
 
         ]
     },
     {
         "names": [ "exit", "close" ],
-        "function":lambda settings: exit_success(),
+        "function":lambda settings: ic(exit_success()),
         "flags": [
 
         ]
@@ -73,25 +73,30 @@ arg_library = [
     },
     {
         "names": [ "skip" ],
-        "function": lambda settings: playback.current.skip(),
+        "function": lambda settings: ic(playback.current.skip()),
         "flags": [
 
         ]
     },
 ]
+exit_flag = False
+playback = PlaybackManager()
+debug_mode = True if len(argv)>1 and "DEBUG" in argv[1] else False
+# debug_mode = True # DEV
+if not debug_mode: 
+    def log_to_file(message, log_file=os.path.join(getcwd(), "log.txt")):
+        logging.basicConfig(filename=log_file, level=logging.INFO, format='%(message)s') #format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
+        logging.info(message)
+    ic.outputFunction = log_to_file
 
 
 def parse_tokens(input, arg_library):
     argument = input.split(' ')[0]
     arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
     if arg_def is None: raise Exception("Specified argument does not exist!")
-    ic (arg_def)
-
     # extract the flags and their values from the input string
     flags = re.findall(r"(?<= )-.+?(?=\=\".+?\")", input)
     vals = re.findall(r"(?<=\=\").+?(?=\")", input)
-    ic(flags)
-    ic(vals)
 
     # merge the regiesterd flags and their values
     # set default values
@@ -106,32 +111,38 @@ def parse_tokens(input, arg_library):
                         for flag_def in arg_def["flags"] 
                         if flag in flag_def["names"]})
 
-    ic(flag_mapping)
-
     return arg_def, flag_mapping
 
 
 def handle_arg(argument, settings):
-    # debug
-    ic(argument)
-    ic(settings)
-
-    # execute
-    threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+    ic(threading.Thread(target=argument["function"], args=[settings], daemon=True).start())
 
 
-def exit_success():
+def exit_success(): 
+    ic("EXit success.")
+    exit()
+def exit_failure(): 
+    ic("Exit Failure.")
+    exit()   
+def exit():
     global exit_flag
     exit_flag = True
-    
 
-exit_flag = False
+
 while exit_flag == False:
     try:
-        tokens = input()
-        ic.disable()
-        argument, flags = parse_tokens(tokens, arg_library)
-        ic.enable()
-        handle_arg(argument, flags)
+        tokens = ic(input())
+        argument, flags = ic(parse_tokens(tokens, arg_library))
+        ic(handle_arg(argument, flags))
+    except  HTTPError as e:
+        if debug_mode: 
+            raise(e)
+        else: 
+            print("An HTTP Error occured.")
+            ic(e)
+            exit_failure()
     except Exception as e:
-        ic(e)
+        if debug_mode: 
+            raise(e)
+        else: 
+            ic(e)

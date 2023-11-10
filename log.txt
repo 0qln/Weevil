@@ -1,0 +1,107 @@
+ic| input(): ('play '
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzTYjIhr3jv5p710JrerBfa"')
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
+                                                   {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                                    'name_settings': 'output_folder',
+                                                    'names': ['--output', '-o']},
+                                                   {'default': 'any',
+                                                    'name_settings': 'file_type',
+                                                    'names': ['--fileType', '-f']}],
+                                         'function': <function <lambda> at 0x000001F9C25C13A0>,
+                                         'names': ['play']},
+                                        {'file_type': 'any',
+                                         'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzTYjIhr3jv5p710JrerBfa'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| handle_arg(argument, flags): None
+ic| self.playlist.title: 'Music [an79]'
+ic| 'PlaylistPlaybackManager initiated successfully.'
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| os.path.exists(file_pat) is False: False
+ic| file_pat + video.streams.filter(only_audio=True, file_extension=file_ext).first().default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music [an79]\\zU51JiFYhY4\\Strict '
+                                                                                                         'Machine.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| mp.load(msource): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000001F9C1FF4D90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
+ic| self.stop(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| path.exists(file_pat) is False el: False
+ic| .path.exists(file_pat) is False else (
+    ic(file_pat + video.streams.filter(only_audio=T: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music [an79]\\o_UBvlWJPWQ\\My '
+                                                      'Favourite Game.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| ic(mp.load(msource): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| 'Update mp: '
+ic| ic (self.current: <mpWrapper.MediaPlayer object at 0x000001F9C5D85B50>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
+ic| self.stop(): None
+ic| VideoPlaybackManager.play(media_player): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| tream.download(file_pat)): False
+ic| ) if os.path.exists(file_pat) is False else (
+    ic(file_pat + stream.default_filename): ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music '
+                                             '[an79]\\WzUesIxpbgc\\Slippage.mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| = MediaPlayer(): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| .current = mp: 'Update mp: '
+ic| "Update mp:: <mpWrapper.MediaPlayer object at 0x000001F9C4D3EC90>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
+ic| VideoPlaybackManager.play(media_player): None
+ic| self.stop(): None
+ic| 'Generate Video: '
+ic| os.path.exists(file_pat): True
+ic| tream.download(file_pat)): False
+ic| ) if os.path.exists(file_pat) is False else (
+    ic(file_pat + stream.default_filename): ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music [an79]\\VAa15w4TxHY\\Black '
+                                             'Steel (Radio Edit).mp4')
+ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
+ic| = MediaPlayer(): None
+ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
+     video, self.path, self.preferred_file_type)): None
+ic| .current = mp: 'Update mp: '
+ic| "Update mp:: <mpWrapper.MediaPlayer object at 0x000001F9C5D84E10>
+ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
+ic| self.vlc_mediaPlayer.play(): 0
+ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
+ic| media_player.play(): None
+ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
+ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
+ic| = MediaPlayerState.SKIPPING): <MediaPlayerState.STOPPED: 3>
+ic| self.stop(): None
+ic| print("Track: ")
+    ic(VideoPlayb: None
+ic| eo in self.playlis: 'Generate Video: '
+ic| file_pat = os.path.join(outp: True
+ic| = (
+    ic(stream.downloa: False

@@ -20,24 +20,27 @@ class PlaylistPlaybackManager(object):
         if not os.path.exists(self.path):
             os.makedirs(self.path)
 
+        ic ("PlaylistPlaybackManager initiated successfully.")
+
 
     def play(self, callback) -> None:
         for media_player in self.yield_iterate():
             callback(media_player)
-            VideoPlaybackManager.play(media_player)
+            ic(VideoPlaybackManager.play(media_player))
                 
 
     def fill(self) -> [MediaPlayer]:
         for video in self.playlist.videos:
-            self.videos.append(VideoPlaybackManager.create_playback_from_video(
-                video, self.path, self.preferred_file_type))
+            ic(self.videos.append(VideoPlaybackManager.create_playback_from_video(
+                video, self.path, self.preferred_file_type)))
         return self.videos 
 
 
     def yield_iterate(self):
         for video in self.playlist.videos_generator():
-            self.videos.append(VideoPlaybackManager.create_playback_from_video(
-                video, self.path, self.preferred_file_type))
+            ic("Generate Video: ")
+            ic(self.videos.append(VideoPlaybackManager.create_playback_from_video(
+                video, self.path, self.preferred_file_type)))
             self.current_mp += 1
             yield self.get_current()
 
@@ -48,12 +51,11 @@ class PlaylistPlaybackManager(object):
 
 class VideoPlaybackManager:
     def play(media_player:MediaPlayer) -> None:
-        media_player.play()
+        ic(media_player.play())
         state = MediaPlayerState.PLAYING
         while (state != MediaPlayerState.STOPPED and 
                 state != MediaPlayerState.SKIPPING): 
-            state = media_player.get_new_state()
-            ic(state)
+            state = ic(media_player.get_new_state())
 
     def create_playback_from_video(video:pytube.YouTube, output_folder, file_type) -> MediaPlayer:
         # output folder    
@@ -63,22 +65,22 @@ class VideoPlaybackManager:
         file_ext = None if file_type == "any" else file_type
         file_pat = os.path.join(output_folder, video.video_id) + "\\"
         ic (os.path.exists(file_pat))
+        stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
         msource = (
-            video.streams.filter(only_audio=True, file_extension=file_ext).first().download(file_pat)
+            ic(stream.download(file_pat))
         ) if os.path.exists(file_pat) is False else (
-            file_pat + video.streams.filter(only_audio=True, file_extension=file_ext).first().default_filename
+            ic(file_pat + stream.default_filename)
         )
-        ic(msource)
 
         # create mediaplayer
         mp = MediaPlayer()
-        mp.load(msource)
+        ic(mp.load(msource))
 
         return mp
 
     def create_playback(url, output_folder, file_type) -> MediaPlayer:
-        return VideoPlaybackManager.create_playback_from_video(
-            pytube.YouTube(url), output_folder, file_type)
+        return ic(VideoPlaybackManager.create_playback_from_video(
+            pytube.YouTube(url), output_folder, file_type))
     
 
 class PlaybackManager:    
@@ -93,8 +95,6 @@ class PlaybackManager:
             self.content_type=ContentType.VIDEO
         if re.search(r"list=[0-9A-Za-z_-]+", settings['url']) is not None:
             self.content_type=ContentType.PLAYLIST
-        self.content_type
-
         ic (self.content_type)
 
         def callback(mp): 
