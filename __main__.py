@@ -7,10 +7,19 @@ from os import getcwd
 import os
 from sys import argv
 import threading
-from help import printHelp
 import re
 from requests import HTTPError
 import logging
+from client import list_playlists, printHelp
+
+
+
+debug_mode = True if len(argv)>1 and "DEBUG" in argv[1] else False
+if not debug_mode: 
+    def log_to_file(message, log_file=os.path.join(getcwd(), "log.txt")):
+        logging.basicConfig(filename=log_file, level=logging.INFO, format='%(message)s') #format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
+        logging.info(message)
+    ic.outputFunction = log_to_file
 
 
 arg_library = [
@@ -56,7 +65,7 @@ arg_library = [
         ]
     },
     {
-        "names": [ "exit", "close" ],
+        "names": [ "exit", "close", "quit" ],
         "function":lambda settings: ic(exit_success()),
         "flags": [
 
@@ -78,17 +87,26 @@ arg_library = [
 
         ]
     },
+    {
+        "names": [ "list_playlists", "lp" ],
+        "function": lambda settings: ic(list_playlists(settings)),
+        "flags": [
+            {
+                "names": [ "--directory", "-dir" ],
+                "name_settings": "directory",
+                "default": getcwd()
+            },
+            {
+                "names": [ "--show_id", "-si" ],
+                "name_settings": "show_id",
+                "default": str(debug_mode)
+            }
+        ]
+    }
 ]
+
 exit_flag = False
 playback = PlaybackManager()
-debug_mode = True if len(argv)>1 and "DEBUG" in argv[1] else False
-# debug_mode = True # DEV
-if not debug_mode: 
-    def log_to_file(message, log_file=os.path.join(getcwd(), "log.txt")):
-        logging.basicConfig(filename=log_file, level=logging.INFO, format='%(message)s') #format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
-        logging.info(message)
-    ic.outputFunction = log_to_file
-
 
 def parse_tokens(input, arg_library):
     argument = input.split(' ')[0]

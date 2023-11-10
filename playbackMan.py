@@ -15,7 +15,7 @@ class PlaylistPlaybackManager(object):
         # Replace invalid characters with underscores in the playlist title
         ic(self.playlist.title)
         sanitized_title = re.sub(r'[\\/:*?"<>|]', '_', self.playlist.title)
-        self.path = output_folder + sanitized_title + "\\"
+        self.path = output_folder + self.playlist.playlist_id + "\\" + sanitized_title + "\\"
         
         if not os.path.exists(self.path):
             os.makedirs(self.path)

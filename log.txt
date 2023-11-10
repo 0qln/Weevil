@@ -1,5 +1,51 @@
+ic| input(): 'ld'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x0000012B17423C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000012B17423A60>,
+                                         'names': ['exit', 'close']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x000001D6E02C3BA0>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001D6E02C39C0>,
+                                         'names': ['exit', 'close']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x000002751CDA3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
 ic| input(): ('play '
-              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzTYjIhr3jv5p710JrerBfa"')
+              '-u="https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf"')
 ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'names': ['--url', '-u']},
                                                    {'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
                                                     'name_settings': 'output_folder',
@@ -7,101 +53,467 @@ ic| parse_tokens(tokens, arg_library): ({'flags': [{'name_settings': 'url', 'nam
                                                    {'default': 'any',
                                                     'name_settings': 'file_type',
                                                     'names': ['--fileType', '-f']}],
-                                         'function': <function <lambda> at 0x000001F9C25C13A0>,
+                                         'function': <function <lambda> at 0x000002751CCF4D60>,
                                          'names': ['play']},
                                         {'file_type': 'any',
                                          'output_folder': 'D:\\Programmmieren\\Projects\\Weevil\\v0\\',
-                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzTYjIhr3jv5p710JrerBfa'})
+                                         'url': 'https://www.youtube.com/playlist?list=PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf'})
 ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
-ic| self.content_type: <ContentType.PLAYLIST: 0>
 ic| handle_arg(argument, flags): None
-ic| self.playlist.title: 'Music [an79]'
+ic| self.content_type: <ContentType.PLAYLIST: 0>
+ic| self.playlist.title: 'Music [Momentum]'
 ic| 'PlaylistPlaybackManager initiated successfully.'
 ic| 'Generate Video: '
-ic| os.path.exists(file_pat): True
-ic| os.path.exists(file_pat) is False: False
-ic| file_pat + video.streams.filter(only_audio=True, file_extension=file_ext).first().default_filename: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music [an79]\\zU51JiFYhY4\\Strict '
-                                                                                                         'Machine.mp4')
+ic| os.path.exists(file_pat): False
+ic| video.streams.filter(only_audio=True, file_extension=file_ext).first(): <Stream: itag="139" mime_type="audio/mp4" abr="48kbps" acodec="mp4a.40.5" progressive="False" type="audio">
+ic| stream.download(file_pat): ('D:\\Programmmieren\\Projects\\Weevil\\v0\\PLlfOcCY7-RxzcoZjI6nrnNuorSKOqB7zf\\Music '
+                                '[Momentum]\
+                               DUUxzoKBOE\\Storm Chaser.mp4')
 ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
 ic| mp.load(msource): None
 ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
      video, self.path, self.preferred_file_type)): None
 ic| 'Update mp: '
-ic| self.current: <mpWrapper.MediaPlayer object at 0x000001F9C1FF4D90>
+ic| self.current: <mpWrapper.MediaPlayer object at 0x000002751D658910>
 ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
 ic| self.vlc_mediaPlayer.play(): 0
 ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
 ic| media_player.play(): None
 ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
-ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
-ic| media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
-ic| self.stop(): None
-ic| VideoPlaybackManager.play(media_player): None
-ic| 'Generate Video: '
-ic| os.path.exists(file_pat): True
-ic| path.exists(file_pat) is False el: False
-ic| .path.exists(file_pat) is False else (
-    ic(file_pat + video.streams.filter(only_audio=T: ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music [an79]\\o_UBvlWJPWQ\\My '
-                                                      'Favourite Game.mp4')
-ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
-ic| ic(mp.load(msource): None
-ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
-     video, self.path, self.preferred_file_type)): None
-ic| 'Update mp: '
-ic| ic (self.current: <mpWrapper.MediaPlayer object at 0x000001F9C5D85B50>
-ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
-ic| self.vlc_mediaPlayer.play(): 0
-ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
-ic| media_player.play(): None
-ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
-ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
-ic| media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
-ic| self.stop(): None
-ic| VideoPlaybackManager.play(media_player): None
-ic| 'Generate Video: '
-ic| os.path.exists(file_pat): True
-ic| tream.download(file_pat)): False
-ic| ) if os.path.exists(file_pat) is False else (
-    ic(file_pat + stream.default_filename): ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music '
-                                             '[an79]\\WzUesIxpbgc\\Slippage.mp4')
-ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
-ic| = MediaPlayer(): None
-ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
-     video, self.path, self.preferred_file_type)): None
-ic| .current = mp: 'Update mp: '
-ic| "Update mp:: <mpWrapper.MediaPlayer object at 0x000001F9C4D3EC90>
-ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
-ic| self.vlc_mediaPlayer.play(): 0
-ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
-ic| media_player.play(): None
-ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
-ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
-ic| media_player.get_new_state(): <MediaPlayerState.STOPPED: 3>
-ic| VideoPlaybackManager.play(media_player): None
-ic| self.stop(): None
-ic| 'Generate Video: '
-ic| os.path.exists(file_pat): True
-ic| tream.download(file_pat)): False
-ic| ) if os.path.exists(file_pat) is False else (
-    ic(file_pat + stream.default_filename): ('D:\\Programmmieren\\Projects\\Weevil\\v0\\Music [an79]\\VAa15w4TxHY\\Black '
-                                             'Steel (Radio Edit).mp4')
-ic| self.set_state(MediaPlayerState.LOADED): <MediaPlayerState.LOADED: 5>
-ic| = MediaPlayer(): None
-ic| self.videos.append(VideoPlaybackManager.create_playback_from_video(
-     video, self.path, self.preferred_file_type)): None
-ic| .current = mp: 'Update mp: '
-ic| "Update mp:: <mpWrapper.MediaPlayer object at 0x000001F9C5D84E10>
-ic| self.set_state(MediaPlayerState.PLAYING): <MediaPlayerState.PLAYING: 2>
-ic| self.vlc_mediaPlayer.play(): 0
-ic| threading.Thread(target=decay_state, args=[], daemon=True).start(): None
-ic| media_player.play(): None
-ic| media_player.get_new_state(): <MediaPlayerState.PLAYING: 2>
-ic| self.set_state(MediaPlayerState.STOPPED): <MediaPlayerState.STOPPED: 3>
-ic| = MediaPlayerState.SKIPPING): <MediaPlayerState.STOPPED: 3>
-ic| self.stop(): None
-ic| print("Track: ")
-    ic(VideoPlayb: None
-ic| eo in self.playlis: 'Generate Video: '
-ic| file_pat = os.path.join(outp: True
-ic| = (
-    ic(stream.downloa: False
+ic| input(): 'pause'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002751CDA3920>,
+                                         'names': ['pause', 'p']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| self.set_state(MediaPlayerState.PAUSED): <MediaPlayerState.PAUSED: 1>
+ic| media_player.get_new_state(): <MediaPlayerState.PAUSED: 1>
+ic| handle_arg(argument, flags): None
+ic| playback.current.pause(): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x000002751CDA3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002751CDA3A60>,
+                                         'names': ['exit', 'close']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x000002A4975D3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): ''
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002A4975D3A60>,
+                                         'names': ['exit', 'close']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x000001E0B34B3BA0>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x000001E0B34B3BA0>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'quit'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'close'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001E0B34B39C0>,
+                                         'names': ['exit', 'close']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']}],
+                                         'function': <function <lambda> at 0x0000026DC5583BA0>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| def exit():
+    global exit: 'exit'
+ic| _flag = True
+    
+    
+    while exit_flag ==: ({'flags': [],
+                          'function': <function <lambda> at 0x0000026DC55839C0>,
+                          'names': ['exit', 'close']},
+                         {})
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| for flag_def in arg_def["flags"] 
+    if flag: None
+ic| exit_flag = True
+    
+    
+    while exit_flag: None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x0000024D7DDD3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000024D7DDD3A60>,
+                                         'names': ['exit', 'close']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x0000021639D03C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'lp -si=True'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x0000021639D03C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000021639D03A60>,
+                                         'names': ['exit', 'close']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x000002380FAA3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000002380FAA3A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp -si=True'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x00000200F38B3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000200F38B3A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp -si=True'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x000001F917E73C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001F917E73A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001635A563A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| 'EXit success.'
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| exit_success(): None
+ic| handle_arg(argument, flags): None
+ic| input(): 'ls'
+ic| e: Exception('Specified argument does not exist!')
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x0000025890B03C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000025890B03A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x00000227D46D3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x00000227D46D3A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x0000020BE5693C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'lp -si=True'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x0000020BE5693C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000020BE5693A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp -si=True'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x0000024392613C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x0000024392613A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp -si=True'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x000001C7E83C3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'lp -si="True"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x000001C7E83C3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'True'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'lp -si="False"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x000001C7E83C3C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'exit'
+ic| parse_tokens(tokens, arg_library): ({'flags': [],
+                                         'function': <function <lambda> at 0x000001C7E83C3A60>,
+                                         'names': ['exit', 'close', 'quit']},
+                                        {})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| 'EXit success.'
+ic| handle_arg(argument, flags): None
+ic| input(): 'lp -si="true"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x000001B965803C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'true'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| input(): 'lp -si="false"'
+ic| parse_tokens(tokens, arg_library): ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                                    'name_settings': 'directory',
+                                                    'names': ['--directory', '-dir']},
+                                                   {'default': 'False',
+                                                    'name_settings': 'show_id',
+                                                    'names': ['--show_id', '-si']}],
+                                         'function': <function <lambda> at 0x000001B965803C40>,
+                                         'names': ['list_playlists', 'lp']},
+                                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'false'})
+ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
+ic| handle_arg(argument, flags): None
+ic| list_playlists(settings): None
+ic| argument, flags = i: 'hel'
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| argument, flags = i: 'help'
+ic| ic(handle_arg(argument, flags))
+    except  HTTPError: ({'flags': [],
+                         'function': <function <lambda> at 0x000001B9630893A0>,
+                         'names': ['help', '-h', '--help']},
+                        {})
+ic| def exit_success(): 
+        ic("EXit success.")
+        exit()
+    def exit_failure(): 
+        ic("Exi: None
+ic| Error: Failed to access the underlying source code for analysis. Was ic() invoked in a REPL (e.g. from the command line), a frozen application (e.g. packaged with PyInstaller), or did the underlying source code change during execution?
+ic| except  HTTPError as e:
+    if: None
+ic| argument, flags = i: 'lp'
+ic| ic(handle_arg(argument, flags))
+    except  HTTPError: ({'flags': [{'default': 'D:\\Programmmieren\\Projects\\Weevil\\v0',
+                                    'name_settings': 'directory',
+                                    'names': ['--directory', '-dir']},
+                                   {'default': 'False',
+                                    'name_settings': 'show_id',
+                                    'names': ['--show_id', '-si']}],
+                         'function': <function <lambda> at 0x000001B965803C40>,
+                         'names': ['list_playlists', 'lp']},
+                        {'directory': 'D:\\Programmmieren\\Projects\\Weevil\\v0', 'show_id': 'False'})
+ic| def exit_success(): 
+        ic("EXit success.")
+        exit()
+    def exit_failure(): 
+        ic("Exi: None
+ic| except  HTTPError as e:
+    if: None
+ic| "names": [ "--d: None
