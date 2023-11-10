@@ -10,13 +10,13 @@ import threading
 import re
 from requests import HTTPError
 import logging
-from client import list_playlists, printHelp, warn, info
+from client import list_playlists, printHelp, fail, info
 import settings
 import arguments
 
 debug_mode = True if len(argv)>1 and "DEBUG" in argv[1] else False
 if not debug_mode: 
-    def log_to_file(message, log_file=os.path.join(getcwd(), "log.txt")):
+    def log_to_file(message, log_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "log.txt")):
         logging.basicConfig(filename=log_file, level=logging.INFO, format='%(message)s') #format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
         logging.info(message)
     ic.outputFunction = log_to_file
@@ -181,7 +181,7 @@ if __name__ == "__main__":
             if debug_mode: 
                 raise(e)
             else: 
-                warn("An HTTP Error occured.")
+                fail("An HTTP Error occured.")
                 ic(e)
                 exit_failure()
         except Exception as e:
