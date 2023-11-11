@@ -1,8 +1,0 @@
-ic| input(): 'help'
-ic| parse_tokens(tokens, arguments.get()): ({'flags': [],
-                                             'function': <function <lambda> at 0x000002095F3D93A0>,
-                                             'names': ['help', '-h', '--help']},
-                                            {})
-ic| threading.Thread(target=argument["function"], args=[settings], daemon=True).start(): None
-ic| handle_arg(argument, flags): None
-ic| printHelp(): None
