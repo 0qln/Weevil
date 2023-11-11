@@ -1,5 +1,7 @@
 import os, settings, arguments
 from icecream import ic
+import client
+
 
 # color testing:
 # def change_text_color(color_code): return f'\033[{color_code}m'
@@ -9,9 +11,14 @@ from icecream import ic
 def fail(*messages): 
     if settings.get("warn") == "true":
         print('\033[31m' + "".join(str(messages[i])+' || ' for i in range(len(messages)-1)) + (messages[-1]) + '\033[0m')
+    ic("Known error occured: ")
+    for i in range(len(messages)):
+        ic("[e] " + str(messages[i]))
+
 def info(*messages): 
     if settings.get("info") == "true":
         print('\033[01m' + "".join(str(messages[i])+' || ' for i in range(len(messages)-1)) + (messages[-1]) + '\033[0m')
+
 
 def list_playlists(settings):
     for folder in os.listdir(settings["directory"]):
@@ -24,7 +31,7 @@ def list_playlists(settings):
             msg = p_name
             if str(settings["show_id"]).lower() == "true":
                 msg += " <id:" + p_id + ">"
-            print(msg)
+            info(msg)
 
 
 def printHelp():

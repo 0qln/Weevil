@@ -73,7 +73,7 @@ arguments.initiate([
     },
     {
         "names": [ "set" ],
-        "function": lambda s: settings.set(s), 
+        "function": lambda s: ic(settings.set(s)), 
         "flags": [
             # dynamic
             {
@@ -102,7 +102,7 @@ arguments.initiate([
         ]
     },
     {
-        "names": [ "skip" ],
+        "names": [ "skip", "s" ],
         "function": lambda settings: ic(playback.current.skip()),
         "flags": [
 

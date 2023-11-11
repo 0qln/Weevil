@@ -4,7 +4,8 @@ import pytube, os, threading, re, enum, time, datetime
 from icecream import ic
 import settings, client
 from pytube.exceptions import AgeRestrictedError
-
+from ssl import SSLError
+import ffmpeg
 
 class PlaylistPlaybackManager(object):
     
@@ -63,31 +64,58 @@ class VideoPlaybackManager:
             state = ic(media_player.get_new_state())
 
 
-    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type) -> MediaPlayer | None:
+    def is_mp4_corrupt(file_path):
+        try:
+            (
+                ffmpeg
+                .input(file_path)
+                .output("null", f="null", loglevel="quiet")
+                .run()
+            )
+        except ffmpeg._run.Error:
+            return True
+        else:
+            return False
+        
+
+    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type, retrys = 20) -> MediaPlayer | None:
         # output folder    
         if not os.path.exists(output_folder): os.makedirs(output_folder)
 
         # aquire data
+        mp = None
         file_ext = None if file_type == "any" else file_type
         file_pat = os.path.join(output_folder, video.video_id) + "\\"
         ic (os.path.exists(file_pat))
         try:
             stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
+            if os.path.exists(file_pat) is False:
+                msource = ic(stream.download(file_pat))
+            else:
+                msource = ic(file_pat + stream.default_filename)
+
+            if VideoPlaybackManager.is_mp4_corrupt(msource):
+                client.fail("'" + video.title + " is currupted. Consider deleting the file, so it can be redownloaded.", 
+                            "path: " + msource)
+            else:
+                mp = MediaPlayer()
+                ic(mp.load(msource, video.title, video.length))
+
+
         except AgeRestrictedError as e:
             client.fail("'" + video.title + "' is age restricted, and can't be accessed without logging in.", 
                         "<ID=" + video.video_id + ">")
-            return None
         
-        msource = (
-            ic(stream.download(file_pat))
-        ) if os.path.exists(file_pat) is False else (
-            ic(file_pat + stream.default_filename)
-        )
-
-        # create mediaplayer
-        mp = MediaPlayer()
-        ic(mp.load(msource, video.title, video.length))
-
+        except SSLError as e:
+            if retrys > 0:
+                client.fail("'" + video.title + "' could not be downloaded due to a network error.", 
+                            "Retrys left: " + str(retrys), e.strerror)
+                time.sleep(0.1)
+                mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
+            else:
+                client.fail("'" + video.title + "' could not be downloaded due to a network error.", 
+                            "No retrys left.", e.strerror)
+            
         return mp
     
 
