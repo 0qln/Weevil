@@ -10,7 +10,7 @@ import threading
 import re
 from requests import HTTPError
 import logging
-from client import list_playlists, printHelp, fail, info
+import client
 import settings
 import arguments
 
@@ -25,7 +25,7 @@ if not debug_mode:
 arguments.initiate([
     {
         "names": [ "help", "-h", "--help" ],
-        "function": lambda settings: ic(printHelp()),
+        "function": lambda settings: ic(client.printHelp()),
         "flags": [ 
 
         ]
@@ -72,6 +72,35 @@ arguments.initiate([
         ]
     },
     {
+        "names": [ "get"],
+        "function": lambda s: ic(settings.get(s, print_info=True)),
+        "flags": [
+            # dynamic
+            {
+                "names": [ "--key", "-k" ],
+                "name_settings": "key"
+            },
+
+            # hardcoded
+            {
+                "names": [ "--title_declerations", "-t"],
+                "name_settings": "hail"
+            },   
+            {
+                "names": [ "--info", "-i"],
+                "name_settings": "info"
+            },     
+            {
+                "names": [ "--failures", "-f"],
+                "name_settings": "fail"
+            },
+            {
+                "names": [ "--warnings", "-w"],
+                "name_settings": "warn"
+            },            
+        ]
+    },
+    {
         "names": [ "set" ],
         "function": lambda s: ic(settings.set(s)), 
         "flags": [
@@ -87,9 +116,17 @@ arguments.initiate([
 
             # hardcoded
             {
+                "names": [ "--title_declerations", "-t"],
+                "name_settings": "hail"
+            },   
+            {
                 "names": [ "--info", "-i"],
                 "name_settings": "info"
             },     
+            {
+                "names": [ "--failures", "-f"],
+                "name_settings": "fail"
+            },
             {
                 "names": [ "--warnings", "-w"],
                 "name_settings": "warn"
@@ -98,7 +135,7 @@ arguments.initiate([
                 #TODO
                 "names": [ "--volume", "-vol"],
                 "name_settings": "volume"
-            },
+            },          
         ]
     },
     {
@@ -110,7 +147,7 @@ arguments.initiate([
     },
     {
         "names": [ "list_playlists", "lp" ],
-        "function": lambda settings: ic(list_playlists(settings)),
+        "function": lambda settings: ic(client.list_playlists(settings)),
         "flags": [
             {
                 "names": [ "--directory", "-dir" ],
@@ -129,26 +166,46 @@ arguments.initiate([
 exit_flag = False
 playback = PlaybackManager()
 
-def parse_tokens(input, arg_library):
-    argument = input.split(' ')[0]
+def parse_tokens(input:str, arg_library):
+    # get the argument and it's definition
+    argument = re.search(r"\A.+?(?=\s)", input)
     arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
-    if arg_def is None: raise Exception("Specified argument does not exist!")
-    # extract the flags and their values from the input string
-    flags = re.findall(r"(?<= )-.+?(?=\=\".+?\")", input)
-    vals = re.findall(r"(?<=\=\").+?(?=\")", input)
+    if arg_def is None: 
+        raise Exception("Specified argument does not exist!")
+    ic(argument)
+    ic(input)
+
+    # search for raw flags and values, dont have to be legal
+    input = '"'+input+'"'
+    pattern = r"(?:[^\"]*\"){2}([^\"]*)(?=\")"
+    values = re.findall(pattern, input)
+    flags = [re.findall(r"(?<=\s)-[a-zA-Z-_]+\b", flag)[0] 
+             for flag in re.findall(pattern, '"'+input)
+             if len(re.findall(r"(?<=\s)-[a-zA-Z-_]+\b", flag)) > 0]
+    ic(values)
+    ic(flags)
 
     # merge the regiesterd flags and their values
-    # set default values
-    flag_mapping = {
-        flag_def["name_settings"]: flag_def["default"]
-        for flag_def in arg_def["flags"]
-        if "default" in flag_def
-    }
+    # load defaults
+    flag_mapping = {flag_def["name_settings"]: flag_def["default"] 
+                    for flag_def in arg_def["flags"] 
+                    if "default" in flag_def}
+    ic(flag_mapping)
+
+    # make flag entry without value
+    flag_mapping.update({flag_def["name_settings"]:""
+                         for flag in flags
+                         for flag_def in arg_def["flags"]  
+                         if flag in flag_def["names"]})
+    ic(flag_mapping)
+
     # override with custom values, if any
-    flag_mapping.update({flag_def["name_settings"]: val
-                        for flag, val in zip(flags, vals)
-                        for flag_def in arg_def["flags"] 
-                        if flag in flag_def["names"]})
+    flag_mapping.update({flag_def["name_settings"]: val 
+                         for flag, val in zip(flags, values) 
+                         for flag_def in arg_def["flags"]  
+                         if flag in flag_def["names"]})    
+    ic(flag_mapping)
+
 
     return arg_def, flag_mapping
 
@@ -171,7 +228,7 @@ def exit():
 
 
 if __name__ == "__main__":
-    info("Type 'help' to retrieve documentation.")
+    client.info("Type 'help' to retrieve documentation.")
     while exit_flag == False:
         try:
             tokens = ic(input())
@@ -181,7 +238,7 @@ if __name__ == "__main__":
             if debug_mode: 
                 raise(e)
             else: 
-                fail("An HTTP Error occured.")
+                client.fail("An HTTP Error occured.")
                 ic(e)
                 exit_failure()
         except Exception as e:
@@ -189,3 +246,5 @@ if __name__ == "__main__":
                 raise(e)
             else: 
                 ic(e)
+    
+    exit_success()

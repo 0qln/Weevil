@@ -13,9 +13,10 @@ class PlaylistPlaybackManager(object):
     def __init__(self, url, output_folder, file_type) -> None:
         self.playlist = pytube.Playlist(url)
         try:
-            client.info(self.playlist.title, self.playlist.owner, str(self.playlist.length) + " tracks")
+            # client.info(self.playlist.title, self.playlist.owner, str(self.playlist.length) + " tracks")
+            client.hail(self.playlist.title)
         except KeyError as e:
-            client.fail("Playlist information cannot be accessed", 
+            client.warn("Playlist information cannot be accessed", 
                         "Cannot create playback from Private Playlist or Youtube Mix.")
             raise e
 
@@ -60,8 +61,7 @@ class PlaylistPlaybackManager(object):
 
 class VideoPlaybackManager:
     def play(media_player:MediaPlayer) -> None:
-        client.info(str(media_player.get_content_title()),
-                    str(datetime.timedelta(seconds=media_player.get_duration())))
+        client.info(str(media_player.get_content_title()))
         ic(media_player.play())
         state = MediaPlayerState.PLAYING
         while (state != MediaPlayerState.STOPPED and 
@@ -108,7 +108,7 @@ class VideoPlaybackManager:
 
 
         except AgeRestrictedError as e:
-            client.fail("'" + video.title + "' is age restricted, and can't be accessed without logging in.", 
+            client.warn("'" + video.title + "' is age restricted, and can't be accessed without logging in.", 
                         "<ID=" + video.video_id + ">")
         
         except SSLError as e:
@@ -119,7 +119,8 @@ class VideoPlaybackManager:
                 mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
             else:
                 client.fail("'" + video.title + "' could not be downloaded due to a network error.", 
-                            "No retrys left.", e.strerror)
+                            "No retrys left.", e.strerror,
+                            "'" + video.title + "' will be skipped.")
             
         return mp
     
