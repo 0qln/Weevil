@@ -4,6 +4,7 @@ import pytube, os, threading, re, enum, time, datetime
 from icecream import ic
 import settings, client
 from pytube.exceptions import AgeRestrictedError
+import pytube.exceptions as pyex
 from ssl import SSLError
 import ffmpeg
 
@@ -11,17 +12,20 @@ class PlaylistPlaybackManager(object):
     
     def __init__(self, url, output_folder, file_type) -> None:
         self.playlist = pytube.Playlist(url)
+        try:
+            client.info(self.playlist.title, self.playlist.owner, self.playlist.length + " tracks")
+        except KeyError as e:
+            client.fail("Playlist information cannot be accessed. This might be because the playlist is private.")
+            raise e
+
         self.videos = [MediaPlayer]
         self.current_mp = 0
         self.preferred_file_type = file_type
         
         # Replace invalid characters with underscores in the playlist title
-        ic(self.playlist.title)
         sanitized_title = re.sub(r'[\\/:*?"<>|]', '_', self.playlist.title)
         self.path = output_folder + self.playlist.playlist_id + "\\" + sanitized_title + "\\"
-        
-        if not os.path.exists(self.path):
-            os.makedirs(self.path)
+        if not os.path.exists(self.path): os.makedirs(self.path)
 
         ic ("PlaylistPlaybackManager initiated successfully.")
 
@@ -144,16 +148,22 @@ class PlaybackManager:
             ic (self.current)
 
         if self.content_type is ContentType.PLAYLIST:
-            playback = PlaylistPlaybackManager(
-                settings["url"], settings["output_folder"], settings["file_type"])
-            playback.play(callback)
+            try:
+                playback = PlaylistPlaybackManager(
+                    settings["url"], settings["output_folder"], settings["file_type"])
+                playback.play(callback)
+            except: 
+                return
 
         if self.content_type is ContentType.VIDEO:
-            playback = VideoPlaybackManager.create_playback(
-                settings["url"], settings["output_folder"], settings["file_type"])
-            if playback is not None:
-                self.current = playback
-                VideoPlaybackManager.play(playback)
+            try:                    
+                playback = VideoPlaybackManager.create_playback(
+                    settings["url"], settings["output_folder"], settings["file_type"])
+                if playback is not None:
+                    self.current = playback
+                    VideoPlaybackManager.play(playback)
+            except: 
+                return
 
 
 class ContentType(enum.Enum):
