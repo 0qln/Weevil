@@ -14,15 +14,9 @@ storage = {
 }
 
 def get(settings, print_info=False):
-    print("1")
     if type(settings) is dict:
-        print("2")
         if "key" not in settings:
-            print("3")
-            print(settings.keys())
             for key in settings.keys():
-                print("4")
-                print(key)
                 value = storage[key]
                 if print_info: client.info("Read settings: " + str((key, value)))
         else:
