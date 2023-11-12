@@ -15,7 +15,8 @@ class PlaylistPlaybackManager(object):
         try:
             client.info(self.playlist.title, self.playlist.owner, self.playlist.length + " tracks")
         except KeyError as e:
-            client.fail("Playlist information cannot be accessed. This might be because the playlist is private.")
+            client.fail("Playlist information cannot be accessed", 
+                        "Cannot create playback from Private Playlist or Youtube Mix.")
             raise e
 
         self.videos = [MediaPlayer]
