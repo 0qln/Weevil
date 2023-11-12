@@ -1,6 +1,5 @@
-import vlc, time, enum, threading
+import vlc, time, enum, threading, os
 from icecream import ic
-import vlc
 
 
 class MediaPlayerState(enum.Enum):
@@ -75,7 +74,13 @@ class MediaPlayer:
 
     def resume(self) -> None:
         ic(self.set_state(MediaPlayerState.PLAYING))
-        self.vlc_mediaPlayer.set_pause(0)  
+        self.vlc_mediaPlayer.set_pause(0)
+
+        # Quick fix for https://github.com/0qln/Weevil/issues/7  
+        time.sleep(0.003)
+        padding_c = os.get_terminal_size().columns
+        padding_s = "".join(" " for i in range(padding_c))
+        for i in range(2): print("\033[A"+padding_s+"\033[A")
 
     def stop(self) -> None:
         ic(self.set_state(MediaPlayerState.STOPPED))
