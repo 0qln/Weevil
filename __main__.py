@@ -168,7 +168,7 @@ playback = PlaybackManager()
 
 def parse_tokens(input:str, arg_library):
     # get the argument and it's definition
-    argument = re.findall(r"\A.*?(?=\W)", input)[0]
+    argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
     arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
     if arg_def is None: 
         raise Exception("Specified argument does not exist!")
