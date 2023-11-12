@@ -2,12 +2,11 @@
 
     -< Weevil >-
 
-    
 
     Available Commands:
     
     1. play
-        - Start playback of a track or playlist via it's yt-URL.
+        - Start playback of a track or playlist via its yt-URL.
         - Flags:
             --url, -u: Specify the URL of the music.
             --output, -o: Specify the output folder for downloaded music. (default: cwd)
@@ -22,26 +21,38 @@
     4. exit, close, quit
         - Exit Weevil.
 
-    5. set
+    5. get
+        - Get information about various configuration options.
+        - Flags:
+            --key, -k: Specify the configuration key.
+
+            --title_declarations, -t: Get information about title declarations.
+            --info, -i: Get information about casual information settings. (default: true)
+            --failures, -f: Get information about failure settings.
+            --warnings, -w: Get information about warning settings.
+
+    6. set
         - Set various configuration options.
         - Flags:
             --key, -k: Specify the configuration key.
             --value, -v: Specify the configuration value.
 
-            --info, -i: Wether to show casual information. (default: true)
-            --warnings, -w: Wether to show warnings. (default: true)
+            --title_declarations, -t: Set title declarations.
+            --info, -i: Set casual information display. (default: true)
+            --failures, -f: Set failure display.
+            --warnings, -w: Set warning display.
             --volume, -vol: Set the volume (TODO).
 
-    6. skip
+    7. skip, s
         - Skip to the next track in the playlist.
 
-    7. list_playlists, lp
+    8. list_playlists, lp
         - List available playlists.
         - Flags:
             --directory, -dir: Specify the directory of playlists (default: cwd).
             --show_id, -si: Show playlist IDs (default: true).
 
-    8. help, -h, --help
+    9. help, -h, --help
         - Display this help message.
 
     Example Usage:
@@ -49,4 +60,3 @@
         $ pause
         $ set -i="true"
         $ lp --show_id="true"
-

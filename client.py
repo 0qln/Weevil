@@ -63,10 +63,8 @@ def list_playlists(settings):
 
 
 def printHelp():
-    # print('TODO: Show the most common flags first')
     # print('TODO: Provide link to github, for issues and feedback')
-    # print('TODO: Provide examples')
-    # print('TODO: link the website documentation i.e. hosted on github')
+    # print('TODO: link a website documentation i.e. hosted on github')
     try: 
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "help.txt"), "r") as file:
             help_message = file.read()
