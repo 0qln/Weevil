@@ -13,7 +13,7 @@ class PlaylistPlaybackManager(object):
     def __init__(self, url, output_folder, file_type) -> None:
         self.playlist = pytube.Playlist(url)
         try:
-            client.info(self.playlist.title, self.playlist.owner, self.playlist.length + " tracks")
+            client.info(self.playlist.title, self.playlist.owner, str(self.playlist.length) + " tracks")
         except KeyError as e:
             client.fail("Playlist information cannot be accessed", 
                         "Cannot create playback from Private Playlist or Youtube Mix.")
