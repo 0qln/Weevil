@@ -9,16 +9,18 @@ class MediaPlayerState(enum.Enum):
     STOPPED = 3
     SKIPPING = 4
     LOADED = 5
+    ROLL_BACK = 6
 
 
 
 class MediaPlayer:
     def __init__(self) -> None:
         self.state = MediaPlayerState.NONE
-        self.vlc_mediaPlayer = None
+        self.vlc_mediaPlayer:vlc.MediaPlayer = None
         self.on_state_change = threading.Event()
-        self.title = None
-        self.length = None
+        self.title:str = None
+        self.length:int = None
+        self.decay_thread:threading.Thread = None
 
 
     def set_state(self, value:MediaPlayerState) -> MediaPlayerState:
@@ -42,17 +44,19 @@ class MediaPlayer:
         def decay_state():
             # wait for it to start playing
             while (self.vlc_mediaPlayer.is_playing() != 1 and
-                   MediaPlayerState.STOPPED != self.state):
+                MediaPlayerState.STOPPED != self.state):
                 time.sleep(0.05)
-                pass
             # wait for playback to finish
             while (self.vlc_mediaPlayer.is_playing() == 1 or 
-                   MediaPlayerState.PAUSED == self.state):
+                self.state == MediaPlayerState.PAUSED):
                 time.sleep(0.05)
             # handle a stop
             ic(self.stop())
 
-        ic(threading.Thread(target=decay_state, args=[], daemon=True).start())        
+        if self.decay_thread is None:
+            self.decay_thread = threading.Thread(target=decay_state, args=[], daemon=True)
+            self.decay_thread.start()      
+            ic(self.decay_thread)
 
     def load(self, mediaSource, title=None, length=None) -> None:
         self.title = title
@@ -62,10 +66,12 @@ class MediaPlayer:
         self.vlc_mediaPlayer.set_media(vlc.Instance().media_new(mediaSource))
         ic(self.set_state(MediaPlayerState.LOADED))
 
-    # TODO: `get_time()` `set_time()`
-    # `get_time()` seems broken, does not update regualy
-    def skip(self) -> None:
+    def next(self) -> None:
         ic(self.set_state(MediaPlayerState.SKIPPING))
+        self.vlc_mediaPlayer.set_pause(1)
+
+    def prev(self) -> None:
+        ic(self.set_state(MediaPlayerState.ROLL_BACK))
         self.vlc_mediaPlayer.set_pause(1)
 
     def pause(self) -> None:
@@ -84,7 +90,6 @@ class MediaPlayer:
     def stop(self) -> None:
         ic(self.set_state(MediaPlayerState.STOPPED))
         self.vlc_mediaPlayer.set_pause(1)
-        self.vlc_mediaPlayer.release()
     
     def get_duration(self) -> int:
         return self.length

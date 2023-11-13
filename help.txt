@@ -55,6 +55,9 @@
     9. help, -h, --help
         - Display this help message.
 
+    10. clear, cls
+        - Clear the terminal
+
     Example Usage:
         $ play --url="<music_url>" --output="<output_folder>" --fileType="mp4"
         $ pause

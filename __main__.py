@@ -146,8 +146,15 @@ arguments.initiate([
         ]
     },
     {
-        "names": [ "skip", "s" ],
-        "function": lambda settings: ic(playback.current.skip()),
+        "names": [ "next" ],
+        "function": lambda settings: ic(playback.current.next()),
+        "flags": [
+
+        ]
+    },
+    {
+        "names": [ "previous", "prev" ],
+        "function": lambda settings: ic(playback.current.prev()),
         "flags": [
 
         ]

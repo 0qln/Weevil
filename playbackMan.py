@@ -33,10 +33,18 @@ class PlaylistPlaybackManager(object):
 
 
     def play(self, callback) -> None:
-        for media_player in self.yield_iterate():
-            if media_player is None: continue
-            callback(media_player)
-            ic(VideoPlaybackManager.play(media_player))
+        iterator = self.yield_iterate()
+        current_media_player = next(iterator, None)
+
+        while current_media_player is not None:
+            callback(current_media_player)
+            
+            state = ic(VideoPlaybackManager.play(current_media_player))
+
+            if state == MediaPlayerState.ROLL_BACK:
+                current_media_player = self.get_prev()
+            else: 
+                current_media_player = next(iterator, None) 
                 
 
     def fill(self) -> [MediaPlayer]:
@@ -51,23 +59,35 @@ class PlaylistPlaybackManager(object):
             ic("Generate Video: ")
             ic(self.videos.append(VideoPlaybackManager.create_playback_from_video(
                 video, self.path, self.preferred_file_type)))
+            yield self.get_next()
+
+    def get_prev(self) -> MediaPlayer | None:
+        if self.current_mp > 0:
+            self.current_mp -= 1
+            return self.get_current()
+        return None
+    
+    def get_next(self) -> MediaPlayer | None:
+        if self.current_mp < len(self.videos):
             self.current_mp += 1
-            yield self.get_current()
+            return self.get_current()
+        return None
 
-
-    def get_current(self) -> MediaPlayer:
-        return self.videos[self.current_mp]
-
+    def get_current(self) -> MediaPlayer | None:
+        return self.videos[self.current_mp] if self.current_mp > 0 and self.current_mp < len(self.videos) else None
+    
 
 class VideoPlaybackManager:
-    def play(media_player:MediaPlayer) -> None:
+    # returns the last known state
+    def play(media_player:MediaPlayer) -> MediaPlayerState:
         client.info(str(media_player.get_content_title()))
         ic(media_player.play())
         state = MediaPlayerState.PLAYING
-        while (state != MediaPlayerState.STOPPED and 
-                state != MediaPlayerState.SKIPPING): 
+        while (state != MediaPlayerState.STOPPED and
+               state != MediaPlayerState.ROLL_BACK and 
+               state != MediaPlayerState.SKIPPING): 
             state = ic(media_player.get_new_state())
-
+        return state
 
     def is_mp4_corrupt(file_path):
         try:
