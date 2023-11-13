@@ -45,7 +45,7 @@ class PlaylistPlaybackManager(object):
                 current_media_player = self.get_prev()
             else: 
                 current_media_player = next(iterator, None) 
-                
+
 
     def fill(self) -> [MediaPlayer]:
         for video in self.playlist.videos:
@@ -103,7 +103,7 @@ class VideoPlaybackManager:
             return False
         
 
-    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type, retrys = 20) -> MediaPlayer | None:
+    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type, retrys = 10) -> MediaPlayer | None:
         # output folder    
         if not os.path.exists(output_folder): os.makedirs(output_folder)
 
@@ -115,32 +115,44 @@ class VideoPlaybackManager:
         try:
             stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
             if os.path.exists(file_pat) is False:
+                ic(f"Download '{video.title}'...") # Print nothing on success.
                 msource = ic(stream.download(file_pat))
-            else:
+            else: 
+                ic(f"Get '{video.title}' from files...") # Print nothing on success.
                 msource = ic(file_pat + stream.default_filename)
 
             if VideoPlaybackManager.is_mp4_corrupt(msource):
-                client.fail("'" + video.title + " is currupted. Consider deleting the file, so it can be redownloaded.", 
-                            "path: " + msource)
+                # File is corrupted
+                if retrys > 0:
+                    # Delete and try to download again
+                    client.warn(f"'{msource}' is corrupted. Weevil will try to delete and redownload the track.", 
+                                f"Retrys left: {str(retrys)}")
+                    os.rmdir(file_pat)
+                    mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
+                else:
+                    # Unable to fetch file
+                    client.fail(f"'{video.title}' cannot be safely downloaded.", "No retrys left.", 
+                                f"'{video.title}' will be skipped.")
             else:
+                ic(f"'{video.title}' aquired.") # Print nothing on success.
                 mp = MediaPlayer()
-                ic(mp.load(msource, video.title, video.length))
+                mp.load(msource, video.title, video.length)
 
-
+        # Video is age restriced
         except AgeRestrictedError as e:
-            client.warn("'" + video.title + "' is age restricted, and can't be accessed without logging in.", 
-                        "<ID=" + video.video_id + ">")
+            client.warn(f"'{video.title}' is age restricted, and can't be accessed without logging in.", 
+                        f"<ID{video.video_id}>")
         
+        # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
             if retrys > 0:
-                client.fail("'" + video.title + "' could not be downloaded due to a network error.", 
-                            "Retrys left: " + str(retrys), e.strerror)
+                client.fail(f"'{video.title}' could not be downloaded due to a network error.", 
+                            f"Retrys left: {str(retrys)}")
                 time.sleep(0.1)
                 mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
             else:
-                client.fail("'" + video.title + "' could not be downloaded due to a network error.", 
-                            "No retrys left.", e.strerror,
-                            "'" + video.title + "' will be skipped.")
+                client.fail(f"'{video.title}' could not be downloaded due to a network error.", "No retrys left.", 
+                            f"'{video.title}' will be skipped.")
             
         return mp
     

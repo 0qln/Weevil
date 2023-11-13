@@ -87,3 +87,6 @@
             - Print this help message.
             Displays detailed information about available commands and their usage.
             Example: help
+
+
+        Further information: https://github.com/0qln/Weevil
