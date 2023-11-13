@@ -51,6 +51,13 @@ arguments.initiate([
         ]
     },
     {
+        "names": [ "clear", "cls" ],
+        "function":lambda settings: ic(os.system('cls' if os.name=='nt' else 'clear')),
+        "flags": [ 
+
+        ]
+    },
+    {
         "names": [ "pause", "p" ],
         "function":lambda settings: ic(playback.current.pause()),
         "flags": [ 

@@ -78,9 +78,8 @@ class MediaPlayer:
 
         # Quick fix for https://github.com/0qln/Weevil/issues/7  
         time.sleep(0.003)
-        padding_c = os.get_terminal_size().columns
-        padding_s = "".join(" " for i in range(padding_c))
-        for i in range(2): print("\033[A"+padding_s+"\033[A")
+        empty_line = " " * os.get_terminal_size().columns
+        for _ in range(2): print(f"\033[A{empty_line}\033[A")
 
     def stop(self) -> None:
         ic(self.set_state(MediaPlayerState.STOPPED))
