@@ -24,6 +24,7 @@ if not debug_mode:
 
 arguments.initiate([
     {
+        # Print 'help.txt'
         "names": [ "help", "-h", "--help" ],
         "function": lambda settings: ic(client.printHelp()),
         "flags": [ 
@@ -31,6 +32,7 @@ arguments.initiate([
         ]
     },
     {
+        # Play a video or playlist
         "names": [ "play" ],
         "function":lambda settings: ic(playback.play(settings)),
         "flags": [
@@ -51,6 +53,7 @@ arguments.initiate([
         ]
     },
     {
+        # Clear the terminal
         "names": [ "clear", "cls" ],
         "function":lambda settings: ic(os.system('cls' if os.name=='nt' else 'clear')),
         "flags": [ 
@@ -58,6 +61,7 @@ arguments.initiate([
         ]
     },
     {
+        # Pause playback
         "names": [ "pause", "p" ],
         "function":lambda settings: ic(playback.current.pause()),
         "flags": [ 
@@ -65,6 +69,7 @@ arguments.initiate([
         ]
     },
     {
+        # Resume playback
         "names": [ "resume", "r" ],
         "function":lambda settings: ic(playback.current.resume()),
         "flags": [
@@ -72,6 +77,7 @@ arguments.initiate([
         ]
     },
     {
+        # Exit weevil
         "names": [ "exit", "close", "quit" ],
         "function":lambda settings: ic(exit_success()),
         "flags": [
@@ -79,6 +85,7 @@ arguments.initiate([
         ]
     },
     {
+        # Get a setting
         "names": [ "get"],
         "function": lambda s: ic(settings.get(s, print_info=True)),
         "flags": [
@@ -108,6 +115,7 @@ arguments.initiate([
         ]
     },
     {
+        # Set a settings
         "names": [ "set" ],
         "function": lambda s: ic(settings.set(s)), 
         "flags": [
@@ -146,20 +154,28 @@ arguments.initiate([
         ]
     },
     {
-        "names": [ "next" ],
+        # Play next track
+        "names": [ "next", "skip", "s" ],
         "function": lambda settings: ic(playback.current.next()),
         "flags": [
-
+        
         ]
     },
     {
+        # Play previous track
         "names": [ "previous", "prev" ],
         "function": lambda settings: ic(playback.current.prev()),
         "flags": [
-
+            # TODO
+            # {
+            #     "names": [ "--count", "-c" ],
+            #     "name_settings": "execution_count",
+            #     "default": str(1)
+            # },
         ]
     },
     {
+        # Print a list of all downloaded playlists and their videos
         "names": [ "list_playlists", "lp" ],
         "function": lambda settings: ic(client.list_playlists(settings)),
         "flags": [
@@ -174,7 +190,7 @@ arguments.initiate([
                 "default": str(debug_mode)
             }
         ]
-    }
+    },
 ])
 
 exit_flag = False

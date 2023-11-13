@@ -1,65 +1,89 @@
 
+            
+            
+            -< Weevil >-
 
-    -< Weevil >-
+        1. play
+        - Play a video or playlist.
+            This command initiates playback of a video or playlist from a specified URL.
+            Flags:
+            - --url, -u: Specify the URL of the video or playlist.
+            - --output, -o: Specify the output folder (default: current working directory).
+            - --fileType, -f: Specify the file type (default: any).
+            Example: play -u="https://www.youtube.com/watch?v=NCKL58C3W4A"
 
 
-    Available Commands:
-    
-    1. play
-        - Start playback of a track or playlist via its yt-URL.
-        - Flags:
-            --url, -u: Specify the URL of the music.
-            --output, -o: Specify the output folder for downloaded music. (default: cwd)
-            --fileType, -f: Specify the file type (default: any).
-
-    2. pause, p
-        - Pause the current playback.
-
-    3. resume, r
-        - Resume playback from a paused state.
-
-    4. exit, close, quit
+        2. exit, close, quit
         - Exit Weevil.
+            This command gracefully exits the Weevil application.
+            Example: exit
 
-    5. get
-        - Get information about various configuration options.
-        - Flags:
-            --key, -k: Specify the configuration key.
+        3. pause, p
+        - Pause playback.
+            Pauses the currently playing track or video.
+            Example: pause
 
-            --title_declarations, -t: Get information about title declarations.
-            --info, -i: Get information about casual information settings. (default: true)
-            --failures, -f: Get information about failure settings.
-            --warnings, -w: Get information about warning settings.
 
-    6. set
-        - Set various configuration options.
-        - Flags:
-            --key, -k: Specify the configuration key.
-            --value, -v: Specify the configuration value.
+        4. resume, r
+        - Resume playback.
+            Resumes playback of the currently paused track or video.
+            Example: resume
 
-            --title_declarations, -t: Set title declarations.
-            --info, -i: Set casual information display. (default: true)
-            --failures, -f: Set failure display.
-            --warnings, -w: Set warning display.
-            --volume, -vol: Set the volume (TODO).
 
-    7. skip, s
-        - Skip to the next track in the playlist.
+        5. clear, cls
+        - Clear the terminal.
+            Clears the terminal screen, providing a clean interface.
+            Example: clear
 
-    8. list_playlists, lp
-        - List available playlists.
-        - Flags:
-            --directory, -dir: Specify the directory of playlists (default: cwd).
-            --show_id, -si: Show playlist IDs (default: true).
 
-    9. help, -h, --help
-        - Display this help message.
+        6. get
+        - Get a setting.
+            Retrieves information about various settings or configurations.
+            Flags:
+            - --key, -k: Specify the key to get.
+            - --title_declerations, -t: Get title declarations.
+            - --info, -i: Get information.
+            - --failures, -f: Get failures.
+            - --warnings, -w: Get warnings.
+            Example: get --key="some_key"
 
-    10. clear, cls
-        - Clear the terminal
 
-    Example Usage:
-        $ play --url="<music_url>" --output="<output_folder>" --fileType="mp4"
-        $ pause
-        $ set -i="true"
-        $ lp --show_id="true"
+        7. set
+        - Set a setting.
+            Configures settings or parameters within the Weevil application.
+            Flags:
+            - --key, -k: Specify the key to set.
+            - --value, -v: Specify the value to set.
+            - --title_declerations, -t: Set title declarations.
+            - --info, -i: Set information.
+            - --failures, -f: Set failures.
+            - --warnings, -w: Set warnings.
+            - --volume, -vol: Set volume (TODO).
+            Example: set --key="some_key" --value="new_value"
+
+
+        8. next, skip, s
+        - Play the next track.
+            Advances to and plays the next track in the playlist.
+            Example: next
+
+
+        9. previous, prev
+        - Play the previous track.
+            Goes back to and plays the previous track in the playlist.
+            Example: previous
+
+
+        10. list_playlists, lp
+            - Print a list of all downloaded playlists and their videos.
+            Lists all downloaded playlists and associated videos with optional details.
+            Flags:
+            - --directory, -dir: Specify the directory (default: current working directory).
+            - --show_id, -si: Show ID (default: debug mode).
+            Example: list_playlists --directory="/path/to/directory" --show_id="true"
+
+
+        11. help, -h, --help
+            - Print this help message.
+            Displays detailed information about available commands and their usage.
+            Example: help
