@@ -1,9 +1,9 @@
 # Weevil
 **Music streaming CLI**
 
-Weevil provides realtime and prefetched playback for playlists and videos. 
-As for now, it is not planned to add playback from files, as there are enough such tools and Weevil aims to fill a gap in the software enviroments, not reinvent the wheel. 
-Weevil caches the downloaded videos for reduced network traffic. The file type can be chosen from what is available on the target servers. If no internet connection is provided, Weevil cannot provide playback. 
+Weevil offers real-time and pre-fetched playback for playlists and videos. Currently, there are no plans to introduce playback from local files, as numerous tools already cater to this need. Weevil is designed to address specific gaps in software environments rather than reinventing existing solutions.
+
+To optimize network usage, Weevil caches downloaded videos. Users can choose the file type based on what is available on the target servers. It's important to note that Weevil requires an internet connection to provide playback. If no internet connection is available, playback functionality will not be accessible.
 
 
 ## Requirements
