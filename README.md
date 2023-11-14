@@ -1,13 +1,17 @@
 # Weevil
-Music streaming CLI
- 
+**Music streaming CLI**
+
+Weevil provides realtime and prefetched playback for playlists and videos. 
+As for now, it is not planned to add playback from files, as there are enough such tools and Weevil aims to fill a gap in the software enviroments, not reinvent the wheel. 
+Weevil caches the downloaded videos for reduced network traffic. The file type can be chosen from what is available on the target servers. If no internet connection is provided, Weevil cannot provide playback. 
+
 
 ## Requirements
 - VLC
     - somwhere around version 2.8.0
     - Make sure you have your EV set up
     - If you are using a 64bit machine, make sure you have that version of VLC installed
-- Python
+- Python v.3.0.0 and above
 
 
 ## Usage
