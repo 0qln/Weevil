@@ -48,6 +48,13 @@
             Example: get --key="some_key"
 
 
+        6. volume, vol
+        - Change the playback sound volume. Value in percentage [0;100]
+            Flags:
+            - --set, --value: Specify the value.
+            Example: volume --set "60"
+
+
         7. set
         - Set a setting.
             Configures settings or parameters within the Weevil application.
