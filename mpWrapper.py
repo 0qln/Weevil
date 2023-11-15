@@ -81,11 +81,19 @@ class MediaPlayer:
     def resume(self) -> None:
         ic(self.set_state(MediaPlayerState.PLAYING))
         self.vlc_mediaPlayer.set_pause(0)
-
+        # TODO: Find the underlying issue and create an actual fix
         # Quick fix for https://github.com/0qln/Weevil/issues/7  
-        time.sleep(0.003)
-        empty_line = " " * os.get_terminal_size().columns
-        for _ in range(2): print(f"\033[A{empty_line}\033[A")
+        # time.sleep(0.003)
+        # empty_line = " " * os.get_terminal_size().columns
+        # for _ in range(2): print(f"\033[A{empty_line}\033[A")
+
+    def set_volume(self, value) -> bool:
+        result = self.vlc_mediaPlayer.audio_set_volume(int(value))
+        return result == 0
+
+    def get_volume(self) -> int:
+        result = self.vlc_mediaPlayer.audio_get_volume()
+        return result
 
     def stop(self) -> None:
         ic(self.set_state(MediaPlayerState.STOPPED))

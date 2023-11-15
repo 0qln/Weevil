@@ -145,12 +145,18 @@ arguments.initiate([
             {
                 "names": [ "--warnings", "-w"],
                 "name_settings": "warn"
-            },            
+            },         
+        ]
+    },
+    {
+        "names": [ "volume", "vol" ],
+        "function": lambda s: ic(playback.current.set_volume(s["value"])),
+        "flags": [
             {
-                #TODO
-                "names": [ "--volume", "-vol"],
-                "name_settings": "volume"
-            },          
+                "names": [ "--set", "--value" ],
+                "default": "40",
+                "name_settings": "value"
+            }
         ]
     },
     {
@@ -205,7 +211,7 @@ def parse_tokens(input:str, arg_library):
     ic(argument)
     ic(input)
 
-    # search for raw flags and values, dont have to be legal
+    # search for pseudo legal flags and values
     input = '"'+input+'"'
     pattern = r"(?:[^\"]*\"){2}([^\"]*)(?=\")"
     values = re.findall(pattern, input)
