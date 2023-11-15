@@ -10,7 +10,6 @@ storage = {
     "warn": valuefy(True),
     "hail": valuefy(True),
     "info": valuefy(True),
-    "volume": valuefy(100)
 }
 
 def get(settings, print_info=False):
@@ -27,7 +26,6 @@ def get(settings, print_info=False):
         value = storage[settings]
     return value
 
-# untested
 def set(settings):
     if (len(settings.keys()) > 0 and len(settings.values()) > 0):
         key, value = (next(iter(settings.items()))

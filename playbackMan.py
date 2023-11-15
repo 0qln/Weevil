@@ -7,8 +7,35 @@ from pytube.exceptions import AgeRestrictedError
 import pytube.exceptions as pyex
 from ssl import SSLError
 import ffmpeg
+from abc import ABC, abstractmethod
 
-class PlaylistPlaybackManager(object):
+
+
+class IPlaybackManager(ABC):
+ 
+    @abstractmethod
+    def pause(self, settings):
+        pass
+
+    @abstractmethod
+    def resume(self, settings):
+        pass
+
+    @abstractmethod
+    def play(self, settings):
+        pass
+
+    @abstractmethod
+    def skip(self, settings):
+        pass
+
+    @abstractmethod
+    def prev(self, settings):
+        pass
+
+
+
+class PlaylistPlaybackManager(IPlaybackManager):
     
     def __init__(self, url, output_folder, file_type) -> None:
         self.playlist = pytube.Playlist(url)
@@ -39,12 +66,18 @@ class PlaylistPlaybackManager(object):
         while current_media_player is not None:
             callback(current_media_player)
             
-            state = ic(VideoPlaybackManager.play(current_media_player))
+            result = ic(VideoPlaybackManager.play(current_media_player))
+            
+            #TODO: prefetch next video while the current one is playing?
 
-            if state == MediaPlayerState.ROLL_BACK:
+            if result == MediaPlayerState.ROLL_BACK:
                 current_media_player = self.get_prev()
             else: 
                 current_media_player = next(iterator, None) 
+
+
+    def prev(self, settings):
+       pass 
 
 
     def fill(self) -> [MediaPlayer]:
@@ -107,6 +140,9 @@ class VideoPlaybackManager:
         # output folder    
         if not os.path.exists(output_folder): os.makedirs(output_folder)
 
+        def retry():
+            ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
+
         # aquire data
         mp = None
         file_ext = None if file_type == "any" else file_type
@@ -127,8 +163,9 @@ class VideoPlaybackManager:
                     # Delete and try to download again
                     client.warn(f"'{msource}' is corrupted. Weevil will try to delete and redownload the track.", 
                                 f"Retrys left: {str(retrys)}")
-                    os.rmdir(file_pat)
-                    mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
+                    if (ic(VideoPlaybackManager.try_delete_track_file(video.title, msource)) and
+                        ic(VideoPlaybackManager.try_delete_track_folder(video.title, file_pat))):
+                        mp = retry()
                 else:
                     # Unable to fetch file
                     client.fail(f"'{video.title}' cannot be safely downloaded.", "No retrys left.", 
@@ -149,7 +186,7 @@ class VideoPlaybackManager:
                 client.fail(f"'{video.title}' could not be downloaded due to a network error.", 
                             f"Retrys left: {str(retrys)}")
                 time.sleep(0.1)
-                mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
+                mp = retry()
             else:
                 client.fail(f"'{video.title}' could not be downloaded due to a network error.", "No retrys left.", 
                             f"'{video.title}' will be skipped.")
@@ -157,47 +194,67 @@ class VideoPlaybackManager:
         return mp
     
 
+    # Returns True on success
+    def try_delete_track_file(title, path) -> bool:
+        try:
+            os.remove(path)
+            return True
+        except Exception as e:
+            client.fail(f"Could not delete file file of track '{title}'", path, str(e))
+            return False
+    
+    # Returns True on success
+    def try_delete_track_folder(title, path) -> bool:
+        try:
+            os.rmdir(path)
+            return True
+        except Exception as e:
+            client.fail(f"Could not delte folder of track '{title}'", path, str(e))
+            return False
+
+
     def create_playback(url, output_folder, file_type) -> MediaPlayer | None:
         return ic(VideoPlaybackManager.create_playback_from_video(
             pytube.YouTube(url), output_folder, file_type))
     
 
-class PlaybackManager:    
-    def __init__(self):
-        self.current = MediaPlayer()
-        self.content_type = ContentType.NONE
-    
-    def play(self, settings):
+   
+
+
+class PlaybackManagerBuilder:     
+    def create(settings) -> IPlaybackManager | None:
         # determine content type
-        self.content_type = ContentType.NONE
+        content_type = ContentType.NONE
         if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", settings['url']) is not None:
-            self.content_type=ContentType.VIDEO
+            content_type=ContentType.VIDEO
         if re.search(r"list=[0-9A-Za-z_-]+", settings['url']) is not None:
-            self.content_type=ContentType.PLAYLIST
-        ic (self.content_type)
+            content_type=ContentType.PLAYLIST
+        ic (content_type)
 
-        def callback(mp): 
-            self.current = mp
-            ic ("Update mp: ")
-            ic (self.current)
+        # def callback(mp): 
+        #     self.current = mp
+        #     ic ("Update mp: ")
+        #     ic (self.current)
 
-        if self.content_type is ContentType.PLAYLIST:
+        if content_type is ContentType.PLAYLIST:
             try:
                 playback = PlaylistPlaybackManager(
                     settings["url"], settings["output_folder"], settings["file_type"])
-                playback.play(callback)
+                # playback.play(callback)
+                return playback
             except: 
-                return
+                return None
 
-        if self.content_type is ContentType.VIDEO:
+        if content_type is ContentType.VIDEO:
             try:                    
                 playback = VideoPlaybackManager.create_playback(
                     settings["url"], settings["output_folder"], settings["file_type"])
-                if playback is not None:
-                    self.current = playback
-                    VideoPlaybackManager.play(playback)
+                return playback
+                # if playback is not None:
+                    # self.current = playback
+                    # VideoPlaybackManager.play(playback)
             except: 
-                return
+                return None
 
 
 class ContentType(enum.Enum):
