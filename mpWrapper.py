@@ -39,6 +39,9 @@ class MediaPlayer:
 
 
     def play(self) -> None:
+        if (self.vlc_mediaPlayer is None):
+            return
+        
         ic(self.set_state(MediaPlayerState.PLAYING))
         ic(self.vlc_mediaPlayer.play())
 
@@ -76,15 +79,18 @@ class MediaPlayer:
 
     def prev(self) -> None:
         ic(self.set_state(MediaPlayerState.ROLL_BACK))
-        self.vlc_mediaPlayer.set_pause(1)
+        if (self.vlc_mediaPlayer is not None):
+            self.vlc_mediaPlayer.set_pause(1)
 
     def pause(self) -> None:
         ic(self.set_state(MediaPlayerState.PAUSED))
-        self.vlc_mediaPlayer.set_pause(1)
+        if (self.vlc_mediaPlayer is not None):
+            self.vlc_mediaPlayer.set_pause(1)
 
     def resume(self) -> None:
         ic(self.set_state(MediaPlayerState.PLAYING))
-        self.vlc_mediaPlayer.set_pause(0)
+        if (self.vlc_mediaPlayer is not None):
+            self.vlc_mediaPlayer.set_pause(0)
         # TODO: Find the underlying issue and create an actual fix
         # Quick fix for https://github.com/0qln/Weevil/issues/7  
         # time.sleep(0.003)
@@ -98,7 +104,9 @@ class MediaPlayer:
         return result == 0
 
     def get_volume(self) -> int:
-        result = self.vlc_mediaPlayer.audio_get_volume()
+        result = -1
+        if (self.vlc_mediaPlayer is not None):
+            result = self.vlc_mediaPlayer.audio_get_volume()
         return result
 
     def stop(self) -> None:
