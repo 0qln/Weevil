@@ -34,7 +34,7 @@ arguments.initiate([
     {
         # Play a video or playlist
         "names": [ "play" ],
-        "function":lambda settings: ic(playback.play(settings)),
+        "function":lambda settings: ic(PlaybackManager.stop(playback)) and ic(playback.play(settings)),
         "flags": [
             { 
                 "names": [ "--url", "-u" ],

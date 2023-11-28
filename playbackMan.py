@@ -11,6 +11,7 @@ import ffmpeg
 class PlaylistPlaybackManager(object):
     
     def __init__(self, url, output_folder, file_type) -> None:
+        self.stop = False
         self.playlist = pytube.Playlist(url)
         try:
             # client.info(self.playlist.title, self.playlist.owner, str(self.playlist.length) + " tracks")
@@ -36,8 +37,8 @@ class PlaylistPlaybackManager(object):
         iterator = self.yield_iterate()
         current_media_player = next(iterator, None)
 
-        while current_media_player is not None:
-            callback(current_media_player)
+        while self.current_mp < len(self.videos) and self.stop is False:
+            ic(callback(current_media_player))
             
             state = ic(VideoPlaybackManager.play(current_media_player))
 
@@ -163,11 +164,22 @@ class VideoPlaybackManager:
     
 
 class PlaybackManager:    
+    
     def __init__(self):
         self.current = MediaPlayer()
         self.content_type = ContentType.NONE
+        self._playlist = None
     
-    def play(self, settings):
+
+    def stop(self = None) -> bool:
+        if (self is not None):
+            if (self._playlist is not None):
+                self._playlist.stop = True
+            self.current.stop()
+        return True
+
+
+    def play(self, settings) -> bool:
         # determine content type
         self.content_type = ContentType.NONE
         if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", settings['url']) is not None:
@@ -186,8 +198,9 @@ class PlaybackManager:
                 playback = PlaylistPlaybackManager(
                     settings["url"], settings["output_folder"], settings["file_type"])
                 playback.play(callback)
+                self._playlist = playback;
             except: 
-                return
+                return True
 
         if self.content_type is ContentType.VIDEO:
             try:                    
@@ -197,7 +210,9 @@ class PlaybackManager:
                     self.current = playback
                     VideoPlaybackManager.play(playback)
             except: 
-                return
+                return True
+
+        return True
 
 
 class ContentType(enum.Enum):

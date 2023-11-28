@@ -68,7 +68,8 @@ class MediaPlayer:
 
     def next(self) -> None:
         ic(self.set_state(MediaPlayerState.SKIPPING))
-        self.vlc_mediaPlayer.set_pause(1)
+        if (self.vlc_mediaPlayer is not None):
+            self.vlc_mediaPlayer.set_pause(1)
 
     def prev(self) -> None:
         ic(self.set_state(MediaPlayerState.ROLL_BACK))
@@ -88,7 +89,9 @@ class MediaPlayer:
         # for _ in range(2): print(f"\033[A{empty_line}\033[A")
 
     def set_volume(self, value) -> bool:
-        result = self.vlc_mediaPlayer.audio_set_volume(int(value))
+        result = -1
+        if (self.vlc_mediaPlayer is not None):
+            result = self.vlc_mediaPlayer.audio_set_volume(int(value))
         return result == 0
 
     def get_volume(self) -> int:
@@ -97,7 +100,8 @@ class MediaPlayer:
 
     def stop(self) -> None:
         ic(self.set_state(MediaPlayerState.STOPPED))
-        self.vlc_mediaPlayer.set_pause(1)
+        if (self.vlc_mediaPlayer is not None):
+            self.vlc_mediaPlayer.set_pause(1)
     
     def get_duration(self) -> int:
         return self.length
