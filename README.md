@@ -87,7 +87,7 @@ py __main__.py
        - `--info`, `-i`: Set information.
        - `--failures`, `-f`: Set failures.
        - `--warnings`, `-w`: Set warnings.
-       - `--volume`, `-vol`: Set volume (TODO).
+       - `--volume`, `-vol`: Set volume.
      
      **Example:** `set --key="some_key" --value="new_value"`
 
