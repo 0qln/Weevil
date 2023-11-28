@@ -1,5 +1,6 @@
 import vlc, time, enum, threading, os
 from icecream import ic
+import settings
 
 
 class MediaPlayerState(enum.Enum):
@@ -65,6 +66,8 @@ class MediaPlayer:
         self.vlc_mediaPlayer = vlc.Instance().media_player_new()
         self.vlc_mediaPlayer.set_media(vlc.Instance().media_new(mediaSource))
         ic(self.set_state(MediaPlayerState.LOADED))
+        ic(settings.get("volume"))
+        ic(self.set_volume(int(settings.get("volume"))))
 
     def next(self) -> None:
         ic(self.set_state(MediaPlayerState.SKIPPING))

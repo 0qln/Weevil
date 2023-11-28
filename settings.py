@@ -1,5 +1,4 @@
 from icecream import ic
-import client
 
 def valuefy(value) -> str:
     return str(value).lower()
@@ -10,9 +9,15 @@ storage = {
     "warn": valuefy(True),
     "hail": valuefy(True),
     "info": valuefy(True),
+    "volume": valuefy("40")
+}
+invocations = {
+    "volume": lambda val, pb: ic(pb.set_volume(int(val)))
 }
 
 def get(settings, print_info=False):
+    import client
+
     if type(settings) is dict:
         if "key" not in settings:
             for key in settings.keys():
@@ -27,11 +32,15 @@ def get(settings, print_info=False):
     return value
 
 
-def set(settings):
+def set(settings, playback):
+    import client
+
     if (len(settings.keys()) > 0 and len(settings.values()) > 0):
         key, value = (next(iter(settings.items()))
                       if "key" not in settings or "value" not in settings 
                       else (settings["key"], settings["value"]))
         
         storage[key] = valuefy(value)
+        if (key in invocations): 
+            invocations[key](value, playback)
         client.info("Write settings: " + str((key, value)))

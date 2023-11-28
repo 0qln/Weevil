@@ -117,7 +117,7 @@ arguments.initiate([
     {
         # Set a settings
         "names": [ "set" ],
-        "function": lambda s: ic(settings.set(s)), 
+        "function": lambda s: ic(settings.set(s, playback.current)), 
         "flags": [
             # dynamic
             {
@@ -146,16 +146,9 @@ arguments.initiate([
                 "names": [ "--warnings", "-w"],
                 "name_settings": "warn"
             },         
-        ]
-    },
-    {
-        "names": [ "volume", "vol" ],
-        "function": lambda s: ic(playback.current.set_volume(s["value"])),
-        "flags": [
             {
-                "names": [ "--set", "--value" ],
-                "default": "40",
-                "name_settings": "value"
+                "names": [ "--volume", "-vol"],
+                "name_settings": "volume"
             }
         ]
     },
