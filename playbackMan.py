@@ -7,6 +7,7 @@ from pytube.exceptions import AgeRestrictedError
 import pytube.exceptions as pyex
 from ssl import SSLError
 import ffmpeg
+import shutil
 
 class PlaylistPlaybackManager(object):
     
@@ -128,7 +129,8 @@ class VideoPlaybackManager:
                     # Delete and try to download again
                     client.warn(f"'{msource}' is corrupted. Weevil will try to delete and redownload the track.", 
                                 f"Retrys left: {str(retrys)}")
-                    os.rmdir(file_pat)
+                    
+                    shutil.rmtree(file_pat)
                     mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
                 else:
                     # Unable to fetch file
