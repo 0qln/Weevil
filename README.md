@@ -37,7 +37,7 @@ py __main__.py
        - `--output`, `-o`: Specify the output folder (default: current working directory).
        - `--fileType`, `-f`: Specify the file type (default: any).
        
-     **Example:** `play -u="https://www.youtube.com/watch?v=NCKL58C3W4A"`
+     **Example:** `play -u="https://www.youtube.com/watch?v=dQw4w9WgXcQ"`
 
 ## 2. exit, close, quit
    - Exit Weevil.
