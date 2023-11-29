@@ -44,7 +44,7 @@ class PlaylistPlaybackManager(object):
             state = ic(VideoPlaybackManager.play(current_media_player))
 
             if state == MediaPlayerState.ROLL_BACK:
-                current_media_player = self.get_prev()
+                current_media_player = self.get_prev() 
             else: 
                 current_media_player = next(iterator, None) 
 
@@ -199,8 +199,8 @@ class PlaybackManager:
             try:
                 playback = PlaylistPlaybackManager(
                     settings["url"], settings["output_folder"], settings["file_type"])
-                playback.play(callback)
                 self._playlist = playback;
+                playback.play(callback)
             except: 
                 return True
 
