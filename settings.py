@@ -45,7 +45,10 @@ class StorageItem:
             self.action(value, playback)
 
     def valuefy(value) -> str:
-        return str(value).lower()
+        try:
+            return str(value).lower()
+        except:
+            return ""
 
 
 # storage["key"] should be avoided
