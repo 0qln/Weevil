@@ -45,8 +45,7 @@ class StorageItem:
     def get_type(self) -> ValueType:
         return self.type
 
-    def invoce(self, value, playback):
-        ic(self.action)
+    def invoke(self, value, playback):
         if self.action is not None:
             self.action(value, playback)
 
@@ -96,7 +95,7 @@ def set(settings, playback):
         if not storage[key].set_value(value):
             client.fail("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
         else:
-            storage[key].invoce(value, playback)
+            storage[key].invoke(value, playback)
             client.info("Write settings: " + str((key, value)))
         
 
@@ -139,10 +138,8 @@ def load_from_files(settings):
             data_loaded = json.load(file)
 
         for key, data in data_loaded.items():
-            value_type = ValueType[data["type"]]
             value = data["value"]
-            storage_item = StorageItem(value_type, value)
-            storage[key] = storage_item
+            storage[key].set_value(value)
 
         client.info("Settings loaded from file: " + file_path)
     except Exception as e:

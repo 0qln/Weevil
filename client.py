@@ -35,7 +35,7 @@ def hail(value):
 def info(*messages): 
     if not settings.get("info") == "true": return
     
-    print('\033[01m' + "".join(str(messages[i])+' || ' for i in range(len(messages)-1)) + (messages[-1]) + '\033[0m')
+    print('\033[01m' + "".join(str(messages[i])+' || ' for i in range(len(messages)-1)) + str(messages[-1]) + '\033[0m')
 
 
 def track_info(settings):
