@@ -112,6 +112,10 @@ arguments.initiate([
                 "names": [ "--warnings", "-w"],
                 "name_settings": "warn"
             },            
+            {
+                "names": [ "--volume", "-vol"],
+                "name_settings": "volume"
+            },
         ]
     },
     {
