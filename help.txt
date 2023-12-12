@@ -1,7 +1,8 @@
 
             
             
-            -< Weevil >-
+        -< Weevil >-
+
 
         1. play
         - Play a video or playlist.
@@ -17,6 +18,7 @@
         - Exit Weevil.
             This command gracefully exits the Weevil application.
             Example: exit
+
 
         3. pause, p
         - Pause playback.
@@ -65,7 +67,7 @@
             - --info, -i: Set information.
             - --failures, -f: Set failures.
             - --warnings, -w: Set warnings.
-            - --volume, -vol: Set volume (TODO).
+            - --volume, -vol: Set volume.
             Example: set --key="some_key" --value="new_value"
 
 
@@ -82,7 +84,7 @@
 
 
         10. list_playlists, lp
-            - Print a list of all downloaded playlists and their videos.
+        - Print a list of all downloaded playlists and their videos.
             Lists all downloaded playlists and associated videos with optional details.
             Flags:
             - --directory, -dir: Specify the directory (default: current working directory).
@@ -91,9 +93,21 @@
 
 
         11. help, -h, --help
-            - Print this help message.
+        - Print this help message.
             Displays detailed information about available commands and their usage.
             Example: help
+
+        
+        12. config_save, conf_s
+        - Save your current setting configurations to a file. 
+            Flags:
+            - --location, -l: Specify the config.json file path (default: the cwd directory).
+
+        
+        12. config_load, conf_l
+        - Load setting configurations from a file. 
+            Flags:
+            - --location, -l: Specify the folder path that the config.json file will be created in (default: the cwd directory).
 
 
         Further information: https://github.com/0qln/Weevil

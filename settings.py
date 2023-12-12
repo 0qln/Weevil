@@ -1,12 +1,14 @@
 from icecream import ic
-import enum, re
+import enum, re, os
 
 # Inheritance in python sucks, using an enum instead
 class ValueType (enum.Enum):
     Boolean = 1
     PercentInteger = 2
+    String = 3
 
     def is_valid(type, value) -> bool:
+
         if type is ValueType.PercentInteger:
             if (re.search(r"\D", value) is not None):
                 return False
@@ -17,6 +19,9 @@ class ValueType (enum.Enum):
             if (StorageItem.valuefy(value) != "false" and
                 StorageItem.valuefy(value) != "true"):
                 return False
+            
+        if type is ValueType.String:
+            pass
 
         return True
 
@@ -58,6 +63,7 @@ storage = {
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
     "volume": StorageItem(ValueType.PercentInteger, 35, lambda val, pb: ic(pb.set_volume(int(val)))),
+    "settings_file": StorageItem(ValueType.String , os.getcwd()),
 }
 
 
@@ -88,8 +94,56 @@ def set(settings, playback):
                       else (settings["key"], settings["value"]))
         
         if not storage[key].set_value(value):
-            client.warn("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type()) + "' was expected.")
+            client.fail("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
         else:
             storage[key].invoce(value, playback)
             client.info("Write settings: " + str((key, value)))
+        
 
+def save_to_files(settings):
+    import json
+    import client
+    import os
+
+    folder_location = settings["location"]
+    file_path = os.path.join(folder_location, "config.json")
+    
+    data_to_save = {}
+    for key, storage_item in storage.items():
+        data_to_save[key] = {
+            "type": storage_item.get_type().name,
+            "value": storage_item.get_value(),
+        }
+
+    try:
+        os.makedirs(folder_location, exist_ok=True)
+        with open(file_path, 'w') as file:
+            json.dump(data_to_save, file)
+        client.info("Settings saved to file: " + file_path)
+    except Exception as e:
+        client.fail("Failed to save settings to file. Error: " + str(e))
+
+
+def load_from_files(settings):
+    import json
+    import client
+
+    file_path = settings.get("location")
+    
+    if not os.path.exists(file_path):
+        client.warn("The config file (" + file_path + ") does not exist.")
+        return
+
+    try:
+        with open(file_path, 'r') as file:
+            data_loaded = json.load(file)
+
+        for key, data in data_loaded.items():
+            value_type = ValueType[data["type"]]
+            value = data["value"]
+            storage_item = StorageItem(value_type, value)
+            storage[key] = storage_item
+
+        client.info("Settings loaded from file: " + file_path)
+    except Exception as e:
+        client.fail("Failed to load settings from file. Error: " + str(e))

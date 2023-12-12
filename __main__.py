@@ -194,6 +194,32 @@ arguments.initiate([
             }
         ]
     },
+    {
+        # save current setting config to disc
+        "names": [ "config_save", "conf_s" ],
+        "function": lambda s: ic(settings.save_to_files(s)),
+        "flags": [
+            {
+                # the folder location of that the config.json file will be generated in
+                "names": [ "--location", "-l" ],
+                "name_settings": "location",
+                "default": os.getcwd(),
+            }
+        ]
+    },
+    {
+        # load current setting config from disc
+        "names": [ "config_load", "conf_l" ],
+        "function": lambda s: ic(settings.load_from_files(s)),
+        "flags": [
+            {
+                # the file path to the config.json file
+                "names": [ "--location", "-l" ],
+                "name_settings": "location",
+                "default": os.path.join(os.getcwd(), "config.json"),
+            }
+        ]
+    }
 ])
 
 exit_flag = False
@@ -259,6 +285,8 @@ def exit():
     global exit_flag
     exit_flag = True
 
+
+settings.load_from_files({ "location": os.path.join(os.getcwd(), "config.json") })
 
 if __name__ == "__main__":
     client.info("Type 'help' to retrieve documentation.")
