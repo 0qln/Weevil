@@ -39,7 +39,7 @@ py __main__.py
      **Example:** `play -u="https://www.youtube.com/watch?v=NCKL58C3W4A"`
 
 ## 2. exit, close, quit
-   - Exit Weevil. This will automatically save the current setting configurations.
+   - Exit Weevil.
      
      **Example:** `exit`
 
