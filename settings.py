@@ -4,10 +4,10 @@ import enum, re
 # Inheritance in python sucks, using an enum instead
 class ValueType (enum.Enum):
     Boolean = 1
-    PercentInt = 2
+    PercentInteger = 2
 
     def is_valid(type, value) -> bool:
-        if type is ValueType.PercentInt:
+        if type is ValueType.PercentInteger:
             if (re.search(r"\D", value) is not None):
                 return False
             if (int(value) < 0 or int(value) > 100):
@@ -57,7 +57,7 @@ storage = {
     "warn": StorageItem(ValueType.Boolean, True),
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
-    "volume": StorageItem(ValueType.PercentInt, 35, lambda val, pb: ic(pb.set_volume(int(val)))),
+    "volume": StorageItem(ValueType.PercentInteger, 35, lambda val, pb: ic(pb.set_volume(int(val)))),
 }
 
 
@@ -88,7 +88,7 @@ def set(settings, playback):
                       else (settings["key"], settings["value"]))
         
         if not storage[key].set_value(value):
-            client.warn("There seems to be something wrong with the value: '" + str(value) + "'")
+            client.warn("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type()) + "' was expected.")
         else:
             storage[key].invoce(value, playback)
             client.info("Write settings: " + str((key, value)))
