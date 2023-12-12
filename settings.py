@@ -46,6 +46,7 @@ class StorageItem:
         return self.type
 
     def invoce(self, value, playback):
+        ic(self.action)
         if self.action is not None:
             self.action(value, playback)
 
@@ -63,7 +64,6 @@ storage = {
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
     "volume": StorageItem(ValueType.PercentInteger, 35, lambda val, pb: ic(pb.set_volume(int(val)))),
-    "settings_file": StorageItem(ValueType.String , os.getcwd()),
 }
 
 

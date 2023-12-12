@@ -11,7 +11,7 @@
 
 
 2. exit, close, quit
-   - Exit Weevil gracefully. This will automatically save the current setting configurations. 
+   - Exit Weevil gracefully.
      Example: exit
 
 
@@ -34,7 +34,7 @@
    - Retrieve information about settings.
      Flags:
      - --key, -k: Specify the key to get.
-
+    or
      - --title_declerations, -t: Get title declarations.
      - --info, -i: Get information.
      - --failures, -f: Get failures.
@@ -50,7 +50,7 @@
      Flags:
      - --key, -k: Specify the key to set.
      - --value, -v: Specify the value to set.
-
+    or
      - --title_declerations, -t: Wether or not to show title declarations.
      - --info, -i: Wether to show information messages or not.
      - --failures, -f: Wether to show error/failure messages or not.
