@@ -333,20 +333,28 @@ if __name__ == "__main__":
     while exit_flag == False:
         try:
             tokens = ic(input())
-            argument, flags = ic(parse_tokens(tokens, arguments.get()))
-            ic(handle_arg(argument, flags))
+            try:
+                argument, flags = ic(parse_tokens(tokens, arguments.get()))
+                try:
+                    ic(handle_arg(argument, flags))
+                except Exception as e:
+                    ic(e)
+                    client.fail("Failed to execute your request. If continues to happen, consider restarting weevil.")
+            except Exception as e:
+                ic(e)
+                client.warn("There seems to be something wrong with your input.")
         except  HTTPError as e:
             if debug_mode: 
                 raise(e)
             else: 
-                client.fail("An HTTP Error occured.")
                 ic(e)
-                exit_failure()
+                client.fail("An HTTP Error occured.")
         except Exception as e:
             if debug_mode: 
                 raise(e)
             else: 
                 ic(e)
+                client.warn("An unknown error occured.")
 
     ic("EXIT PROGRAM")
     

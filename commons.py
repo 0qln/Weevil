@@ -25,6 +25,10 @@ def remove(key):
 def manage(settings):
     import client
 
+    if "customname" not in settings:
+        client.warn("No name specified!")
+        return
+
     key = settings["customname"]
     value = settings["url"]
     mode = ("r" if "remove" in settings else 
