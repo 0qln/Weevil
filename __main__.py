@@ -292,10 +292,10 @@ if __name__ == "__main__":
         {
             # save current setting config to disc
             "names": [ "config_save", "conf_s" ],
-            "function": lambda s: ic(settings.save_to_files(s)),
+            "function": lambda s: ic(settings.save_to_files(s)) and ic(commons.save_to_files(s)),
             "flags": [
                 {
-                    # the folder location of that the config.json file will be generated in
+                    # the folder location of that the config files will be generated in
                     "names": [ "--location", "-l" ],
                     "name_settings": "location",
                     "default": os.getcwd(),
@@ -305,13 +305,13 @@ if __name__ == "__main__":
         {
             # load current setting config from disc
             "names": [ "config_load", "conf_l" ],
-            "function": lambda s: ic(settings.load_from_files(s)),
+            "function": lambda s: ic(settings.load_from_files(s)) and ic(commons.load_from_files(s)),
             "flags": [
                 {
                     # the file path to the config.json file
                     "names": [ "--location", "-l" ],
                     "name_settings": "location",
-                    "default": os.path.join(os.getcwd(), "config.json"),
+                    "default": os.getcwd(),
                 }
             ]
         }
@@ -321,8 +321,10 @@ if __name__ == "__main__":
 
     playback = PlaybackManager()
 
-    settings.load_from_files({ "location": os.path.join(os.getcwd(), "config.json") })
-    
+    # load config
+    settings.load_from_files({ "location": os.getcwd() })
+    commons.load_from_files({ "location": os.getcwd() })
+
     client.info("Type 'help' to retrieve documentation.")
     
     while exit_flag == False:

@@ -105,7 +105,7 @@ def save_to_files(settings):
     import os
 
     folder_location = settings["location"]
-    file_path = os.path.join(folder_location, "config.json")
+    file_path = os.path.join(folder_location, "settings.json")
     
     data_to_save = {}
     for key, storage_item in storage.items():
@@ -122,15 +122,18 @@ def save_to_files(settings):
     except Exception as e:
         client.fail("Failed to save settings to file. Error: " + str(e))
 
+    return True
+
 
 def load_from_files(settings):
     import json
     import client
+    import os
 
-    file_path = settings.get("location")
+    file_path = os.path.join(settings.get("location"), "settings.json")
     
     if not os.path.exists(file_path):
-        client.warn("The config file (" + file_path + ") does not exist.")
+        client.warn("The settings file (" + file_path + ") does not exist.")
         return
 
     try:
@@ -141,6 +144,10 @@ def load_from_files(settings):
             value = data["value"]
             storage[key].set_value(value)
 
+        ic(storage)
+
         client.info("Settings loaded from file: " + file_path)
     except Exception as e:
         client.fail("Failed to load settings from file. Error: " + str(e))
+
+    return True
