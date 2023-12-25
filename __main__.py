@@ -339,7 +339,7 @@ if __name__ == "__main__":
                     ic(handle_arg(argument, flags))
                 except Exception as e:
                     ic(e)
-                    client.fail("Failed to execute your request. If continues to happen, consider restarting weevil.")
+                    client.fail("Failed to execute your request. If this continues to happen, consider restarting weevil.")
             except Exception as e:
                 ic(e)
                 client.warn("There seems to be something wrong with your input.")
