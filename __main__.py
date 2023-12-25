@@ -13,46 +13,45 @@ import logging
 import client
 import settings
 import arguments
+import commons
 
+def find_matches(pattern, text):
+    matches = re.finditer(pattern, text, re.MULTILINE)
+    return [match.group() for match in matches]
 
 def parse_tokens(input:str, arg_library):
-    # get the argument and it's definition
+    # # get the argument and it's definition
     argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
     arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
     if arg_def is None: 
         raise Exception("Specified argument does not exist!")
     ic(argument)
     ic(input)
+    ic(arg_def)
 
-    # search for pseudo legal flags and values
-    input = '"'+input+'"'
-    pattern = r"(?:[^\"]*\"){2}([^\"]*)(?=\")"
-    values = re.findall(pattern, input)
-    flags = [re.findall(r"(?<=\s)-[a-zA-Z-_]+\b", flag)[0] 
-             for flag in re.findall(pattern, '"'+input)
-             if len(re.findall(r"(?<=\s)-[a-zA-Z-_]+\b", flag)) > 0]
-    ic(values)
+    # search for pseudo legal flags and values in the input string
+    flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
+    flags = [ find_matches(r"-[a-zA-Z_-]+(?:\b)", str(fv_pair)) for fv_pair in flag_values ]
+    values = [ find_matches(r"(?<=\").+(?=\")", str(fv_pair)) for fv_pair in flag_values ]
+    ic(flag_values)
     ic(flags)
+    ic(values)
+
+    flag_mapping = { }
+
+    # load flags specified by user, if no value load `None`
+    [flag_mapping.update({flag_def["name_settings"]: (val[0] if len(val) > 0 else None)})
+                        for flag_def in arg_def["flags"]
+                        for flag, val in zip(flags, values)
+                        if flag[0] in flag_def["names"]]
+    
+    ic (flag_mapping)
 
     # merge the regiesterd flags and their values
-    # load defaults
-    flag_mapping = {flag_def["name_settings"]: flag_def["default"] 
-                    for flag_def in arg_def["flags"] 
-                    if "default" in flag_def}
-    ic(flag_mapping)
-
-    # make flag entry without value
-    flag_mapping.update({flag_def["name_settings"]:""
-                         for flag in flags
-                         for flag_def in arg_def["flags"]  
-                         if flag in flag_def["names"]})
-    ic(flag_mapping)
-
-    # override with custom values, if any
-    flag_mapping.update({flag_def["name_settings"]: val 
-                         for flag, val in zip(flags, values) 
-                         for flag_def in arg_def["flags"]  
-                         if flag in flag_def["names"]})    
+    # load defaults. if specified, but either the flag wasn't added or no custom value was added
+    flag_mapping.update({flag_def["name_settings"]: flag_def["default"] 
+                        for flag_def in arg_def["flags"] 
+                        if "default" in flag_def})
     ic(flag_mapping)
 
 
