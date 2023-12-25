@@ -51,7 +51,9 @@ def parse_tokens(input:str, arg_library):
     # load defaults. if specified, but either the flag wasn't added or no custom value was added
     flag_mapping.update({flag_def["name_settings"]: flag_def["default"] 
                         for flag_def in arg_def["flags"] 
-                        if "default" in flag_def})
+                        if "default" in flag_def and (
+                            flag_def["name_settings"] not in flag_mapping or
+                            flag_mapping[flag_def["name_settings"]] == None)})
     ic(flag_mapping)
 
 
@@ -225,7 +227,7 @@ if __name__ == "__main__":
         },
         {
             # Manage frequently used urls
-            "names": [ "commons" ],
+            "names": [ "commons", "customs" ],
             "function": lambda settings: ic(commons.manage(settings)),
             "flags": [
                 {
@@ -242,7 +244,8 @@ if __name__ == "__main__":
                 {
                     # Value
                     "names": [ "--url", "-u" ],
-                    "name_settings": "url"
+                    "name_settings": "url",
+                    "default": ""
                 },
                 {
                     # Key
