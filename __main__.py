@@ -24,7 +24,8 @@ def parse_tokens(input:str, arg_library):
     argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
     arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
     if arg_def is None: 
-        raise Exception("Specified argument does not exist!")
+        client.warn("Specified argument does not exist!")
+        return None, None
     ic(argument)
     ic(input)
     ic(arg_def)
@@ -61,6 +62,8 @@ def parse_tokens(input:str, arg_library):
 
 
 def handle_arg(argument, settings):
+    if (argument is None): return
+    if (settings is None): return
     ic(threading.Thread(target=argument["function"], args=[settings], daemon=True).start())
 
 
