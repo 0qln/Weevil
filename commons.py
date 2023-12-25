@@ -5,11 +5,21 @@ storage = { }
 
 
 def add(key, value):
+    import client
+    if key in storage:
+        client.warn(f"Custom {str({key: storage[key]})} was overridden!")
+    else:
+        client.info(f"Custom {str({key: value})} was added.")
     storage[key] = value
 
 
 def remove(key):
-    del storage[key]
+    import client
+    if key in storage:
+        client.info(f"Removed custom: {str({key: storage[key]})}")
+        del storage[key]
+    else:
+        client.warn(f"Custom {key} was not found!")
 
 
 def manage(settings):
@@ -17,14 +27,12 @@ def manage(settings):
 
     key = settings["customname"]
     value = settings["url"]
+    mode = ("r" if "remove" in settings else 
+            "a" if "add" in settings else 
+            '-')
 
-    if ("add" in settings):
-        add(key, value)
-
-    if ("remove" in settings):
-       remove(key); 
-
-    client.info("Updated customs: " + str({key: value}))
+    if mode == 'a': add(key, value)
+    if mode == 'r': remove(key) 
 
 
 def save_to_files(settings):
