@@ -182,11 +182,18 @@ class PlaybackManager:
 
 
     def play(self, settings) -> bool:
+        # get url
+        if ("url" in settings):
+            url = settings["url"]
+        elif ("commons" in settings):
+            import commons
+            url =  commons.storage[settings["commons"]]
+
         # determine content type
         self.content_type = ContentType.NONE
-        if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", settings['url']) is not None:
+        if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", url) is not None:
             self.content_type=ContentType.VIDEO
-        if re.search(r"list=[0-9A-Za-z_-]+", settings['url']) is not None:
+        if re.search(r"list=[0-9A-Za-z_-]+", url) is not None:
             self.content_type=ContentType.PLAYLIST
         ic (self.content_type)
 
@@ -197,8 +204,7 @@ class PlaybackManager:
 
         if self.content_type is ContentType.PLAYLIST:
             try:
-                playback = PlaylistPlaybackManager(
-                    settings["url"], settings["output_folder"], settings["file_type"])
+                playback = PlaylistPlaybackManager( url, settings["output_folder"], settings["file_type"])
                 self._playlist = playback;
                 playback.play(callback)
             except: 
@@ -206,8 +212,7 @@ class PlaybackManager:
 
         if self.content_type is ContentType.VIDEO:
             try:                    
-                playback = VideoPlaybackManager.create_playback(
-                    settings["url"], settings["output_folder"], settings["file_type"])
+                playback = VideoPlaybackManager.create_playback( url, settings["output_folder"], settings["file_type"])
                 if playback is not None:
                     self.current = playback
                     VideoPlaybackManager.play(playback)

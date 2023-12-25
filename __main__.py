@@ -99,6 +99,10 @@ if __name__ == "__main__":
             "names": [ "play" ],
             "function":lambda settings: ic(PlaybackManager.stop(playback)) and ic(playback.play(settings)),
             "flags": [
+                {
+                    "names": [ "--commons", "-c" ],
+                    "name_settings": "commons"
+                },
                 { 
                     "names": [ "--url", "-u" ],
                     "name_settings":"url"
@@ -216,6 +220,34 @@ if __name__ == "__main__":
                 {
                     "names": [ "--volume", "-vol"],
                     "name_settings": "volume"
+                }
+            ]
+        },
+        {
+            # Manage frequently used urls
+            "names": [ "commons" ],
+            "function": lambda settings: ic(commons.manage(settings)),
+            "flags": [
+                {
+                    # Add a frequently used url
+                    "names": [ "--add", "-a" ],
+                    "name_settings": "add"
+                },
+                {
+                    # Remove a frequently used url
+                    "names": [ "--remove", "-r" ],
+                    "name_settings": "remove"
+                },
+
+                {
+                    # Value
+                    "names": [ "--url", "-u" ],
+                    "name_settings": "url"
+                },
+                {
+                    # Key
+                    "names": [ "--custom_name", "-c" ],
+                    "name_settings": "customname"
                 }
             ]
         },
