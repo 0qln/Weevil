@@ -39,6 +39,11 @@ class PlaylistPlaybackManager(object):
         current_media_player = next(iterator, None)
 
         while self.current_mp < len(self.videos) and self.stop is False:
+            if (current_media_player is None):
+                current_media_player = next(iterator, None) 
+
+                continue
+
             ic(callback(current_media_player))
             
             state = ic(VideoPlaybackManager.play(current_media_player))
@@ -144,7 +149,7 @@ class VideoPlaybackManager:
         # Video is age restriced
         except AgeRestrictedError as e:
             client.warn(f"'{video.title}' is age restricted, and can't be accessed without logging in.", 
-                        f"<ID{video.video_id}>")
+                        f"<ID:{video.video_id}>")
         
         # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
