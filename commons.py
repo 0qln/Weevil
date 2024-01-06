@@ -22,8 +22,36 @@ def remove(key):
         client.warn(f"Custom {key} was not found!")
 
 
+def list(settings):
+    import client
+
+    client.hail("Commons config")
+
+    # name specified:
+    if ("customname" in settings):
+        client.info({ settings["customname"]:storage[settings["customname"]] })
+        return
+
+    # url specified:    
+    if ("url" in settings and settings["url"] != ""):
+        reverse_storage = { value: key for key, value in storage.items() }
+        print(reverse_storage)
+        client.info({ reverse_storage.get(settings["url"]):settings["url"] })
+        return
+
+    # no specific common specified:
+    for kvp in storage:
+        client.info(str({ kvp: storage[kvp] }))
+    
+
 def manage(settings):
     import client
+
+    print(settings)
+
+    if ("list" in settings):
+        list(settings)
+        return   
 
     if "customname" not in settings:
         client.warn("No name specified!")

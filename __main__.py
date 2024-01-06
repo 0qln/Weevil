@@ -245,6 +245,13 @@ if __name__ == "__main__":
                 },
 
                 {
+                    # List commons,
+                    # if either -c or -u specified, only list that
+                    "names": [ "--list", "-l" ],
+                    "name_settings": "list"
+                },
+
+                {
                     # Value
                     "names": [ "--url", "-u" ],
                     "name_settings": "url",
