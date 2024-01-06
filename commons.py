@@ -46,8 +46,6 @@ def list(settings):
 def manage(settings):
     import client
 
-    print(settings)
-
     if ("list" in settings):
         list(settings)
         return   
