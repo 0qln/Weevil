@@ -35,7 +35,6 @@ def list(settings):
     # url specified:    
     if ("url" in settings and settings["url"] != ""):
         reverse_storage = { value: key for key, value in storage.items() }
-        print(reverse_storage)
         client.info({ reverse_storage.get(settings["url"]):settings["url"] })
         return
 
