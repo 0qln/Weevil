@@ -327,6 +327,24 @@ if __name__ == "__main__":
                     "default": os.getcwd(),
                 }
             ]
+        },
+        #TODO
+        {
+            # print info
+            "names": [ "info" ],
+            "function": lambda s: ic(),
+            "flags": [
+                {
+                    # current track
+                    "names": [ "--track", "-t" ],
+                    "name_settings": "track",
+                },
+                {
+                    # current playlist
+                    "names": [ "--playlist", "-p" ],
+                    "name_settings": "playlist",
+                }
+            ]
         }
     ])
     
