@@ -24,7 +24,7 @@ def parse_tokens(input:str, arg_library):
     argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
     arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
     if arg_def is None: 
-        client.warn("Specified argument does not exist!")
+        client.warn(message="Specified argument does not exist!")
         return None, None
     ic(argument)
     ic(input)
@@ -206,6 +206,7 @@ if __name__ == "__main__":
                 },
 
                 # hardcoded
+                # TODO: remove UI options
                 {
                     "names": [ "--title_declerations", "-t"],
                     "name_settings": "hail"
@@ -298,7 +299,7 @@ if __name__ == "__main__":
                 {
                     "names": [ "--show_id", "-si" ],
                     "name_settings": "show_id",
-                    "default": str(debug_mode)
+                    "default": debug_mode
                 }
             ]
         },
@@ -328,11 +329,10 @@ if __name__ == "__main__":
                 }
             ]
         },
-        #TODO
         {
             # print info
             "names": [ "info" ],
-            "function": lambda s: ic(),
+            "function": lambda s: (client.playlist_info({"playback_man": playback}) if "playlist" in s else client.track_info({"media_player": playback.current})) and ic("Info command executed"),
             "flags": [
                 {
                     # current track
@@ -356,33 +356,35 @@ if __name__ == "__main__":
     settings.load_from_files({ "location": os.getcwd() })
     commons.load_from_files({ "location": os.getcwd() })
 
-    client.info("Type 'help' to retrieve documentation.")
+    client.info(message="Type 'help' to retrieve documentation.")
     
     while exit_flag == False:
         try:
-            tokens = ic(input())
+            # Gather user input
+            tokens = ic(client.get_input())
+
             try:
                 argument, flags = ic(parse_tokens(tokens, arguments.get()))
                 try:
                     ic(handle_arg(argument, flags))
                 except Exception as e:
                     ic(e)
-                    client.fail("Failed to execute your request. If this continues to happen, consider restarting weevil.")
+                    client.fail(message="Failed to execute your request. If this continues to happen, consider restarting weevil.")
             except Exception as e:
                 ic(e)
-                client.warn("There seems to be something wrong with your input.")
+                client.warn(message="There seems to be something wrong with your input.")
         except  HTTPError as e:
             if debug_mode: 
                 raise(e)
             else: 
                 ic(e)
-                client.fail("An HTTP Error occured.")
+                client.fail(message="An HTTP Error occured.")
         except Exception as e:
             if debug_mode: 
                 raise(e)
             else: 
                 ic(e)
-                client.warn("An unknown error occured.")
-
+                client.warn(message="An unknown error occured.")
+        
     ic("EXIT PROGRAM")
     

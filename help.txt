@@ -96,5 +96,5 @@
       - --location, -l: Specify folder path for config.json file (default: current working directory).
 
 
-Further information: https://github.com/0qln/Weevil
+Further information, issues or feedback: https://github.com/0qln/Weevil
 
