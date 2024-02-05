@@ -128,12 +128,12 @@ class VideoPlaybackManager:
             if os.path.exists(folder):
                 client.info(ic("Fetching from files..."))
                 file_pat = os.path.join(folder, os.listdir(folder)[0])
-                client.info(ic(f"Get '{video.title}' from file '{file_pat}'..."))
+                client.override(client.info, ic(f"Get '{video.title}' from file '{file_pat}'..."))
             else: 
                 client.info(ic("Fetching from servers..."))
                 file_ext = None if file_type == "any" else file_type
                 stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
-                client.info(ic(f"Download '{video.title}'..."))
+                client.override(client.info, ic(f"Download '{video.title}'..."))
                 file_pat = stream.download(folder)
                 ic(f"File location: '{file_pat}'")
             ic("Done")

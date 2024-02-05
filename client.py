@@ -36,6 +36,11 @@ currIndentLevel = 0
 indentWidth = 4 # default tab with, should be >= 2
 newLineSpacing = 0 # space between each line of information
 
+def override(func, message, name=None):
+    go_up_lines(1)
+    clear_curr_line()
+    func(message, name)
+
 def fail(message, name=None): 
     if not settings.get("fail") == "true": return
     _print(name=get_fail(name if name else "FAIL"), message=get_fail(message))
@@ -82,13 +87,21 @@ def set_cursor_position(row, col):
 
 
 def _print(name, message):
-    print(get_indent(currIndentLevel), end='')
+    cols = os.get_terminal_size().columns
+    ic(cols)
+
+    indent = get_indent(currIndentLevel)
+    cols -= len(indent)
+    ic(cols)
+    print(indent, end='')
 
     # print(get_middle(), end='')
 
-    print(f"{name}: {message}", end='\n')
+    message = f"{name}: {message}"
+    print(cap(message, cols), end='\n')
     
 
+def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
 
 
 def track_info(settings):
