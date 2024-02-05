@@ -69,7 +69,7 @@ class PlaylistPlaybackManager(object):
 
     def yield_iterate(self):
         for video in self.playlist.videos_generator():
-            client.info(ic("Generate Video: "))
+            ic("Yield playback...")
             ic(self.videos.append(VideoPlaybackManager.create_playback_from_video( video, self.path, self.preferred_file_type)))
             yield self.get_next()
 
