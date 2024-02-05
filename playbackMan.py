@@ -118,28 +118,31 @@ class VideoPlaybackManager:
     def create_playback_from_video(video:pytube.YouTube, output_folder, file_type, retrys = 10) -> MediaPlayer | None:
         # output folder    
         if not os.path.exists(output_folder): os.makedirs(output_folder)
+        ic(output_folder)
 
         # aquire data
         mp = None
         try:
-            file_pat = os.listdir(os.path.join(output_folder, video.video_id) + "\\")[0]
-            client.info("fetch")
-            if os.path.exists(file_pat):
-                client.info(ic(f"Get '{video.title}' from files..."))
-                msource = ic(file_pat)
+            folder = os.path.join(output_folder, video.video_id) + "\\"
+            ic(folder)
+            if os.path.exists(folder):
+                client.info(ic("Fetching from files..."))
+                file_pat = os.path.join(folder, os.listdir(folder)[0])
+                client.info(ic(f"Get '{video.title}' from file '{file_pat}'..."))
             else: 
+                client.info(ic("Fetching from servers..."))
                 file_ext = None if file_type == "any" else file_type
                 stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
                 client.info(ic(f"Download '{video.title}'..."))
-                msource = ic(stream.download(output_path=file_pat))
-            client.info("done")
+                file_pat = stream.download(folder)
+                ic(f"File location: '{file_pat}'")
+            ic("Done")
 
-            if VideoPlaybackManager.is_mp4_corrupt(msource):
+            if VideoPlaybackManager.is_mp4_corrupt(file_pat):
                 # File is corrupted
                 if retrys > 0:
                     # Delete and try to download again
-                    client.warn(message=f"'{msource}' is corrupted. Weevil will try to delete and redownload the track. " + f"Retrys left: {str(retrys)}")
-                    
+                    client.warn(message=f"'{file_pat}' is corrupted. Weevil will try to delete and redownload the track. " + f"Retrys left: {str(retrys)}")
                     shutil.rmtree(file_pat)
                     mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
                 else:
@@ -148,7 +151,7 @@ class VideoPlaybackManager:
             else:
                 ic(f"'{video.title}' aquired.") # Print nothing on success.
                 mp = MediaPlayer()
-                mp.load(msource, video.title, video.length)
+                mp.load(file_pat, video.title, video.length)
 
         # Video is age restriced
         except AgeRestrictedError as e:
