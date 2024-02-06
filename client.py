@@ -88,11 +88,11 @@ def set_cursor_position(row, col):
 
 def _print(name, message):
     cols = os.get_terminal_size().columns
-    ic(cols)
+    # ic(cols)
 
     indent = get_indent(currIndentLevel)
     cols -= len(indent)
-    ic(cols)
+    # ic(cols)
     print(indent, end='')
 
     # print(get_middle(), end='')

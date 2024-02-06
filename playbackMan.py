@@ -15,7 +15,8 @@ class PlaylistPlaybackManager(object):
         self.stop = False
         self.playlist = pytube.Playlist(url)
         try:
-            client.hail(message=self.playlist.title)
+            client.currIndentLevel += 1
+            client.hail(name="Playlist", message=self.playlist.title)
         except KeyError as e:
             client.warn(message="Playlist information cannot be accessed")
             client.warn(message="Cannot create playback from Private Playlist or Youtube Mix.")
@@ -34,10 +35,10 @@ class PlaylistPlaybackManager(object):
 
 
     def play(self, callback) -> None:
+        client.currIndentLevel += 1
+
         iterator = self.yield_iterate()
         current_media_player = next(iterator, None)
-
-        client.currIndentLevel += 1
 
         while self.current_mp < len(self.videos) and self.stop is False:
             if (current_media_player is None):
@@ -60,12 +61,10 @@ class PlaylistPlaybackManager(object):
 
         client.currIndentLevel -= 1
 
-
     def fill(self) -> [MediaPlayer]:
         for video in self.playlist.videos:
             ic(self.videos.append(VideoPlaybackManager.create_playback_from_video( video, self.path, self.preferred_file_type)))
         return self.videos 
-
 
     def yield_iterate(self):
         for video in self.playlist.videos_generator():
