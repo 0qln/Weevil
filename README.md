@@ -7,10 +7,6 @@ To optimize network usage, Weevil caches downloaded videos. Users can choose the
 
 
 ## Requirements
-- VLC
-    - somwhere around version 2.8.0
-    - Make sure you have your EV set up
-    - If you are using a 64bit machine, make sure you have that version of VLC installed
 - Python v.3.0.0 and above
 
 
