@@ -1,8 +1,4 @@
-from pytube import YouTube
-from playbackMan import VideoHelper, PlaylistPlaybackManager, PlaybackManager
-from mpWrapper import MediaPlayer
-from threadPtr import ThreadPtr
-from icecream import ic
+from playbackMan import PlaybackManager
 from os import getcwd
 import os
 from sys import argv
@@ -14,6 +10,9 @@ import client
 import settings
 import arguments
 import commons
+import logging
+
+
 
 def find_matches(pattern, text):
     matches = re.finditer(pattern, text, re.MULTILINE)
@@ -26,17 +25,17 @@ def parse_tokens(input:str, arg_library):
     if arg_def is None: 
         client.warn(message="Specified argument does not exist!")
         return None, None
-    ic(argument)
-    ic(input)
-    ic(arg_def)
+    logging.info(f"Parsing tokens for argument: {argument}")
+    logging.debug(f"Input: {input}")
+    logging.debug(f"Argument definition: {arg_def}")
 
     # search for pseudo legal flags and values in the input string
     flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
     flags = [ find_matches(r"-[a-zA-Z_-]+(?:\b)", str(fv_pair)) for fv_pair in flag_values ]
     values = [ find_matches(r"(?<=\").+(?=\")", str(fv_pair)) for fv_pair in flag_values ]
-    ic(flag_values)
-    ic(flags)
-    ic(values)
+    logging.debug(f"Flag values: {flag_values}")
+    logging.debug(f"Flags: {flags}")
+    logging.debug(f"Values: {values}")
 
     flag_mapping = { }
 
@@ -46,7 +45,7 @@ def parse_tokens(input:str, arg_library):
                         for flag, val in zip(flags, values)
                         if flag[0] in flag_def["names"]]
     
-    ic (flag_mapping)
+    logging.debug(f"Flag mapping: {flag_mapping}")
 
     # merge the regiesterd flags and their values
     # load defaults. if specified, but either the flag wasn't added or no custom value was added
@@ -55,8 +54,8 @@ def parse_tokens(input:str, arg_library):
                         if "default" in flag_def and (
                             flag_def["name_settings"] not in flag_mapping or
                             flag_mapping[flag_def["name_settings"]] == None)})
-    ic(flag_mapping)
-
+    
+    logging.debug(f"Merged flag mapping: {flag_mapping}")
 
     return arg_def, flag_mapping
 
@@ -64,37 +63,42 @@ def parse_tokens(input:str, arg_library):
 def handle_arg(argument, settings):
     if (argument is None): return
     if (settings is None): return
-    ic(threading.Thread(target=argument["function"], args=[settings], daemon=True).start())
-
+    threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+    logging.info(f"Started handling argument on new daemon: {argument}")
 
 def exit_success(): 
-    ic("Exit success.")
+    logging.info("Exit success.")
     exit()
 
 def exit_failure(): 
-    ic("Exit failure.")
+    logging.info("Exit failure.")
     exit()   
 
 def exit():
     global exit_flag
     exit_flag = True
+    logging.info("Exit program.")
 
 
 if __name__ == "__main__":
- 
-    debug_mode = True if len(argv)>1 and "DEBUG" in argv[1] else False
-    if not debug_mode: 
-        def log_to_file(message, log_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "log.txt")):
-            logging.basicConfig(filename=log_file, level=logging.INFO, format='%(message)s') #format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
-            logging.info(message)
-        ic.outputFunction = log_to_file
+    # Initiate Logging
+    log_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), "log.txt")
+    logging.basicConfig( filename=log_file,
+                        filemode='a',
+                        format='%(asctime)s,%(msecs)d %(name)s %(levelname)s - %(message)s',
+                        level=logging.DEBUG)
+    logging.info(f"Logging to file enabled. [{log_file}]")
 
-
+    # Initiate debug mode 
+    DEBUG_MODE = True if len(argv)>1 and "DEBUG" in argv[1] else False   
+    logging.info(f"Debug Mode: {DEBUG_MODE}")
+    
+    # Initiate Arguments    
     arguments.initiate([
         {
             # Print 'help.txt'
             "names": [ "help", "-h", "--help" ],
-            "function": lambda settings: ic(client.printHelp()),
+            "function": lambda settings: client.printHelp(),
             "flags": [ 
 
             ]
@@ -102,7 +106,7 @@ if __name__ == "__main__":
         {
             # Play a video or playlist
             "names": [ "play" ],
-            "function":lambda settings: ic(playback.reset()) and ic(playback.play(settings)),
+            "function":lambda settings: playback.reset() and playback.play(settings),
             "flags": [
                 {
                     "names": [ "--commons", "-c" ],
@@ -127,7 +131,7 @@ if __name__ == "__main__":
         {
             # Clear the terminal
             "names": [ "clear", "cls" ],
-            "function":lambda settings: ic(os.system('cls' if os.name=='nt' else 'clear')),
+            "function":lambda settings: os.system('cls' if os.name=='nt' else 'clear'),
             "flags": [ 
 
             ]
@@ -135,7 +139,7 @@ if __name__ == "__main__":
         {
             # Pause playback
             "names": [ "pause", "p" ],
-            "function":lambda settings: ic(playback.pause()),
+            "function":lambda settings: playback.pause(),
             "flags": [ 
 
             ]
@@ -143,7 +147,7 @@ if __name__ == "__main__":
         {
             # Resume playback
             "names": [ "resume", "r" ],
-            "function":lambda settings: ic(playback.resume()),
+            "function":lambda settings: playback.resume(),
             "flags": [
 
             ]
@@ -151,7 +155,7 @@ if __name__ == "__main__":
         {
             # Exit weevil
             "names": [ "exit", "close", "quit" ],
-            "function":lambda settings: ic(exit_success()), #ic(playback.reset()) and 
+            "function":lambda settings: exit_success(), #playback.reset()) and 
             "flags": [
 
             ]
@@ -159,7 +163,7 @@ if __name__ == "__main__":
         {
             # Get a setting
             "names": [ "get"],
-            "function": lambda s: ic(settings.get(s, print_info=True)),
+            "function": lambda s: settings.get(s, print_info=True),
             "flags": [
                 # dynamic
                 {
@@ -193,7 +197,7 @@ if __name__ == "__main__":
         {
             # Set a settings
             "names": [ "set" ],
-            "function": lambda s: ic(settings.set(s, playback)), 
+            "function": lambda s: settings.set(s, playback), 
             "flags": [
                 # dynamic
                 {
@@ -232,7 +236,7 @@ if __name__ == "__main__":
         {
             # Manage frequently used urls
             "names": [ "commons", "customs" ],
-            "function": lambda settings: ic(commons.manage(settings)),
+            "function": lambda settings: commons.manage(settings),
             "flags": [
                 {
                     # Add a frequently used url
@@ -268,7 +272,7 @@ if __name__ == "__main__":
         {
             # Play next track
             "names": [ "next", "skip", "s" ],
-            "function": lambda settings: ic(playback.skip()),
+            "function": lambda settings: playback.skip(),
             "flags": [
                 # TODO
                 # {
@@ -281,7 +285,7 @@ if __name__ == "__main__":
         {
             # Play previous track
             "names": [ "previous", "prev" ],
-            "function": lambda settings: ic(playback.prev()),
+            "function": lambda settings: playback.prev(),
             "flags": [
                 # TODO
                 # {
@@ -294,7 +298,7 @@ if __name__ == "__main__":
         {
             # Print a list of all downloaded playlists and their videos
             "names": [ "list_playlists", "lp" ],
-            "function": lambda settings: ic(client.list_playlists(settings)),
+            "function": lambda settings: client.list_playlists(settings),
             "flags": [
                 {
                     "names": [ "--directory", "-dir" ],
@@ -304,14 +308,14 @@ if __name__ == "__main__":
                 {
                     "names": [ "--show_id", "-si" ],
                     "name_settings": "show_id",
-                    "default": debug_mode
+                    "default": DEBUG_MODE
                 }
             ]
         },
         {
             # save current setting config to disc
             "names": [ "config_save", "conf_s" ],
-            "function": lambda s: ic(settings.save_to_files(s)) and ic(commons.save_to_files(s)),
+            "function": lambda s: settings.save_to_files(s) and commons.save_to_files(s),
             "flags": [
                 {
                     # the folder location of that the config files will be generated in
@@ -324,7 +328,7 @@ if __name__ == "__main__":
         {
             # load current setting config from disc
             "names": [ "config_load", "conf_l" ],
-            "function": lambda s: ic(settings.load_from_files(s)) and ic(commons.load_from_files(s)),
+            "function": lambda s: settings.load_from_files(s) and commons.load_from_files(s),
             "flags": [
                 {
                     # the file path to the config.json file
@@ -337,7 +341,7 @@ if __name__ == "__main__":
         {
             # print info
             "names": [ "info" ],
-            "function": lambda s: (client.playlist_info({"playback_man": playback}) if "playlist" in s else client.track_info({"media_player": playback.current})) and ic("Info command executed"),
+            "function": lambda s: client.playlist_info({"playback_man": playback}) if "playlist" in s else client.track_info({"media_player": playback.current}),
             "flags": [
                 {
                     # current track
@@ -362,34 +366,40 @@ if __name__ == "__main__":
     playback = PlaybackManager()
 
     client.info(message="Type 'help' to retrieve documentation.")
+   
+    logging.info("Initialization complete.")
     
-    while exit_flag == False:
+    while not exit_flag:
         try:
             # Gather user input
-            tokens = ic(client.get_input())
+            tokens = client.get_input()
+            logging.debug(f"User input: {tokens}")
 
             try:
-                argument, flags = ic(parse_tokens(tokens, arguments.get()))
+                argument, flags = parse_tokens(tokens, arguments.get())
+                logging.debug(f"Parsed argument: {argument}")
+                logging.debug(f"Parsed flags: {flags}")
+
                 try:
-                    ic(handle_arg(argument, flags))
+                    handle_arg(argument, flags)
                 except Exception as e:
-                    ic(e)
+                    logging.error(f"Failed to execute request: {e}")
                     client.fail(message="Failed to execute your request. If this continues to happen, consider restarting weevil.")
             except Exception as e:
-                ic(e)
+                logging.warning(f"Error parsing tokens: {e}")
                 client.warn(message="There seems to be something wrong with your input.")
         except  HTTPError as e:
-            if debug_mode: 
+            if DEBUG_MODE: 
                 raise(e)
             else: 
-                ic(e)
-                client.fail(message="An HTTP Error occured.")
+                logging.error(f"An HTTP Error occurred: {e}")
+                client.fail(message="An HTTP Error occurred.")
         except Exception as e:
-            if debug_mode: 
+            if DEBUG_MODE: 
                 raise(e)
             else: 
-                ic(e)
-                client.warn(message="An unknown error occured.")
+                logging.warning(f"An unknown error occurred: {e}")
+                client.warn(message="An unknown error occurred.")
         
-    ic("EXIT PROGRAM")
+    logging.info("Exiting program.")
     

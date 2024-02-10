@@ -1,5 +1,4 @@
 import os, settings, datetime
-from icecream import ic
 import client
 from mpWrapper import MediaPlayer
 
@@ -95,11 +94,9 @@ def set_cursor_position(row, col):
 
 def _print(name, message, style):
     cols = os.get_terminal_size().columns
-    # ic(cols)
 
     indent = get_indent(currIndentLevel)
     cols -= len(indent)
-    # ic(cols)
     print(indent, end='')
 
     # print(get_middle(), end='')
