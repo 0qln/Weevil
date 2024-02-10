@@ -114,6 +114,7 @@ def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
 def track_info(settings):
     import playbackMan
     pb:playbackMan.PlaybackManager = settings["playback_man"]
+    if (pb.playlist_info is None): return
     client.currIndentLevel += 1
     # client.info(name="Title", message=str(pb.))
     # client.info(name="Duration", message=str(datetime.timedelta(seconds=mp.get_duration())))
@@ -123,9 +124,11 @@ def track_info(settings):
 def playlist_info(settings):
     import playbackMan
     pb:playbackMan.PlaybackManager = settings["playback_man"]
-    client.info(name="Title", message=pb._playlist.playlist.title)
-    client.info(name="Current Track: ", message=pb.current.title)
-    client.info(name="Track count", message=pb._playlist.playlist.length)
+    if (pb.playlist_info is None): return
+    client.info(name="Title", message=pb.playlist_info.playlist.title)
+    client.info(name="Track count", message=pb.playlist_info.playlist.length)
+    client.info(name="Owner", message=pb.playlist_info.playlist.owner)
+    client.info(name="Views", message=pb.playlist_info.playlist.views)
 
 def list_playlists(settings):
     client.hail(name="Saved Playlists", message=settings["directory"])

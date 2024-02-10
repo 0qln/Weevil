@@ -192,6 +192,7 @@ class PlaybackManager:
         self.current = -1    
         self.generator = None
         self.volume = int(settings.get("volume"))
+        self.playlist_info = None
 
     def reset(self = None) -> bool:
         ic("Resetting playback manager")
@@ -230,6 +231,7 @@ class PlaybackManager:
                 ic("Playing playlist")
                 client.currIndentLevel += 1
                 playlist = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
+                self.playlist_info = playlist
                 client.currIndentLevel += 1
                 iterator = playlist.yield_iterate()
                 if playlist.has_next():
@@ -281,9 +283,9 @@ class PlaybackManager:
         t = self.get_current()
         message = VideoHelper.get_title(t.source)
         if (override):
-            client.override(client.info, name="Track", message=message)
+            client.override(client.info, name="Current Track", message=message)
         else:
-            client.info(name="Track", message=message)
+            client.info(name="Current Track", message=message)
 
 
     def get_current(self) -> Track | None:
