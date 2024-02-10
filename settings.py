@@ -62,7 +62,7 @@ storage = {
     "warn": StorageItem(ValueType.Boolean, True),
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
-    "volume": StorageItem(ValueType.PercentInteger, 35, lambda val, pb: ic(pb.set_volume(int(val)))),
+    "volume": StorageItem(ValueType.PercentInteger, 30, lambda val, pb: ic(pb.set_volume(int(val)))),
 }
 
 
@@ -87,16 +87,18 @@ def get(settings, print_info=False):
 def set(settings, playback):
     import client
 
-    if (len(settings.keys()) > 0 and len(settings.values()) > 0):
-        key, value = (next(iter(settings.items()))
-                      if "key" not in settings or "value" not in settings 
-                      else (settings["key"], settings["value"]))
-        
-        if not storage[key].set_value(value):
-            client.fail("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
-        else:
-            storage[key].invoke(value, playback)
-            client.info("Write settings: " + str((key, value)))
+    if (len(settings.keys()) <= 0 or len(settings.values()) <= 0):
+        return
+
+    key, value = (next(iter(settings.items()))
+                    if "key" not in settings or "value" not in settings 
+                    else (settings["key"], settings["value"]))
+    
+    if not storage[key].set_value(value):
+        client.fail("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
+    else:
+        storage[key].invoke(value, playback)
+        client.info("Write settings: " + str((key, value)))
         
 
 def save_to_files(settings):

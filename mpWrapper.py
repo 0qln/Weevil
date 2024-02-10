@@ -1,3 +1,6 @@
+
+### DEPRICATED
+
 import enum
 import threading
 import time
@@ -45,10 +48,10 @@ class MediaPlayer:
         self.player.play()
 
         def decay_state():
-            while self.player.playing != 1 and self.state != MediaPlayerState.STOPPED:
+            while self.player.playing and self.state != MediaPlayerState.STOPPED:
                 time.sleep(0.05)
             
-            while self.player.playing == 1 or self.state == MediaPlayerState.PAUSED:
+            while self.player.playing or self.state == MediaPlayerState.PAUSED:
                 time.sleep(0.05)
             
             ic(self.stop())

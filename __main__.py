@@ -1,5 +1,5 @@
 from pytube import YouTube
-from playbackMan import VideoPlaybackManager, PlaylistPlaybackManager, PlaybackManager
+from playbackMan import VideoHelper, PlaylistPlaybackManager, PlaybackManager
 from mpWrapper import MediaPlayer
 from threadPtr import ThreadPtr
 from icecream import ic
@@ -102,7 +102,7 @@ if __name__ == "__main__":
         {
             # Play a video or playlist
             "names": [ "play" ],
-            "function":lambda settings: ic(PlaybackManager.stop(playback)) and ic(playback.play(settings)),
+            "function":lambda settings: ic(playback.reset()) and ic(playback.play(settings)),
             "flags": [
                 {
                     "names": [ "--commons", "-c" ],
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         {
             # Pause playback
             "names": [ "pause", "p" ],
-            "function":lambda settings: ic(playback.current.pause()),
+            "function":lambda settings: ic(playback.pause()),
             "flags": [ 
 
             ]
@@ -143,7 +143,7 @@ if __name__ == "__main__":
         {
             # Resume playback
             "names": [ "resume", "r" ],
-            "function":lambda settings: ic(playback.current.resume()),
+            "function":lambda settings: ic(playback.resume()),
             "flags": [
 
             ]
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         {
             # Exit weevil
             "names": [ "exit", "close", "quit" ],
-            "function":lambda settings: ic(exit_success()),
+            "function":lambda settings: ic(exit_success()), #ic(playback.reset()) and 
             "flags": [
 
             ]
@@ -193,7 +193,7 @@ if __name__ == "__main__":
         {
             # Set a settings
             "names": [ "set" ],
-            "function": lambda s: ic(settings.set(s, playback.current)), 
+            "function": lambda s: ic(settings.set(s, playback)), 
             "flags": [
                 # dynamic
                 {
@@ -267,15 +267,20 @@ if __name__ == "__main__":
         {
             # Play next track
             "names": [ "next", "skip", "s" ],
-            "function": lambda settings: ic(playback.current.next()),
+            "function": lambda settings: ic(playback.skip()),
             "flags": [
-            
+                # TODO
+                # {
+                #     "names": [ "--count", "-c" ],
+                #     "name_settings": "execution_count",
+                #     "default": str(1)
+                # },
             ]
         },
         {
             # Play previous track
             "names": [ "previous", "prev" ],
-            "function": lambda settings: ic(playback.current.prev()),
+            "function": lambda settings: ic(playback.prev()),
             "flags": [
                 # TODO
                 # {

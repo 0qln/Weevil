@@ -1,5 +1,6 @@
-
-from mpWrapper import MediaPlayer, MediaPlayerState
+from pyglet.event import EventDispatcher
+from mutagen.mp4 import MP4
+import pyglet
 import pytube, os, threading, re, enum, time, datetime
 from icecream import ic
 import settings, client
@@ -22,7 +23,7 @@ class PlaylistPlaybackManager(object):
                         "Cannot create playback from Private Playlist or Youtube Mix.")
             raise e
 
-        self.videos = [MediaPlayer]
+        self.videos = [str]
         self.current_mp = 0
         self.preferred_file_type = file_type
         
@@ -33,68 +34,51 @@ class PlaylistPlaybackManager(object):
 
         ic ("PlaylistPlaybackManager initiated successfully.")
 
-
-    def play(self, callback) -> None:
-        iterator = self.yield_iterate()
-        current_media_player = next(iterator, None)
-
-        while self.current_mp < len(self.videos) and self.stop is False:
-            if (current_media_player is None):
-                current_media_player = next(iterator, None) 
-
-                continue
-
-            ic(callback(current_media_player))
-            
-            state = ic(VideoPlaybackManager.play(current_media_player))
-
-            if state == MediaPlayerState.ROLL_BACK:
-                current_media_player = self.get_prev() 
-            else: 
-                current_media_player = next(iterator, None) 
-
-
-    def fill(self) -> [MediaPlayer]:
-        for video in self.playlist.videos:
-            ic(self.videos.append(VideoPlaybackManager.create_playback_from_video(
-                video, self.path, self.preferred_file_type)))
+    def fill(self) -> [str]:
+        for video in self.playlist.videos_generator():
+            ic("Generate Video: ")
+            ic(self.videos.append(VideoHelper.create_playback_from_video(video, self.path, self.preferred_file_type)))
         return self.videos 
 
 
     def yield_iterate(self):
         for video in self.playlist.videos_generator():
             ic("Generate Video: ")
-            ic(self.videos.append(VideoPlaybackManager.create_playback_from_video(
-                video, self.path, self.preferred_file_type)))
-            yield self.get_next()
+            ic(self.videos.append(VideoHelper.create_playback_from_video(video, self.path, self.preferred_file_type)))
+            yield ic(self.get_next())
 
-    def get_prev(self) -> MediaPlayer | None:
+    def get_prev(self) -> str | None:
         if self.current_mp > 0:
             self.current_mp -= 1
             return self.get_current()
         return None
     
-    def get_next(self) -> MediaPlayer | None:
-        if self.current_mp < len(self.videos):
+    def get_next(self) -> str | None:
+        if self.current_mp < self.playlist.length:
             self.current_mp += 1
             return self.get_current()
         return None
 
-    def get_current(self) -> MediaPlayer | None:
-        return self.videos[self.current_mp] if self.current_mp > 0 and self.current_mp < len(self.videos) else None
+    def has_next(self) -> bool:
+        return self.current_mp < self.playlist.length - 1
+
+    def get_current(self) -> str | None:
+        return self.videos[self.current_mp] if self.current_mp > 0 and self.current_mp < self.playlist.length else None
     
 
-class VideoPlaybackManager:
-    # returns the last known state
-    def play(media_player:MediaPlayer) -> MediaPlayerState:
-        client.info(str(media_player.get_content_title()))
-        ic(media_player.play())
-        state = MediaPlayerState.PLAYING
-        while (state != MediaPlayerState.STOPPED and
-               state != MediaPlayerState.ROLL_BACK and 
-               state != MediaPlayerState.SKIPPING): 
-            state = ic(media_player.get_new_state())
-        return state
+class VideoHelper:
+    def get_title(file_path):
+        ic("get_title of ``: "+file_path)
+        try:
+            return os.path.basename(file_path)
+
+            #METADATA:
+                # probe = ffmpeg.probe(file_path)
+                # tags = probe.get('format', {}).get('tags', {})
+                # return ic(tags.get('title'))
+        except Exception as e:
+            ic(e)
+            return None
 
     def is_mp4_corrupt(file_path):
         try:
@@ -105,84 +89,114 @@ class VideoPlaybackManager:
                 .run()
             )
         except ffmpeg._run.Error:
+            ic("Corrupt file: " + file_path)
             return True
         else:
+            ic("Non Corrupt file: " + file_path)
+
+            # pyglet.media.have_de
+
             return False
         
 
-    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type, retrys = 10) -> MediaPlayer | None:
+    def create_playback_from_video(video:pytube.YouTube, output_folder, file_type, retrys = 10) -> str | None:
         # output folder    
         if not os.path.exists(output_folder): os.makedirs(output_folder)
+        ic(output_folder)
 
         # aquire data
-        mp = None
-        file_ext = None if file_type == "any" else file_type
-        file_pat = os.path.join(output_folder, video.video_id) + "\\"
-        ic (os.path.exists(file_pat))
+        ret = None
         try:
-            stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
-            if os.path.exists(file_pat) is False:
-                ic(f"Download '{video.title}'...") # Print nothing on success.
-                msource = ic(stream.download(file_pat))
+            folder = os.path.join(output_folder, video.video_id) + "\\"
+            ic(folder)
+            if os.path.exists(folder):
+                ic("Fetching from files...")
+                file_pat = os.path.join(folder, os.listdir(folder)[0])
             else: 
-                ic(f"Get '{video.title}' from files...") # Print nothing on success.
-                msource = ic(file_pat + stream.default_filename)
+                ic("Fetching from servers...")
+                file_ext = None if file_type == "any" else file_type
+                stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
+                file_pat = stream.download(folder)
+                #TODO: store stream info for later usage?
+                ic(f"File location: '{file_pat}'")
+            ic("Done")
 
-            if VideoPlaybackManager.is_mp4_corrupt(msource):
+            if VideoHelper.is_mp4_corrupt(file_pat):
                 # File is corrupted
                 if retrys > 0:
                     # Delete and try to download again
-                    client.warn(f"'{msource}' is corrupted. Weevil will try to delete and redownload the track.", 
-                                f"Retrys left: {str(retrys)}")
-                    
+                    client.warn(f"'{file_pat}' is corrupted. Weevil will try to delete and redownload the track. " + f"Retrys left: {str(retrys)}")
                     shutil.rmtree(file_pat)
-                    mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
+                    ret = ic(VideoHelper.create_playback_from_video(video, output_folder, file_type, retrys-1))
                 else:
                     # Unable to fetch file
-                    client.fail(f"'{video.title}' cannot be safely downloaded.", "No retrys left.", 
-                                f"'{video.title}' will be skipped.")
+                    client.fail(f"'{video.title}' cannot be safely downloaded. " + "No retrys left. " + f"'{video.title}' will be skipped.")
             else:
                 ic(f"'{video.title}' aquired.") # Print nothing on success.
-                mp = MediaPlayer()
-                mp.load(msource, video.title, video.length)
+                ret = file_pat
 
         # Video is age restriced
         except AgeRestrictedError as e:
-            client.warn(f"'{video.title}' is age restricted, and can't be accessed without logging in.", 
-                        f"<ID:{video.video_id}>")
+            client.warn(f"'{video.title}' is age restricted, and can't be accessed without logging in. " + f"<ID:{video.video_id}>")
         
         # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
             if retrys > 0:
-                client.fail(f"'{video.title}' could not be downloaded due to a network error.", 
-                            f"Retrys left: {str(retrys)}")
+                client.fail(f"'{video.title}' could not be downloaded due to a network error. "+ f"Retrys left: {str(retrys)}")
                 time.sleep(0.1)
-                mp = ic(VideoPlaybackManager.create_playback_from_video(video, output_folder, file_type, retrys-1))
+                ret = ic(VideoHelper.create_playback_from_video(video, output_folder, file_type, retrys-1))
             else:
-                client.fail(f"'{video.title}' could not be downloaded due to a network error.", "No retrys left.", 
-                            f"'{video.title}' will be skipped.")
+                client.fail(f"'{video.title}' could not be downloaded due to a network error. "+ "No retrys left. " + f"'{video.title}' will be skipped.")
             
-        return mp
+        return ret
+
+    def create_playback(url, output_folder, file_type) -> str | None:
+        return ic(VideoHelper.create_playback_from_video(pytube.YouTube(url), output_folder, file_type))
     
 
-    def create_playback(url, output_folder, file_type) -> MediaPlayer | None:
-        return ic(VideoPlaybackManager.create_playback_from_video(
-            pytube.YouTube(url), output_folder, file_type))
-    
+class EndEvent:
+    def __init__(self, track):
+        self.track = track
+
+class Track(EventDispatcher):
+    def __init__(self, source:str=None) -> None:
+        super().__init__()
+        self.source = source
+        self.player = pyglet.media.Player()
+        if (source is not None):
+            self.player.queue(pyglet.media.load(source))
+            self.player.push_handlers(on_eos=self.dispatch_end)
+
+    def dispatch_end(self):
+        (ic("DISPATCH END"))
+        self.dispatch_event('on_end')
+
+    def end(self) -> bool:
+        (ic("SKIP TO END"))
+        self.player.seek(self.player.source.duration)
+        self.player.play()
+        self.dispatch_event('on_end')
+        return True
+
+Track.register_event_type('on_end')
+
 
 class PlaybackManager:    
     
     def __init__(self):
-        self.current = MediaPlayer()
-        self.content_type = ContentType.NONE
-        self._playlist = None
-    
+        self.tracks = []
+        self.current = -1    
+        self.generator = None
+        self.volume = int(settings.get("volume"))
 
-    def stop(self = None) -> bool:
+    def reset(self = None) -> bool:
         if (self is not None):
-            if (self._playlist is not None):
-                self._playlist.stop = True
-            self.current.stop()
+            for track in self.tracks:
+                track.player.pause()
+                track.player.delete()
+            self.tracks.clear()
+            self.current = -1
+            self.generator = None
         return True
 
 
@@ -202,29 +216,110 @@ class PlaybackManager:
             self.content_type=ContentType.PLAYLIST
         ic (self.content_type)
 
-        def callback(mp): 
-            self.current = mp
-            ic ("Update mp: ")
-            ic (self.current)
 
         if self.content_type is ContentType.PLAYLIST:
             try:
-                playback = PlaylistPlaybackManager( url, settings["output_folder"], settings["file_type"])
-                self._playlist = playback;
-                playback.play(callback)
-            except: 
-                return True
+                playlist = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
+                iterator = playlist.yield_iterate()
+                if (playlist.has_next()):
+                    def gen():
+                        for track_source in iterator:
+                            (ic("YIELD NEW: "+track_source))
+                            if (track_source is None): continue
+                            t = Track(track_source)
+                            t.push_handlers(on_end=self.skip)
+                            t.player.volume = self.volume / 100
+                            yield t
+                    self.generator = gen()
+                    t = next(self.generator)
+                    self.tracks.append(t)
+                    t.push_handlers(on_end=self.skip)
+                    t.player.volume = self.volume / 100
+                    self.current = 0 
+                    self.get_current().player.play()
+                    client.info(VideoHelper.get_title(t.source))
+            except Exception as e: 
+                ic(e)
 
         if self.content_type is ContentType.VIDEO:
             try:                    
-                playback = VideoPlaybackManager.create_playback( url, settings["output_folder"], settings["file_type"])
-                if playback is not None:
-                    self.current = playback
-                    VideoPlaybackManager.play(playback)
-            except: 
-                return True
+                t = Track(VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"]))
+                self.tracks.append(t)
+                t.player.volume = self.volume / 100
+                t.push_handlers(on_end=self.skip)
+                self.current = 0
+                self.get_current().player.play()
+                client.info(VideoHelper.get_title(t.source))
+            except Exception as e: 
+                ic(e)
+
+        # Start pyglet
+        try:
+            pyglet.app.run()
+        except:
+            pass
 
         return True
+
+    def get_current(self) -> Track | None:
+        if (self.current < 0 or self.current >= len(self.tracks)):
+            return None
+        return self.tracks[self.current];
+
+    def pause(self):
+        if (self.get_current() is None):
+            return
+        self.get_current().player.pause()
+
+    def resume(self):
+        if (self.get_current() is None):
+            return
+        self.get_current().player.play()
+
+    def prev(self):
+        (ic("PREV"))
+        if (self.get_current() is None):
+            return
+        if (self.current < 0):
+            return
+        self.get_current().player.pause()
+        self.current -= 1
+        self.get_current().player.seek(0)
+        self.get_current().player.play()
+        client.info(VideoHelper.get_title(self.get_current().source))
+
+    def skip(self):
+        (ic("SKIP"))
+        if (self.get_current() is None):
+            return
+        self.get_current().player.pause()
+        # If there is no next track, try to generate one 
+        if (self.current + 1 == len(self.tracks)):
+            if (self.generator is None):
+                # No new track can be generated and none are cached
+                return
+
+            # New track needs to get generated
+            next_track = next(self.generator, None)
+            if (next_track is None):
+                # There is no next track and none are cached
+                return
+            # Append new track
+            self.tracks.append(next_track)
+        # Assign next track
+        self.current += 1
+        # Start playback of new track
+        self.get_current().player.seek(0)
+        self.get_current().player.play()
+        client.info(VideoHelper.get_title(self.get_current().source))
+
+    def set_volume(self, value) -> bool:
+        self.volume = value
+        for track in self.tracks:
+            track.player.volume = value / 100
+        return True
+
+
 
 
 class ContentType(enum.Enum):
