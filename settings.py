@@ -62,7 +62,7 @@ storage = {
     "warn": StorageItem(ValueType.Boolean, True),
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
-    "volume": StorageItem(ValueType.PercentInteger, 35, lambda val, pb: ic(pb.set_volume(int(val)))),
+    "volume": StorageItem(ValueType.PercentInteger, 30, lambda val, pb: ic(pb.set_volume(int(val)))),
 }
 
 
