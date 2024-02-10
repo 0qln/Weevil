@@ -17,7 +17,6 @@ class PlaylistPlaybackManager(object):
         self.stop = False
         self.playlist = pytube.Playlist(url)
         try:
-            client.currIndentLevel += 1
             client.hail(name="Playlist", message=self.playlist.title)
         except KeyError as e:
             client.warn(message="Playlist information cannot be accessed")
@@ -106,11 +105,15 @@ class VideoHelper:
 
             if os.path.exists(folder):
                 ic("Fetching from files...")
+                client.info("Fetching from files...")
                 file_path = os.path.join(folder, os.listdir(folder)[0])
+                client.override(client.info, f"Get '{video.title}' from file '{file_path}'...")
             else:
                 ic("Fetching from servers...")
+                client.info("Fetching from servers...")
                 file_ext = None if file_type == "any" else file_type
                 stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
+                client.override(client.info, ic(f"Download '{video.title}'..."))
                 file_path = stream.download(folder)
                 ic("File location:", file_path)
 
@@ -118,30 +121,32 @@ class VideoHelper:
             
             if VideoHelper.is_mp4_corrupt(file_path):
                 if retries > 0:
-                    ic(f"'{file_path}' is corrupted. Retrying download...")
+                    client.override(client.warn, f"'{file_path}' is corrupted. Retrying download...")
                     shutil.rmtree(file_path)
                     return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
                 else:
                     # Unable to fetch file
-                    client.fail(message=f"'{video.title}' cannot be safely downloaded. " + "No retrys left. " + f"'{video.title}' will be skipped.")
+                    client.override(client.fail, message=f"'{video.title}' cannot be safely downloaded. " + "No retrys left. " + f"'{video.title}' will be skipped.")
             else:
                 ic(f"Successfully acquired '{video.title}'")
                 return file_path
 
         except AgeRestrictedError as e:
-            client.warn(message=f"'{video.title}' is age restricted, and can't be accessed without logging in. " + f"<ID:{video.video_id}>")
+            ic("AgeRestrictedError:", e)
+            client.override(client.warn, message=f"'{video.title}' is age restricted, and can't be accessed without logging in. " + f"<ID:{video.video_id}>")
         
         # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
+            ic("SSLError: ", e)
             if retries > 0:
-                client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retrys left: {str(retrys)}")
+                client.override(client.fail, message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retrys left: {str(retries)}")
                 time.sleep(0.1)
                 return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
             else:
-                client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ "No retrys left. " + f"'{video.title}' will be skipped.")
+                client.override(client.fail, message=f"'{video.title}' could not be downloaded due to a network error. "+ "No retrys left. " + f"'{video.title}' will be skipped.")
 
         except Exception as e:
-            ic("Error creating playback from video:", e)
+            ic("Exception:", e)
 
         return None
 
@@ -152,6 +157,7 @@ class VideoHelper:
    
 
 class EndEvent:
+
     def __init__(self, track):
         self.track = track
 
@@ -181,6 +187,7 @@ Track.register_event_type('on_end')
 class PlaybackManager:    
     
     def __init__(self):
+        self.content_type = ContentType.NONE
         self.tracks = []
         self.current = -1    
         self.generator = None
@@ -195,6 +202,12 @@ class PlaybackManager:
             self.tracks.clear()
             self.current = -1
             self.generator = None
+
+            if (self.content_type == ContentType.VIDEO):
+                client.currIndentLevel -= 1
+            if (self.content_type == ContentType.PLAYLIST):
+                client.currIndentLevel -= 2
+
         return True
 
 
@@ -205,16 +218,19 @@ class PlaybackManager:
         url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]]
 
         # determine content type
-        content_type = ContentType.NONE
+        self.content_type = ContentType.NONE
         if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", url):
-            content_type = ContentType.VIDEO
+            self.content_type = ContentType.VIDEO
         if re.search(r"list=[0-9A-Za-z_-]+", url):
-            content_type = ContentType.PLAYLIST
-        ic(content_type)
+            self.content_type = ContentType.PLAYLIST
+        ic(self.content_type)
 
-        if content_type is ContentType.PLAYLIST:
+        if self.content_type is ContentType.PLAYLIST:
             try:
+                ic("Playing playlist")
+                client.currIndentLevel += 1
                 playlist = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
+                client.currIndentLevel += 1
                 iterator = playlist.yield_iterate()
                 if playlist.has_next():
                     def gen():
@@ -231,19 +247,25 @@ class PlaybackManager:
                     t = next(self.generator)
                     self.current = 0 
                     self.get_current().player.play()
-                    client.info(VideoHelper.get_title(t.source))
+                    self.announce_current(override=True)
             except Exception as e: 
                 ic("Error playing playlist:", e)
 
-        if content_type is ContentType.VIDEO:
-            try:                    
-                t = Track(VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"]))
+        if self.content_type is ContentType.VIDEO:
+            try: 
+                ic("Playing video...")
+                client.currIndentLevel += 1
+                track_source = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
+                if track_source is None:
+                    return True
+                t = Track(track_source)
+                ic(t)
                 self.tracks.append(t)
                 t.player.volume = self.volume / 100
                 t.push_handlers(on_end=self.skip)
                 self.current = 0
                 self.get_current().player.play()
-                client.info(VideoHelper.get_title(t.source))
+                self.announce_current(override=True)
             except Exception as e: 
                 ic("Error playing video:", e)
 
@@ -253,6 +275,16 @@ class PlaybackManager:
             pass
 
         return True
+
+    def announce_current(self, override):
+        ic("Announce track")
+        t = self.get_current()
+        message = VideoHelper.get_title(t.source)
+        if (override):
+            client.override(client.info, name="Track", message=message)
+        else:
+            client.info(name="Track", message=message)
+
 
     def get_current(self) -> Track | None:
         current = self.tracks[self.current] if 0 <= self.current < len(self.tracks) else None
@@ -279,7 +311,7 @@ class PlaybackManager:
         self.current -= 1
         self.get_current().player.seek(0)
         self.get_current().player.play()
-        client.info(VideoHelper.get_title(self.get_current().source))
+        self.announce_current(override=False)
 
     def skip(self):
         ic("Skipping to next track")
@@ -289,16 +321,18 @@ class PlaybackManager:
         # If there is no next track, try to generate one 
         if self.current + 1 == len(self.tracks):
             if self.generator is None:
+                # End of playlist
                 return
             # New track needs to get generated
             next_track = next(self.generator, None)
             if next_track is None:
+                # End of playlist
                 return
         # Assign next track
         self.current += 1
         self.get_current().player.seek(0)
         self.get_current().player.play()
-        client.info(VideoHelper.get_title(self.get_current().source))
+        self.announce_current(override=True)
 
     def set_volume(self, value) -> bool:
         ic("Setting volume to", value)

@@ -36,6 +36,12 @@ currIndentLevel = 0
 indentWidth = 4 # default tab with, should be >= 2
 newLineSpacing = 0 # space between each line of information
 
+def reduce_indent():
+    currIndentLevel -= 1
+
+def increase_indent():
+    currIndentLevel += 1
+
 def override(func, message, name=None):
     go_up_lines(1)
     clear_curr_line()
@@ -43,24 +49,25 @@ def override(func, message, name=None):
 
 def fail(message, name=None): 
     if not settings.get("fail") == "true": return
-    _print(name=get_fail(name if name else "FAIL"), message=get_fail(message))
-def get_fail(value) -> str: return '\033[31m' + str(value) + '\033[0m' 
+    _print(name=(name if name else "FAIL"), message=style_fail(message), style=style_fail)
+def style_fail(value) -> str: return '\033[31m' + str(value) + '\033[0m' 
     
 def warn(message, name=None):
     if not settings.get("warn") == "true": return
-    _print(name=get_warn(name if name else "WARN"), message=get_warn(message))
-def get_warn(value) -> str: return '\033[33m' + str(value) + '\033[0m'
+    _print(name=(name if name else "WARN"), message=style_warn(message), style=style_warn)
+def style_warn(value) -> str: return '\033[33m' + str(value) + '\033[0m'
 
 def hail(message, name=None):
     if not settings.get("hail") == "true": return
-    _print(name=get_hail(name if name else "HAIL"), message=get_hail(message))
-def get_hail(value) -> str: return '\033[01m' + str(value) + '\033[0m'
+    _print(name=(name if name else "HAIL"), message=style_hail(message), style=style_hail)
+def style_hail(value) -> str: return '\033[01m' + str(value) + '\033[0m'
 
-# print in white
 def info(message, name=None): 
     if not settings.get("info") == "true": return
-    _print(name=get_info(name if name else "INFO"), message=get_info(message))
-def get_info(value) -> str: return '\033[01m' + str(value) + '\033[0m'
+    _print(name=(name if name else "INFO"), message=style_info(message), style=style_info)
+def style_info(value) -> str: return '\033[01m' + str(value) + '\033[0m'
+
+def style_none(value) -> str: return str(value)
 
 def get_indent(amount = None) -> str: return " " * indentWidth * (amount if amount else currIndentLevel)
 def get_bottom() -> str: return "╚" + "═" * (indentWidth - 2) + " "
@@ -86,7 +93,7 @@ def set_cursor_position(row, col):
     print(escape_code, end='', flush=True)
 
 
-def _print(name, message):
+def _print(name, message, style):
     cols = os.get_terminal_size().columns
     # ic(cols)
 
@@ -98,18 +105,19 @@ def _print(name, message):
     # print(get_middle(), end='')
 
     message = f"{name}: {message}"
-    print(cap(message, cols), end='\n')
+    print(style(cap(message, cols)), end='\n')
     
 
 def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
 
 
 def track_info(settings):
-    mp:MediaPlayer = settings["media_player"]
+    import playbackMan
+    pb:playbackMan.PlaybackManager = settings["playback_man"]
     client.currIndentLevel += 1
-    client.info(name="Title", message=str(mp.get_content_title()))
-    client.info(name="Duration", message=str(datetime.timedelta(seconds=mp.get_duration())))
-    client.info(name="Status", message=str(mp.state))
+    # client.info(name="Title", message=str(pb.))
+    # client.info(name="Duration", message=str(datetime.timedelta(seconds=mp.get_duration())))
+    # client.info(name="Status", message=str(mp.state))
     client.currIndentLevel -= 1
 
 def playlist_info(settings):
