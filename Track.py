@@ -12,6 +12,10 @@ import logging
 from icecream import ic
 
 
+logger = logging.getLogger(f"root.weevil.{__name__}")
+logger.info(f"Logging to file enabled.")
+
+
 class EndEvent:
     def __init__(self, track):
         self.track = track
@@ -26,15 +30,14 @@ class Track(EventDispatcher):
             self.player.push_handlers(on_eos=self.dispatch_end)
 
     def dispatch_end(self):
-        ic("Dispatching end event")
+        logger.info("Dispatching end event")
         self.dispatch_event('on_end')
 
     def end(self) -> bool:
-        ic("Skipping to end")
+        logger.info("Skipping to end")
         self.player.seek(self.player.source.duration)
         self.player.play()
         self.dispatch_event('on_end')
         return True
 
 Track.register_event_type('on_end')
-

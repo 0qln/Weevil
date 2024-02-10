@@ -14,6 +14,11 @@ from PlaylistPlaybackManager import PlaylistPlaybackManager
 from VideoHelper import VideoHelper
 from Track import Track  
 
+
+logger = logging.getLogger(f"root.weevil.{__name__}")
+logger.info(f"Logging to file enabled.")
+
+
 class PlaybackManager:    
     def __init__(self):
         self.content_type = ContentType.NONE
@@ -25,7 +30,7 @@ class PlaybackManager:
 
 
     def reset(self = None) -> bool:
-        ic("Resetting playback manager")
+        logger.info("Resetting playback manager")
         if self is not None:
             for track in self.tracks:
                 track.player.pause()
@@ -43,7 +48,7 @@ class PlaybackManager:
 
 
     def play(self, settings) -> bool:
-        ic("Starting playback")
+        logger.info("Starting playback")
         # get url
         import commons
         url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]]
@@ -54,11 +59,11 @@ class PlaybackManager:
             self.content_type = ContentType.VIDEO
         if re.search(r"list=[0-9A-Za-z_-]+", url):
             self.content_type = ContentType.PLAYLIST
-        ic(self.content_type)
+        logger.info(f"Content type: {self.content_type}")
 
         if self.content_type is ContentType.PLAYLIST:
             try:
-                ic("Playing playlist")
+                logger.info("Playing playlist")
                 client.currIndentLevel += 1
                 playlist = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
                 self.playlist_info = playlist
@@ -67,7 +72,7 @@ class PlaybackManager:
                 if playlist.has_next():
                     def gen():
                         for track_source in iterator:
-                            ic("Yielding new track:", track_source)
+                            logger.info(f"Yielding new track: {track_source}")
                             if track_source is None:
                                 continue
                             t = Track(track_source)
@@ -81,17 +86,16 @@ class PlaybackManager:
                     self.get_current().player.play()
                     self.announce_current(override=True)
             except Exception as e: 
-                ic("Error playing playlist:", e)
+                logger.error(f"Error playing playlist: {e}")
 
         if self.content_type is ContentType.VIDEO:
             try: 
-                ic("Playing video...")
+                logger.info("Playing video...")
                 client.currIndentLevel += 1
                 track_source = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
                 if track_source is None:
                     return True
                 t = Track(track_source)
-                ic(t)
                 self.tracks.append(t)
                 t.player.volume = self.volume / 100
                 t.push_handlers(on_end=self.skip)
@@ -99,7 +103,7 @@ class PlaybackManager:
                 self.get_current().player.play()
                 self.announce_current(override=True)
             except Exception as e: 
-                ic("Error playing video:", e)
+                logger.error(f"Error playing video: {e}")
 
         try:
             pyglet.app.run()
@@ -109,7 +113,7 @@ class PlaybackManager:
         return True
 
     def announce_current(self, override):
-        ic("Announce track")
+        logger.info("Announce track")
         t = self.get_current()
         message = VideoHelper.get_title(t.source)
         if (override):
@@ -120,23 +124,23 @@ class PlaybackManager:
 
     def get_current(self) -> Track | None:
         current = self.tracks[self.current] if 0 <= self.current < len(self.tracks) else None
-        ic("Current track:", current)
+        logger.info(f"Current track: {current}")
         return current
 
     def pause(self):
-        ic("Pausing playback")
+        logger.info("Pausing playback")
         if self.get_current() is None:
             return
         self.get_current().player.pause()
 
     def resume(self):
-        ic("Resuming playback")
+        logger.info("Resuming playback")
         if self.get_current() is None:
             return
         self.get_current().player.play()
 
     def prev(self):
-        ic("Playing previous track")
+        logger.info("Playing previous track")
         if self.get_current() is None or self.current < 0:
             return
         self.get_current().player.pause()
@@ -146,7 +150,7 @@ class PlaybackManager:
         self.announce_current(override=False)
 
     def skip(self):
-        ic("Skipping to next track")
+        logger.info("Skipping to next track")
         if self.get_current() is None:
             return
         self.get_current().player.pause()
@@ -167,7 +171,7 @@ class PlaybackManager:
         self.announce_current(override=True)
 
     def set_volume(self, value) -> bool:
-        ic("Setting volume to", value)
+        logger.info(f"Setting volume to {value}")
         self.volume = value
         for track in self.tracks:
             track.player.volume = value / 100
@@ -178,3 +182,4 @@ class ContentType(enum.Enum):
     NONE = -1
     PLAYLIST = 0
     VIDEO = 1
+

@@ -13,6 +13,9 @@ import commons
 import logging
 
 
+# Create a logger object with the name 'root.weevil'
+logger = logging.getLogger('root.weevil')
+
 
 def find_matches(pattern, text):
     matches = re.finditer(pattern, text, re.MULTILINE)
@@ -25,17 +28,17 @@ def parse_tokens(input:str, arg_library):
     if arg_def is None: 
         client.warn(message="Specified argument does not exist!")
         return None, None
-    logging.info(f"Parsing tokens for argument: {argument}")
-    logging.debug(f"Input: {input}")
-    logging.debug(f"Argument definition: {arg_def}")
+    logger.info(f"Parsing tokens for argument: {argument}")
+    logger.debug(f"Input: {input}")
+    logger.debug(f"Argument definition: {arg_def}")
 
     # search for pseudo legal flags and values in the input string
     flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
     flags = [ find_matches(r"-[a-zA-Z_-]+(?:\b)", str(fv_pair)) for fv_pair in flag_values ]
     values = [ find_matches(r"(?<=\").+(?=\")", str(fv_pair)) for fv_pair in flag_values ]
-    logging.debug(f"Flag values: {flag_values}")
-    logging.debug(f"Flags: {flags}")
-    logging.debug(f"Values: {values}")
+    logger.debug(f"Flag values: {flag_values}")
+    logger.debug(f"Flags: {flags}")
+    logger.debug(f"Values: {values}")
 
     flag_mapping = { }
 
@@ -45,7 +48,7 @@ def parse_tokens(input:str, arg_library):
                         for flag, val in zip(flags, values)
                         if flag[0] in flag_def["names"]]
     
-    logging.debug(f"Flag mapping: {flag_mapping}")
+    logger.debug(f"Flag mapping: {flag_mapping}")
 
     # merge the regiesterd flags and their values
     # load defaults. if specified, but either the flag wasn't added or no custom value was added
@@ -55,44 +58,42 @@ def parse_tokens(input:str, arg_library):
                             flag_def["name_settings"] not in flag_mapping or
                             flag_mapping[flag_def["name_settings"]] == None)})
     
-    logging.debug(f"Merged flag mapping: {flag_mapping}")
+    logger.debug(f"Merged flag mapping: {flag_mapping}")
 
     return arg_def, flag_mapping
-
 
 def handle_arg(argument, settings):
     if (argument is None): return
     if (settings is None): return
     threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
-    logging.info(f"Started handling argument on new daemon: {argument}")
+    logger.info(f"Started handling argument on new daemon: {argument}")
 
 def exit_success(): 
-    logging.info("Exit success.")
+    logger.info("Exit success.")
     exit()
 
 def exit_failure(): 
-    logging.info("Exit failure.")
+    logger.info("Exit failure.")
     exit()   
 
 def exit():
     global exit_flag
     exit_flag = True
-    logging.info("Exit program.")
-
+    logger.info("Exit program.")
 
 if __name__ == "__main__":
     # Initiate Logging
     log_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), "log.txt")
-    logging.basicConfig( filename=log_file,
+    logging.basicConfig(filename=log_file,
                         filemode='a',
                         format='%(asctime)s,%(msecs)d %(name)s %(levelname)s - %(message)s',
                         level=logging.DEBUG)
-    logging.info(f"Logging to file enabled. [{log_file}]")
+    logger.info(f"Logging to file enabled. [{log_file}]")
 
     # Initiate debug mode 
     DEBUG_MODE = True if len(argv)>1 and "DEBUG" in argv[1] else False   
-    logging.info(f"Debug Mode: {DEBUG_MODE}")
-    
+    logger.info(f"Debug Mode: {DEBUG_MODE}")
+       
     # Initiate Arguments    
     arguments.initiate([
         {
@@ -367,39 +368,38 @@ if __name__ == "__main__":
 
     client.info(message="Type 'help' to retrieve documentation.")
    
-    logging.info("Initialization complete.")
+    logger.info("Initialization complete.")
     
     while not exit_flag:
         try:
             # Gather user input
             tokens = client.get_input()
-            logging.debug(f"User input: {tokens}")
+            logger.debug(f"User input: {tokens}")
 
             try:
                 argument, flags = parse_tokens(tokens, arguments.get())
-                logging.debug(f"Parsed argument: {argument}")
-                logging.debug(f"Parsed flags: {flags}")
+                logger.debug(f"Parsed argument: {argument}")
+                logger.debug(f"Parsed flags: {flags}")
 
                 try:
                     handle_arg(argument, flags)
                 except Exception as e:
-                    logging.error(f"Failed to execute request: {e}")
+                    logger.error(f"Failed to execute request: {e}")
                     client.fail(message="Failed to execute your request. If this continues to happen, consider restarting weevil.")
             except Exception as e:
-                logging.warning(f"Error parsing tokens: {e}")
+                logger.warning(f"Error parsing tokens: {e}")
                 client.warn(message="There seems to be something wrong with your input.")
         except  HTTPError as e:
             if DEBUG_MODE: 
                 raise(e)
             else: 
-                logging.error(f"An HTTP Error occurred: {e}")
+                logger.error(f"An HTTP Error occurred: {e}")
                 client.fail(message="An HTTP Error occurred.")
         except Exception as e:
             if DEBUG_MODE: 
                 raise(e)
             else: 
-                logging.warning(f"An unknown error occurred: {e}")
+                logger.warning(f"An unknown error occurred: {e}")
                 client.warn(message="An unknown error occurred.")
         
-    logging.info("Exiting program.")
-    
+    logger.info("Exiting program.")   

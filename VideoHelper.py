@@ -12,54 +12,58 @@ import logging
 from icecream import ic
 
 
+logger = logging.getLogger(f"root.weevil.{__name__}")
+logger.info(f"Logging to file enabled.")
+
+
 class VideoHelper:
     @staticmethod
     def get_title(file_path):
-        ic("GET_TITLE:", file_path)
+        logger.info(f"Retrieving title for file: {file_path}")
         try:
             return os.path.basename(file_path)
         except Exception as e:
-            ic("Error getting title:", e)
+            logger.error(f"Error retrieving title for file {file_path}: {e}")
             return None
 
     @staticmethod
     def is_mp4_corrupt(file_path):
-        ic("IS_MP4_CORRUPT: Checking if MP4 file is corrupt")
+        logger.info(f"Checking if MP4 file is corrupt: {file_path}")
         try:
             ffmpeg.input(file_path).output("null", f="null", loglevel="quiet").run()
         except ffmpeg._run.Error:
-            ic("Corrupt file:", file_path)
+            logger.info(f"MP4 file is corrupt: {file_path}")
             return True
         else:
-            ic("Non-corrupt file:", file_path)
+            logger.info(f"MP4 file is not corrupt: {file_path}")
             return False
 
     @staticmethod
     def create_playback_from_video(video: pytube.YouTube, output_folder, file_type, retries=10) -> str | None:
-        ic("CREATE_PLAYBACK_FROM_VIDEO: Creating playback from video")
+        logger.info(f"Creating playback for video: {video.title}")
         try:
             if not os.path.exists(output_folder):
                 os.makedirs(output_folder)
-            ic("Output folder:", output_folder)
+            logger.info(f"Output folder for playback: {output_folder}")
 
             folder = os.path.join(output_folder, video.video_id) + "\\"
-            ic("Folder:", folder)
+            logger.info(f"Folder for video: {folder}")
 
             if os.path.exists(folder):
-                ic("Fetching from files...")
-                client.info("Fetching from files...")
+                logger.info("Fetching from local files...")
+                client.info("Fetching from local files...")
                 file_path = os.path.join(folder, os.listdir(folder)[0])
-                client.override(client.info, f"Get '{video.title}' from file '{file_path}'...")
+                client.override(client.info, f"Retrieving '{video.title}' from local file: '{file_path}'...")
             else:
-                ic("Fetching from servers...")
+                logger.info("Fetching from servers...")
                 client.info("Fetching from servers...")
                 file_ext = None if file_type == "any" else file_type
                 stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
-                client.override(client.info, ic(f"Download '{video.title}'..."))
+                client.override(client.info, ic(f"Downloading '{video.title}'..."))
                 file_path = stream.download(folder)
-                ic("File location:", file_path)
+                logger.info(f"Downloaded file location: {file_path}")
 
-            ic("Fetch completed")
+            logger.info("Fetch completed")
             
             if VideoHelper.is_mp4_corrupt(file_path):
                 if retries > 0:
@@ -68,32 +72,32 @@ class VideoHelper:
                     return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
                 else:
                     # Unable to fetch file
-                    client.override(client.fail, message=f"'{video.title}' cannot be safely downloaded. " + "No retrys left. " + f"'{video.title}' will be skipped.")
+                    client.override(client.fail, message=f"'{video.title}' cannot be safely downloaded. " + "No retries left. " + f"'{video.title}' will be skipped.")
             else:
-                ic(f"Successfully acquired '{video.title}'")
+                logger.info(f"Successfully acquired '{video.title}'")
                 return file_path
 
         except AgeRestrictedError as e:
-            ic("AgeRestrictedError:", e)
+            logger.error(f"Age-restricted error: {e}")
             client.override(client.warn, message=f"'{video.title}' is age restricted, and can't be accessed without logging in. " + f"<ID:{video.video_id}>")
         
         # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
-            ic("SSLError: ", e)
+            logger.error(f"SSL error: {e}")
             if retries > 0:
-                client.override(client.fail, message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retrys left: {str(retries)}")
+                client.override(client.fail, message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retries left: {str(retries)}")
                 time.sleep(0.1)
                 return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
             else:
-                client.override(client.fail, message=f"'{video.title}' could not be downloaded due to a network error. "+ "No retrys left. " + f"'{video.title}' will be skipped.")
+                client.override(client.fail, message=f"'{video.title}' could not be downloaded due to a network error. "+ "No retries left. " + f"'{video.title}' will be skipped.")
 
         except Exception as e:
-            ic("Exception:", e)
+            logger.error(f"An unexpected error occurred: {e}")
 
         return None
 
     @staticmethod
     def create_playback(url, output_folder, file_type) -> str | None:
-        ic("CREATE_PLAYBACK: Creating playback from URL")
+        logger.info(f"Creating playback for URL: {url}")
         return ic(VideoHelper.create_playback_from_video(pytube.YouTube(url), output_folder, file_type))
- 
+

@@ -13,6 +13,11 @@ from icecream import ic
 from VideoHelper import VideoHelper
 
 
+# Create a logger object for the PlaylistPlaybackManager class
+logger = logging.getLogger(f"root.weevil.{__name__}")
+logger.info(f"Logging to file enabled.")
+
+
 class PlaylistPlaybackManager(object):
     
     def __init__(self, url, output_folder, file_type) -> None:
@@ -34,41 +39,40 @@ class PlaylistPlaybackManager(object):
         self.path = output_folder + self.playlist.playlist_id + "\\" + sanitized_title + "\\"
         if not os.path.exists(self.path): 
             os.makedirs(self.path)
-        ic("PlaylistPlaybackManager initiated successfully.")
+        logger.info("PlaylistPlaybackManager initiated successfully. Playlist Title: %s", self.playlist.title)
 
     def fill(self):
-        ic("FILL_ITERATE: Filling playlist")
+        logger.info("Filling playlist...")
         for video in self.playlist.videos_generator():
-            ic("FILL: Adding video to playlist")
+            logger.debug("Adding video to playlist: %s", video.title)
             self.videos.append(VideoHelper.create_playback_from_video(video, self.path, self.preferred_file_type))
         return self.videos 
 
     def yield_iterate(self):
-        ic("YIELD_ITERATE: Iterating over playlist")
+        logger.info("Iterating over playlist...")
         for video in self.playlist.videos_generator():
-            ic("YIELD: Yielding next video from playlist")
+            logger.debug("Yielding next video from playlist: %s", video.title)
             self.videos.append(VideoHelper.create_playback_from_video(video, self.path, self.preferred_file_type))
             yield self.get_next()
 
     def get_prev(self) -> str | None:
-        ic("GET_PREV: Retrieving previous video from playlist")
+        logger.debug("Retrieving previous video from playlist...")
         if self.current_mp > 0:
             self.current_mp -= 1
             return self.get_current()
         return None
     
     def get_next(self) -> str | None:
-        ic("GET_NEXT: Retrieving next video from playlist")
+        logger.debug("Retrieving next video from playlist...")
         if self.current_mp < self.playlist.length:
             self.current_mp += 1
             return self.get_current()
         return None
 
     def has_next(self) -> bool:
-        ic("HAS_NEXT: Checking if playlist has next video")
+        logger.debug("Checking if playlist has next video...")
         return self.current_mp < self.playlist.length - 1
 
     def get_current(self) -> str | None:
-        ic("GET_CURRENT: Retrieving current video from playlist")
+        logger.debug("Retrieving current video from playlist...")
         return self.videos[self.current_mp] if self.current_mp > 0 and self.current_mp < self.playlist.length else None
-

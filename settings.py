@@ -1,5 +1,10 @@
-from icecream import ic
+import logging
 import enum, re, os
+
+
+logger = logging.getLogger(f"root.weevil.{__name__}")
+logger.info(f"Logging to file enabled.")
+
 
 # Inheritance in python sucks, using an enum instead
 class ValueType (enum.Enum):
@@ -62,7 +67,7 @@ storage = {
     "warn": StorageItem(ValueType.Boolean, True),
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
-    "volume": StorageItem(ValueType.PercentInteger, 30, lambda val, pb: ic(pb.set_volume(int(val)))),
+    "volume": StorageItem(ValueType.PercentInteger, 30, lambda val, pb: logger.info(pb.set_volume(int(val)))),
 }
 
 
@@ -73,11 +78,12 @@ def get(settings, print_info=False):
         if "key" not in settings:
             for key in settings.keys():
                 value = storage[key].get_value()
-                if print_info: client.info(message="Read settings: " + str((key, value)))
+                if print_info: client.info("Read settings: " + str((key, value)))
         else:
             key = settings["key"]
             value = storage[key].get_value()
-            client.info(message="Read settings: " + str((key, value)))
+            logger.info("Read settings: " + str((key, value)))
+            if print_info: client.info("Read settings: " + str((key, value)))
     else:
         value = storage[settings].get_value()
 
@@ -93,10 +99,10 @@ def set(settings, playback):
                       else (settings["key"], settings["value"]))
         
         if not storage[key].set_value(value):
-            client.fail(message="There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
+            logger.error("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
         else:
             storage[key].invoke(value, playback)
-            client.info(message="Write settings: " + str((key, value)))
+            logger.info("Write settings: " + str((key, value)))
         
 
 def save_to_files(settings):
@@ -118,9 +124,11 @@ def save_to_files(settings):
         os.makedirs(folder_location, exist_ok=True)
         with open(file_path, 'w') as file:
             json.dump(data_to_save, file)
-        client.info(message="Settings saved to file: " + file_path)
+        logger.info("Settings saved to file: " + file_path)
+        client.info("Settings saved to file: " + file_path)
     except Exception as e:
-        client.fail(message="Failed to save settings to file. Error: " + str(e))
+        logger.error("Failed to save settings to file. Error: " + str(e))
+        client.fail("Failed to save settings to file. Error: " + str(e))
 
     return True
 
@@ -133,7 +141,8 @@ def load_from_files(settings):
     file_path = os.path.join(settings.get("location"), "settings.json")
     
     if not os.path.exists(file_path):
-        client.warn(message="The settings file (" + file_path + ") does not exist.")
+        logger.warn("The settings file (" + file_path + ") does not exist.")
+        client.warn("The settings file (" + file_path + ") does not exist.")
         return
 
     try:
@@ -144,10 +153,11 @@ def load_from_files(settings):
             value = data["value"]
             storage[key].set_value(value)
 
-        ic(storage)
-
-        client.info(message="Settings loaded from file: " + file_path)
+        logger.info("Settings loaded from file: " + file_path)
+        client.info("Settings loaded from file: " + file_path)
     except Exception as e:
-        client.fail(message="Failed to load settings from file. Error: " + str(e))
+        logger.error("Failed to load settings from file. Error: " + str(e))
+        client.fail("Failed to load settings from file. Error: " + str(e))
 
     return True
+
