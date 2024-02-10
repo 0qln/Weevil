@@ -355,11 +355,11 @@ if __name__ == "__main__":
     
     exit_flag = False
 
-    playback = PlaybackManager()
-
     # load config
     settings.load_from_files({ "location": os.getcwd() })
     commons.load_from_files({ "location": os.getcwd() })
+
+    playback = PlaybackManager()
 
     client.info("Type 'help' to retrieve documentation.")
     
