@@ -133,7 +133,7 @@ class VideoHelper:
         
         # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
-            if retrys > 0:
+            if retries > 0:
                 client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retrys left: {str(retrys)}")
                 time.sleep(0.1)
                 return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
