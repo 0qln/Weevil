@@ -39,10 +39,8 @@ class PlaybackManager:
             self.current = -1
             self.generator = None
 
-            if (self.content_type == ContentType.VIDEO):
-                client.currIndentLevel -= 1
-            if (self.content_type == ContentType.PLAYLIST):
-                client.currIndentLevel -= 2
+            # Reset currIndentLevel
+            client.currIndentLevel = 0
 
         return True
 
