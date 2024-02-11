@@ -9,7 +9,6 @@ from ssl import SSLError
 import ffmpeg
 import shutil
 import logging
-from icecream import ic
 
 
 logger = logging.getLogger(f"root___.weevil_.vidhelp")
@@ -58,8 +57,8 @@ class VideoHelper:
                 logger.info("Fetching from servers...")
                 client.info("Fetching from servers...")
                 file_ext = None if file_type == "any" else file_type
-                stream = ic(video.streams.filter(only_audio=True, file_extension=file_ext).first())
-                client.override(client.info, ic(f"Downloading '{video.title}'..."))
+                stream = video.streams.filter(only_audio=True, file_extension=file_ext).first()
+                client.override(client.info, f"Downloading '{video.title}'...")
                 file_path = stream.download(folder)
                 logger.info(f"Downloaded file location: {file_path}")
 
@@ -97,7 +96,9 @@ class VideoHelper:
         return None
 
     @staticmethod
-    def create_playback(url, output_folder, file_type) -> str | None:
+    def create_playback(url, output_folder, file_type):
         logger.info(f"Creating playback for URL: {url}")
-        return ic(VideoHelper.create_playback_from_video(pytube.YouTube(url), output_folder, file_type))
+        yt = pytube.YouTube(url)
+        return VideoHelper.create_playback_from_video(yt, output_folder, file_type), yt
+    
 

@@ -9,7 +9,6 @@ from ssl import SSLError
 import ffmpeg
 import shutil
 import logging
-from icecream import ic
 from PlaylistPlaybackManager import PlaylistPlaybackManager
 from VideoHelper import VideoHelper
 from Track import Track  
@@ -90,10 +89,10 @@ class PlaybackManager:
             try: 
                 logger.info("Playing video...")
                 client.currIndentLevel += 1
-                track_source = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
+                track_source, video = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
                 if track_source is None:
                     return True
-                t = Track(track_source)
+                t = Track(track_source, video)
                 self.tracks.append(t)
                 t.player.volume = self.volume / 100
                 t.push_handlers(on_end=self.skip)
@@ -114,10 +113,11 @@ class PlaybackManager:
         logger.info("Announce track")
         t = self.get_current()
         message = VideoHelper.get_title(t.source)
+        name = "Track" if self.content_type == ContentType.VIDEO else "Current Track"
         if (override):
-            client.override(client.info, name="Current Track", message=message)
+            client.override(client.info, name=name, message=message)
         else:
-            client.info(name="Current Track", message=message)
+            client.info(name=name, message=message)
 
 
     def get_current(self) -> Track | None:

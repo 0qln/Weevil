@@ -144,6 +144,7 @@ def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
 
 def track_info(settings):
     from Track import Track
+    from playbackMan import PlaybackManager, ContentType
 
     logger.info("Start writing track info...")
 
@@ -156,12 +157,14 @@ def track_info(settings):
     if track.video is None: return
     logger.info(f"Track.video: {track.video}")
 
+    client.increase_indent()
     client.hail(name="Track Info", message=str(track.video.title))
     client.increase_indent()
     client.info(name="Title", message=str(track.video.title))
     client.info(name="Author", message=str(track.video.author))
     client.info(name="Duration", message=str(datetime.timedelta(seconds=track.video.length)))
     client.info(name="Publish date", message=str(track.video.publish_date))
+    client.reduce_indent()
     client.reduce_indent()
 
     logger.info("Finish writing track info...")
