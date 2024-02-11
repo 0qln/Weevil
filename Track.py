@@ -21,10 +21,11 @@ class EndEvent:
         self.track = track
 
 class Track(EventDispatcher):
-    def __init__(self, source:str=None) -> None:
+    def __init__(self, source:str=None, video=None) -> None:
         super().__init__()
         self.source = source
         self.player = pyglet.media.Player()
+        self.video = video
         if source is not None:
             self.player.queue(pyglet.media.load(source))
             self.player.push_handlers(on_eos=self.dispatch_end)

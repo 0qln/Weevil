@@ -53,7 +53,7 @@ class PlaylistPlaybackManager(object):
         for video in self.playlist.videos_generator():
             logger.debug("Yielding next video from playlist: %s", video.title)
             self.videos.append(VideoHelper.create_playback_from_video(video, self.path, self.preferred_file_type))
-            yield self.get_next()
+            yield self.get_next(), video
 
     def get_prev(self) -> str | None:
 

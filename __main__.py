@@ -363,7 +363,7 @@ if __name__ == "__main__":
         {
             # print info
             "names": [ "info" ],
-            "function": lambda s: client.playlist_info({"playback_man": playback}) if "playlist" in s else client.track_info({"media_player": playback.current}),
+            "function": lambda s: client.playlist_info({"playback_man": playback}) if "playlist" in s else client.track_info({"playback_man": playback}),
             "flags": [
                 {
                     # current track

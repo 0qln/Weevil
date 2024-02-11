@@ -71,11 +71,11 @@ class PlaybackManager:
                 iterator = playlist.yield_iterate()
                 if playlist.has_next():
                     def gen():
-                        for track_source in iterator:
-                            logger.info(f"Yielding new track: {track_source}")
+                        for track_source, video in iterator:
+                            logger.info(f"Yielding new track: {track_source, video}")
                             if track_source is None:
                                 continue
-                            t = Track(track_source)
+                            t = Track(track_source, video)
                             t.push_handlers(on_end=self.skip)
                             t.player.volume = self.volume / 100
                             self.tracks.append(t)

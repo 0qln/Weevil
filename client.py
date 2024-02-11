@@ -1,7 +1,9 @@
-import os, settings, datetime
+import os, settings, datetime, logging
 import client
 from mpWrapper import MediaPlayer
 
+logger = logging.getLogger(f"root___.weevil_.client_")
+logger.info(f"Logging to file enabled.")
 
 # # color testing:
 # def change_text_color(color_code): return f'\033[{color_code}m'
@@ -111,26 +113,50 @@ def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
 
 
 def track_info(settings):
-    import playbackMan
-    pb:playbackMan.PlaybackManager = settings["playback_man"]
-    if (pb.playlist_info is None): return
-    client.currIndentLevel += 1
-    # client.info(name="Title", message=str(pb.))
-    # client.info(name="Duration", message=str(datetime.timedelta(seconds=mp.get_duration())))
-    # client.info(name="Status", message=str(mp.state))
-    client.currIndentLevel -= 1
+    from Track import Track
+
+    logger.info("Start writing track info...")
+
+    pb = settings["playback_man"]
+    track:Track = pb.get_current()
+    logger.info(f"PlaybackManager: {pb}")
+    logger.info(f"Track: {track}")
+    logger.info(f"Track.video: {track.video}")
+    if pb is None: return
+    if track is None or track.video is None: return
+
+    client.increase_indent()
+    client.info(name="Title", message=str(track.video.title))
+    client.info(name="Author", message=str(track.video.author))
+    client.info(name="Duration", message=str(datetime.timedelta(seconds=track.video.length)))
+    client.info(name="Publish date", message=str(track.video.publish_date))
+    client.reduce_indent()
+
+    logger.info("Finish writing track info...")
+
 
 def playlist_info(settings):
-    import playbackMan
+    from PlaybackManager import playbackMan
+
+    logger.info("Start writing playlist info...")
     pb:playbackMan.PlaybackManager = settings["playback_man"]
-    if (pb.playlist_info is None): return
-    client.hail(name="Info", message=pb.playlist_info.playlist.title)
+    if pb.playlist_info is None:
+        logger.info("No playlist information available.")
+        return
+    
+    playlist = pb.playlist_info.playlist
+    logger.info(f"PlaybackManager: {pb}")
+    logger.info(f"Playlist: {playlist}")
+    
+    client.hail(name="Info", message=playlist.title)
     client.increase_indent()
-    client.info(name="Title", message=pb.playlist_info.playlist.title)
-    client.info(name="Track count", message=pb.playlist_info.playlist.length)
-    client.info(name="Owner", message=pb.playlist_info.playlist.owner)
-    client.info(name="Views", message=pb.playlist_info.playlist.views)
+    client.info(name="Title", message=str(playlist.title))
+    client.info(name="Track count", message=str(playlist.length))
+    client.info(name="Owner", message=str(playlist.owner))
+    client.info(name="Views", message=str(playlist.views))
     client.reduce_indent()
+    
+    logger.info("Finish writing playlist info...")
 
 def list_playlists(settings):
     client.hail(name="Saved Playlists", message=settings["directory"])
