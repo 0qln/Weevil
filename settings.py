@@ -2,7 +2,7 @@ import logging
 import enum, re, os
 
 
-logger = logging.getLogger(f"root.weevil.{__name__}")
+logger = logging.getLogger(f"root___.weevil_.settngs")
 logger.info(f"Logging to file enabled.")
 
 

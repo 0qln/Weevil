@@ -14,7 +14,7 @@ from VideoHelper import VideoHelper
 
 
 # Create a logger object for the PlaylistPlaybackManager class
-logger = logging.getLogger(f"root.weevil.{__name__}")
+logger = logging.getLogger(f"root___.weevil_.playlis")
 logger.info(f"Logging to file enabled.")
 
 
@@ -56,6 +56,7 @@ class PlaylistPlaybackManager(object):
             yield self.get_next()
 
     def get_prev(self) -> str | None:
+
         logger.debug("Retrieving previous video from playlist...")
         if self.current_mp > 0:
             self.current_mp -= 1

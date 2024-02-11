@@ -14,7 +14,7 @@ import logging
 
 
 # Create a logger object with the name 'root.weevil'
-logger = logging.getLogger('root.weevil')
+logger = logging.getLogger('root___.weevil_')
 
 
 def find_matches(pattern, text):
@@ -81,15 +81,35 @@ def exit():
     exit_flag = True
     logger.info("Exit program.")
 
+class PaddedLevelFormatter(logging.Formatter):
+    def format(self, record):
+        record.levelname = record.levelname.rjust(8)
+        #  record.name = record.name.ljust(20)
+        return super().format(record)
+
 if __name__ == "__main__":
     # Initiate Logging
+    logging.getLogger("pytube.helpers").disabled = True
+
+    log_format = '%(asctime)s %(levelname)s  %(name)s - %(message)s'
     log_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), "log.txt")
     logging.basicConfig(filename=log_file,
                         filemode='a',
-                        format='%(asctime)s,%(msecs)d %(name)s %(levelname)s - %(message)s',
+                        format=log_format,
                         level=logging.DEBUG)
-    logger.info(f"Logging to file enabled. [{log_file}]")
+    
+    root_logger = logging.getLogger()
+    root_handler = root_logger.handlers[0]
+    root_handler.setFormatter(PaddedLevelFormatter(log_format))
 
+    logger.info(f"Logging to file enabled. [{log_file}]")
+    
+    #  logger.debug("Debug message")
+    #  logger.info("Info message")
+    #  logger.warn("Warn message")
+    #  logger.error("Error message")
+    #  logger.fatal("Fatal message")
+#  
     # Initiate debug mode 
     DEBUG_MODE = True if len(argv)>1 and "DEBUG" in argv[1] else False   
     logger.info(f"Debug Mode: {DEBUG_MODE}")
@@ -110,6 +130,7 @@ if __name__ == "__main__":
             "function":lambda settings: playback.reset() and playback.play(settings),
             "flags": [
                 {
+
                     "names": [ "--commons", "-c" ],
                     "name_settings": "commons"
                 },

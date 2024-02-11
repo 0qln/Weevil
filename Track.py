@@ -12,7 +12,7 @@ import logging
 from icecream import ic
 
 
-logger = logging.getLogger(f"root.weevil.{__name__}")
+logger = logging.getLogger(f"root___.weevil_.track__")
 logger.info(f"Logging to file enabled.")
 
 

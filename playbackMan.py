@@ -15,7 +15,7 @@ from VideoHelper import VideoHelper
 from Track import Track  
 
 
-logger = logging.getLogger(f"root.weevil.{__name__}")
+logger = logging.getLogger(f"root___.weevil_.playbac")
 logger.info(f"Logging to file enabled.")
 
 
