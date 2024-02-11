@@ -50,6 +50,8 @@ def override(func, message, name=None):
     clear_curr_line()
     func(message, name)
 
+def style_reset() -> str: return '\033[0m'
+
 def fail(message, name=None): 
     if not settings.get("fail") == "true": return
     _print(name=(name if name else "FAIL"), message=style_fail(message), style=style_fail)
@@ -74,11 +76,13 @@ def style_none(value) -> str: return str(value)
 
 def get_indent(amount = None, pipe=False) -> str: 
     return " " * indentWidth * ((amount if amount else currIndentLevel) - (1 if pipe else 0))
-def get_bottom(indentLevel) -> str: 
+def get_bottom_pipe(indentLevel) -> str: 
     return "╚" + "═" * (indentWidth - 2) + " " if indentLevel > 0 else ""
-def get_middle(indentLevel) -> str: 
+def get_middle_pipe(indentLevel) -> str: 
     return "╠" + "═" * (indentWidth - 2) + " " if indentLevel > 0 else ""
-
+#  def get_root_pipe(indentLevel) -> str:
+    #  return " " + "═" * (indentWidth - 2) + " " if indentLevel > 0 else ""
+#  
 def go_up_lines(amount): print("\033[A" * amount, end='')
 def clear_curr_line(): print(" " * os.get_terminal_size().columns, end='\r')
 
@@ -100,14 +104,14 @@ def set_cursor_position(row, col):
 
 
 def _print(name, message, style):
-    cols = os.get_terminal_size().columns
-
+    style_width = len(style_reset() + style(""))
+    cols = os.get_terminal_size().columns + style_width * 2
     indent = get_indent(currIndentLevel, pipe=True)
 
-    pipe = get_bottom(currIndentLevel)
+    pipe = get_bottom_pipe(currIndentLevel)
 
-    output = f"{indent}{pipe}{name}: {message}"
-    print(style(cap(output, cols)), end='\n')
+    output = f"{style_reset()}{indent}{pipe}{style(name)}: {style(message)}"
+    print(cap(output, cols), end='\n')
     
 
 def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
