@@ -46,9 +46,12 @@ def increase_indent():
     currIndentLevel += 1
 
 def override(func, message, name=None):
+    global curr_is_overriding_cache
+    curr_is_overriding_cache = True
     go_up_lines(1)
     clear_curr_line()
     func(message, name)
+    curr_is_overriding_cache = False
 
 def style_reset() -> str: return '\033[0m'
 
@@ -84,6 +87,7 @@ def get_middle_pipe(indentLevel) -> str:
     #  return " " + "═" * (indentWidth - 2) + " " if indentLevel > 0 else ""
 #  
 def go_up_lines(amount): print("\033[A" * amount, end='')
+def go_down_lines(amount): print("\033[B" * amount, end='')
 def clear_curr_line(): print(" " * os.get_terminal_size().columns, end='\r')
 
 def get_input() -> str:
@@ -102,17 +106,38 @@ def set_cursor_position(row, col):
     escape_code = f"\033[{row};{col}H"
     print(escape_code, end='', flush=True)
 
+def set_cursor_col(col):
+    escape_code = f"\033[{col}G"
+    print(escape_code, end='', flush=True)
+
+
+prev_pipe_col_cache = -1
+prev_indent_level_cache = -1
+curr_is_overriding_cache = False
 
 def _print(name, message, style):
+    global prev_pipe_col_cache
+    global prev_indent_level_cache
+
+    # update prev pipe
+    if (prev_indent_level_cache > 0 
+        and prev_indent_level_cache == currIndentLevel 
+        and curr_is_overriding_cache == False):
+        set_cursor_col(prev_pipe_col_cache)
+        go_up_lines(1)
+        print(get_middle_pipe(currIndentLevel))
+
+    # print new message
     style_width = len(style_reset() + style(""))
     cols = os.get_terminal_size().columns + style_width * 2
     indent = get_indent(currIndentLevel, pipe=True)
-
     pipe = get_bottom_pipe(currIndentLevel)
-
     output = f"{style_reset()}{indent}{pipe}{style(name)}: {style(message)}"
     print(cap(output, cols), end='\n')
     
+    # remember pipe posisiotn
+    prev_pipe_col_cache = len(indent) + 1
+    prev_indent_level_cache = currIndentLevel
 
 def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
 
