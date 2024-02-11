@@ -22,51 +22,72 @@ def find_matches(pattern, text):
     return [match.group() for match in matches]
 
 def parse_tokens(input:str, arg_library):
-    # # get the argument and it's definition
-    argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
-    arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
-    if arg_def is None: 
-        client.warn(message="Specified argument does not exist!")
+    try:
+        # get the argument and it's definition
+        argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
+        arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
+        if arg_def is None: 
+            client.warn(message="Specified argument does not exist!")
+            return None, None
+        logger.info(f"Parsing tokens for argument: {argument}")
+        logger.debug(f"Input: {input}")
+        logger.debug(f"Argument definition: {arg_def}")
+
+        # search for pseudo legal flags and values in the input string
+        flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
+        flags = [ find_matches(r"-[a-zA-Z_-]+(?:\b)", str(fv_pair)) for fv_pair in flag_values ]
+        values = [ find_matches(r"(?<=\").+(?=\")", str(fv_pair)) for fv_pair in flag_values ]
+        logger.debug(f"Flag values: {flag_values}")
+        logger.debug(f"Flags: {flags}")
+        logger.debug(f"Values: {values}")
+
+        flag_mapping = { }
+
+        # load flags specified by user, if no value load `None`
+        [flag_mapping.update({flag_def["name_settings"]: (val[0] if len(val) > 0 else None)})
+                            for flag_def in arg_def["flags"]
+                            for flag, val in zip(flags, values)
+                            if flag[0] in flag_def["names"]]
+        
+        logger.debug(f"Flag mapping: {flag_mapping}")
+
+        # merge the regiesterd flags and their values
+        # load defaults. if specified, but either the flag wasn't added or no custom value was added
+        flag_mapping.update({flag_def["name_settings"]: flag_def["default"] 
+                            for flag_def in arg_def["flags"] 
+                            if "default" in flag_def and (
+                                flag_def["name_settings"] not in flag_mapping or
+                                flag_mapping[flag_def["name_settings"]] == None)})
+        
+        logger.debug(f"Merged flag mapping: {flag_mapping}")
+
+        return arg_def, flag_mapping
+
+    except Exception as e:
+        logger.error(f"Error while parsing tokens: {e}")
         return None, None
-    logger.info(f"Parsing tokens for argument: {argument}")
-    logger.debug(f"Input: {input}")
-    logger.debug(f"Argument definition: {arg_def}")
 
-    # search for pseudo legal flags and values in the input string
-    flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
-    flags = [ find_matches(r"-[a-zA-Z_-]+(?:\b)", str(fv_pair)) for fv_pair in flag_values ]
-    values = [ find_matches(r"(?<=\").+(?=\")", str(fv_pair)) for fv_pair in flag_values ]
-    logger.debug(f"Flag values: {flag_values}")
-    logger.debug(f"Flags: {flags}")
-    logger.debug(f"Values: {values}")
-
-    flag_mapping = { }
-
-    # load flags specified by user, if no value load `None`
-    [flag_mapping.update({flag_def["name_settings"]: (val[0] if len(val) > 0 else None)})
-                        for flag_def in arg_def["flags"]
-                        for flag, val in zip(flags, values)
-                        if flag[0] in flag_def["names"]]
-    
-    logger.debug(f"Flag mapping: {flag_mapping}")
-
-    # merge the regiesterd flags and their values
-    # load defaults. if specified, but either the flag wasn't added or no custom value was added
-    flag_mapping.update({flag_def["name_settings"]: flag_def["default"] 
-                        for flag_def in arg_def["flags"] 
-                        if "default" in flag_def and (
-                            flag_def["name_settings"] not in flag_mapping or
-                            flag_mapping[flag_def["name_settings"]] == None)})
-    
-    logger.debug(f"Merged flag mapping: {flag_mapping}")
-
-    return arg_def, flag_mapping
 
 def handle_arg(argument, settings):
-    if (argument is None): return
-    if (settings is None): return
-    threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
-    logger.info(f"Started handling argument on new daemon: {argument}")
+    try:
+        if (argument is None): return
+        if (settings is None): return
+        threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+        logger.info(f"Started handling argument on new daemon: {argument}")
+    except Exception as e:
+        logger.error(f"Error while handling argument: {e}")
+
+
+def safe(**actions):
+    for i, action_name in enumerate(actions):
+        action = actions[action_name]
+        try:
+            logger.info(f"Begin executing action #{i}: {action_name}")
+            action()
+            logger.info(f"Finish executing action #{i}: {action_name}")
+        except Exception as e:
+            logger.error(f"Failed to execute action #{i}: {action_name}")
+
 
 def exit_success(): 
     logger.info("Exit success.")
@@ -119,7 +140,7 @@ if __name__ == "__main__":
         {
             # Print 'help.txt'
             "names": [ "help", "-h", "--help" ],
-            "function": lambda settings: client.printHelp(),
+            "function": lambda __s: safe(printHelp=lambda: client.printHelp()),
             "flags": [ 
 
             ]
@@ -127,7 +148,7 @@ if __name__ == "__main__":
         {
             # Play a video or playlist
             "names": [ "play" ],
-            "function":lambda settings: playback.reset() and playback.play(settings),
+            "function":lambda __s: safe(reset=lambda: playback.reset(), play=lambda: playback.play(__s)),
             "flags": [
                 {
 
@@ -153,7 +174,7 @@ if __name__ == "__main__":
         {
             # Clear the terminal
             "names": [ "clear", "cls" ],
-            "function":lambda settings: os.system('cls' if os.name=='nt' else 'clear'),
+            "function":lambda __s: safe(clear=lambda: os.system('cls' if os.name=='nt' else 'clear')),
             "flags": [ 
 
             ]
@@ -161,7 +182,7 @@ if __name__ == "__main__":
         {
             # Pause playback
             "names": [ "pause", "p" ],
-            "function":lambda settings: playback.pause(),
+            "function":lambda __s: safe(pause=lambda: playback.pause()),
             "flags": [ 
 
             ]
@@ -169,7 +190,7 @@ if __name__ == "__main__":
         {
             # Resume playback
             "names": [ "resume", "r" ],
-            "function":lambda settings: playback.resume(),
+            "function":lambda __s: safe(resume=lambda: playback.resume()),
             "flags": [
 
             ]
@@ -177,7 +198,7 @@ if __name__ == "__main__":
         {
             # Exit weevil
             "names": [ "exit", "close", "quit" ],
-            "function":lambda settings: exit_success(), #playback.reset()) and 
+            "function":lambda __s: safe(reset=lambda: playback.reset(), exit=lambda: exit_success()), 
             "flags": [
 
             ]
@@ -185,7 +206,7 @@ if __name__ == "__main__":
         {
             # Get a setting
             "names": [ "get"],
-            "function": lambda s: settings.get(s, print_info=True),
+            "function": lambda __s: safe(get=lambda: settings.get(__s, print_info=True)),
             "flags": [
                 # dynamic
                 {
@@ -219,7 +240,7 @@ if __name__ == "__main__":
         {
             # Set a settings
             "names": [ "set" ],
-            "function": lambda s: settings.set(s, playback), 
+            "function": lambda __s: safe(set=lambda: settings.set(__s, playback)), 
             "flags": [
                 # dynamic
                 {
@@ -258,7 +279,7 @@ if __name__ == "__main__":
         {
             # Manage frequently used urls
             "names": [ "commons", "customs" ],
-            "function": lambda settings: commons.manage(settings),
+            "function": lambda __s: safe(commons_manage=lambda: commons.manage(__s)),
             "flags": [
                 {
                     # Add a frequently used url
@@ -294,7 +315,7 @@ if __name__ == "__main__":
         {
             # Play next track
             "names": [ "next", "skip", "s" ],
-            "function": lambda settings: playback.skip(),
+            "function": lambda __s: safe(skip=lambda: playback.skip()),
             "flags": [
                 # TODO
                 # {
@@ -307,7 +328,7 @@ if __name__ == "__main__":
         {
             # Play previous track
             "names": [ "previous", "prev" ],
-            "function": lambda settings: playback.prev(),
+            "function": lambda __s: safe(prev=lambda: playback.prev()),
             "flags": [
                 # TODO
                 # {
@@ -320,7 +341,7 @@ if __name__ == "__main__":
         {
             # Print a list of all downloaded playlists and their videos
             "names": [ "list_playlists", "lp" ],
-            "function": lambda settings: client.list_playlists(settings),
+            "function": lambda __s: safe(list_playlists=lambda: client.list_playlists(__s)),
             "flags": [
                 {
                     "names": [ "--directory", "-dir" ],
@@ -337,7 +358,7 @@ if __name__ == "__main__":
         {
             # save current setting config to disc
             "names": [ "config_save", "conf_s" ],
-            "function": lambda s: settings.save_to_files(s) and commons.save_to_files(s),
+            "function": lambda __s: safe(save_settings=lambda: settings.save_to_files(__s), save_commons=lambda: commons.save_to_files(__s)),
             "flags": [
                 {
                     # the folder location of that the config files will be generated in
@@ -350,7 +371,7 @@ if __name__ == "__main__":
         {
             # load current setting config from disc
             "names": [ "config_load", "conf_l" ],
-            "function": lambda s: settings.load_from_files(s) and commons.load_from_files(s),
+            "function": lambda __s: safe(load_settings=lambda: settings.load_from_files(__s), load_commons=lambda: commons.load_from_files(__s)),
             "flags": [
                 {
                     # the file path to the config.json file
@@ -363,7 +384,7 @@ if __name__ == "__main__":
         {
             # print info
             "names": [ "info" ],
-            "function": lambda s: client.playlist_info({"playback_man": playback}) if "playlist" in s else client.track_info({"playback_man": playback}),
+            "function": lambda __s: safe(print_info=lambda: client.playlist_info({"playback_man": playback}) if "playlist" in __s else client.track_info({"playback_man": playback})),
             "flags": [
                 {
                     # current track
@@ -401,6 +422,8 @@ if __name__ == "__main__":
                 argument, flags = parse_tokens(tokens, arguments.get())
                 logger.debug(f"Parsed argument: {argument}")
                 logger.debug(f"Parsed flags: {flags}")
+
+                if not argument or not flags: continue
 
                 try:
                     handle_arg(argument, flags)
