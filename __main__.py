@@ -423,7 +423,7 @@ if __name__ == "__main__":
                 logger.debug(f"Parsed argument: {argument}")
                 logger.debug(f"Parsed flags: {flags}")
 
-                if not argument or not flags: continue
+                if argument is None or flags is None: continue
 
                 try:
                     handle_arg(argument, flags)
