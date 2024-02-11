@@ -5,6 +5,7 @@ from mpWrapper import MediaPlayer
 logger = logging.getLogger(f"root___.weevil_.client_")
 logger.info(f"Logging to file enabled.")
 
+
 # color testing:
 #  def change_text_color(color_code): return f'\033[{color_code}m'
 #  for x in range(200): 
@@ -46,29 +47,29 @@ def increase_indent():
     currIndentLevel += 1
 
 def override(func, message, name=None):
-    global curr_is_overriding_cache
-    curr_is_overriding_cache = True
+    global CACHE
+    CACHE["is_overriding"] = True
     go_up_lines(1)
     clear_curr_line()
     func(message, name)
-    curr_is_overriding_cache = False
+    CACHE["is_overriding"] = False
 
 def style_reset() -> str: return '\033[0m'
 
 def fail(message, name=None): 
     if not settings.get("fail") == "true": return
     _print(name=(name if name else "FAIL"), message=style_fail(message), style=style_fail)
-def style_fail(value) -> str: return '\033[31m' + str(value) + '\033[0m' 
+def style_fail(value) -> str: return '\033[00m' + '\033[31m' + str(value) + '\033[0m' 
     
 def warn(message, name=None):
     if not settings.get("warn") == "true": return
     _print(name=(name if name else "WARN"), message=style_warn(message), style=style_warn)
-def style_warn(value) -> str: return '\033[33m' + str(value) + '\033[0m'
+def style_warn(value) -> str: return '\033[00m' + '\033[33m' + str(value) + '\033[0m'
 
 def hail(message, name=None):
     if not settings.get("hail") == "true": return
     _print(name=(name if name else "HAIL"), message=style_hail(message), style=style_hail)
-def style_hail(value) -> str: return '\033[01m' + str(value) + '\033[0m'
+def style_hail(value) -> str: return '\033[00m' + '\033[01m' + str(value) + '\033[0m'
 
 def info(message, name=None): 
     if not settings.get("info") == "true": return
@@ -111,35 +112,48 @@ def set_cursor_col(col):
     print(escape_code, end='', flush=True)
 
 
-prev_pipe_col_cache = -1
-prev_indent_level_cache = -1
-curr_is_overriding_cache = False
+CACHE = {}
+CACHE["pipe_col"] = -1
+CACHE["indent_level"] = -1
+CACHE["is_overriding"] = False
 
 def _print(name, message, style):
-    global prev_pipe_col_cache
-    global prev_indent_level_cache
+    global CACHE    
 
     # update prev pipe
-    if (prev_indent_level_cache > 0 
-        and prev_indent_level_cache == currIndentLevel 
-        and curr_is_overriding_cache == False):
-        set_cursor_col(prev_pipe_col_cache)
+    if (CACHE["indent_level"] > 0 
+        and CACHE["indent_level"] == currIndentLevel 
+        and CACHE["is_overriding"] == False):
+        set_cursor_col(CACHE["pipe_col"])
         go_up_lines(1)
         print(get_middle_pipe(currIndentLevel))
 
     # print new message
-    style_width = len(style_reset() + style(""))
-    cols = os.get_terminal_size().columns + style_width * 2
+    padding=(len(style("")) + len(style("")))
     indent = get_indent(currIndentLevel, pipe=True)
     pipe = get_bottom_pipe(currIndentLevel)
-    output = f"{style_reset()}{indent}{pipe}{style(name)}: {style(message)}"
-    print(cap(output, cols), end='\n')
+    output = f"{indent}{pipe}{style(name)}: {style(message)}"
+    print(style_reset() + pseudo_no_wrapping(output, padding) + style_reset())
     
     # remember pipe posisiotn
-    prev_pipe_col_cache = len(indent) + 1
-    prev_indent_level_cache = currIndentLevel
+    CACHE["pipe_col"] = len(indent) + 1
+    CACHE["indent_level"] = currIndentLevel
 
-def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
+
+def pseudo_no_wrapping(text, padding) -> str:
+    columns = os.get_terminal_size().columns
+    printed_chars = 0
+    output = ""
+    for char in text:
+        # Assuming non-monospaced characters take up more space than monospaced ones
+        char_width = 2 if len(char.encode('utf-8')) > 1 else 1
+        if printed_chars + char_width <= columns + padding:
+            output += char
+            printed_chars += char_width
+        else:
+            break
+    return output
+
 
 
 def track_info(settings):
