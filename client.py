@@ -5,11 +5,11 @@ from mpWrapper import MediaPlayer
 logger = logging.getLogger(f"root___.weevil_.client_")
 logger.info(f"Logging to file enabled.")
 
-# # color testing:
-# def change_text_color(color_code): return f'\033[{color_code}m'
-# for x in range(200): 
-#     print(change_text_color(x) + str(x) + " " + "message")
-
+# color testing:
+#  def change_text_color(color_code): return f'\033[{color_code}m'
+#  for x in range(200): 
+    #  print(change_text_color(x) + str(x) + " " + "message")
+#  
 _ = '''
 
 Playlist: Music [Muccascade]
@@ -68,13 +68,16 @@ def style_hail(value) -> str: return '\033[01m' + str(value) + '\033[0m'
 def info(message, name=None): 
     if not settings.get("info") == "true": return
     _print(name=(name if name else "INFO"), message=style_info(message), style=style_info)
-def style_info(value) -> str: return '\033[01m' + str(value) + '\033[0m'
+def style_info(value) -> str: return '\033[00m' + '\033[03m' + str(value) + '\033[0m'
 
 def style_none(value) -> str: return str(value)
 
-def get_indent(amount = None) -> str: return " " * indentWidth * (amount if amount else currIndentLevel)
-def get_bottom() -> str: return "╚" + "═" * (indentWidth - 2) + " "
-def get_middle() -> str: return "╠" + "═" * (indentWidth - 2) + " "
+def get_indent(amount = None, pipe=False) -> str: 
+    return " " * indentWidth * ((amount if amount else currIndentLevel) - (1 if pipe else 0))
+def get_bottom(indentLevel) -> str: 
+    return "╚" + "═" * (indentWidth - 2) + " " if indentLevel > 0 else ""
+def get_middle(indentLevel) -> str: 
+    return "╠" + "═" * (indentWidth - 2) + " " if indentLevel > 0 else ""
 
 def go_up_lines(amount): print("\033[A" * amount, end='')
 def clear_curr_line(): print(" " * os.get_terminal_size().columns, end='\r')
@@ -99,14 +102,12 @@ def set_cursor_position(row, col):
 def _print(name, message, style):
     cols = os.get_terminal_size().columns
 
-    indent = get_indent(currIndentLevel)
-    cols -= len(indent)
-    print(indent, end='')
+    indent = get_indent(currIndentLevel, pipe=True)
 
-    # print(get_middle(), end='')
+    pipe = get_bottom(currIndentLevel)
 
-    message = f"{name}: {message}"
-    print(style(cap(message, cols)), end='\n')
+    output = f"{indent}{pipe}{name}: {message}"
+    print(style(cap(output, cols)), end='\n')
     
 
 def cap(s, l): return s if len(s)<=l else s[0:l-3]+'...'
@@ -119,12 +120,14 @@ def track_info(settings):
 
     pb = settings["playback_man"]
     track:Track = pb.get_current()
-    logger.info(f"PlaybackManager: {pb}")
-    logger.info(f"Track: {track}")
-    logger.info(f"Track.video: {track.video}")
     if pb is None: return
-    if track is None or track.video is None: return
+    logger.info(f"PlaybackManager: {pb}")
+    if track is None: return
+    logger.info(f"Track: {track}")
+    if track.video is None: return
+    logger.info(f"Track.video: {track.video}")
 
+    client.hail(name="Track Info", message=str(track.video.title))
     client.increase_indent()
     client.info(name="Title", message=str(track.video.title))
     client.info(name="Author", message=str(track.video.author))
@@ -136,10 +139,10 @@ def track_info(settings):
 
 
 def playlist_info(settings):
-    from PlaybackManager import playbackMan
+    from playbackMan import PlaybackManager
 
     logger.info("Start writing playlist info...")
-    pb:playbackMan.PlaybackManager = settings["playback_man"]
+    pb:PlaybackManager = settings["playback_man"]
     if pb.playlist_info is None:
         logger.info("No playlist information available.")
         return
@@ -148,7 +151,7 @@ def playlist_info(settings):
     logger.info(f"PlaybackManager: {pb}")
     logger.info(f"Playlist: {playlist}")
     
-    client.hail(name="Info", message=playlist.title)
+    client.hail(name="Playlist Info", message=playlist.title)
     client.increase_indent()
     client.info(name="Title", message=str(playlist.title))
     client.info(name="Track count", message=str(playlist.length))
