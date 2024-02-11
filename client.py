@@ -36,9 +36,11 @@ indentWidth = 4 # default tab with, should be >= 2
 newLineSpacing = 0 # space between each line of information
 
 def reduce_indent():
+    global currIndentLevel
     currIndentLevel -= 1
 
 def increase_indent():
+    global currIndentLevel
     currIndentLevel += 1
 
 def override(func, message, name=None):
@@ -122,10 +124,13 @@ def playlist_info(settings):
     import playbackMan
     pb:playbackMan.PlaybackManager = settings["playback_man"]
     if (pb.playlist_info is None): return
+    client.hail(name="Info", message=pb.playlist_info.playlist.title)
+    client.increase_indent()
     client.info(name="Title", message=pb.playlist_info.playlist.title)
     client.info(name="Track count", message=pb.playlist_info.playlist.length)
     client.info(name="Owner", message=pb.playlist_info.playlist.owner)
     client.info(name="Views", message=pb.playlist_info.playlist.views)
+    client.reduce_indent()
 
 def list_playlists(settings):
     client.hail(name="Saved Playlists", message=settings["directory"])
