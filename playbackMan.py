@@ -38,9 +38,6 @@ class PlaybackManager:
             self.current = -1
             self.generator = None
 
-            # Reset currIndentLevel
-            client.currIndentLevel = 0
-
         return True
 
 
@@ -61,10 +58,8 @@ class PlaybackManager:
         if self.content_type is ContentType.PLAYLIST:
             try:
                 logger.info("Playing playlist")
-                client.currIndentLevel += 1
                 playlist = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
                 self.playlist_info = playlist
-                client.currIndentLevel += 1
                 iterator = playlist.yield_iterate()
                 if playlist.has_next():
                     def gen():
@@ -88,7 +83,6 @@ class PlaybackManager:
         if self.content_type is ContentType.VIDEO:
             try: 
                 logger.info("Playing video...")
-                client.currIndentLevel += 1
                 track_source, video = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
                 if track_source is None:
                     return True
@@ -115,7 +109,7 @@ class PlaybackManager:
         message = VideoHelper.get_title(t.source)
         name = "Track" if self.content_type == ContentType.VIDEO else "Current Track"
         if (override):
-            client.override(client.info, name=name, message=message)
+            client.info(name=name, message=message)
         else:
             client.info(name=name, message=message)
 
