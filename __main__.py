@@ -1,8 +1,4 @@
-from pytube import YouTube
-from playbackMan import VideoHelper, PlaylistPlaybackManager, PlaybackManager
-from mpWrapper import MediaPlayer
-from threadPtr import ThreadPtr
-from icecream import ic
+from playbackMan import PlaybackManager
 from os import getcwd
 import os
 from sys import argv
@@ -14,87 +10,137 @@ import client
 import settings
 import arguments
 import commons
+import logging
+
+
+# Create a logger object with the name 'root.weevil'
+logger = logging.getLogger('root___.weevil_')
+
 
 def find_matches(pattern, text):
     matches = re.finditer(pattern, text, re.MULTILINE)
     return [match.group() for match in matches]
 
 def parse_tokens(input:str, arg_library):
-    # # get the argument and it's definition
-    argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
-    arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
-    if arg_def is None: 
-        client.warn("Specified argument does not exist!")
+    try:
+        # get the argument and it's definition
+        argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
+        arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
+        if arg_def is None: 
+            client.warn(message="Specified argument does not exist!")
+            return None, None
+        logger.info(f"Parsing tokens for argument: {argument}")
+        logger.debug(f"Input: {input}")
+        logger.debug(f"Argument definition: {arg_def}")
+
+        # search for pseudo legal flags and values in the input string
+        flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
+        flags = [ find_matches(r"-[a-zA-Z_-]+(?:\b)", str(fv_pair)) for fv_pair in flag_values ]
+        values = [ find_matches(r"(?<=\").+(?=\")", str(fv_pair)) for fv_pair in flag_values ]
+        logger.debug(f"Flag values: {flag_values}")
+        logger.debug(f"Flags: {flags}")
+        logger.debug(f"Values: {values}")
+
+        flag_mapping = { }
+
+        # load flags specified by user, if no value load `None`
+        [flag_mapping.update({flag_def["name_settings"]: (val[0] if len(val) > 0 else None)})
+                            for flag_def in arg_def["flags"]
+                            for flag, val in zip(flags, values)
+                            if flag[0] in flag_def["names"]]
+        
+        logger.debug(f"Flag mapping: {flag_mapping}")
+
+        # merge the regiesterd flags and their values
+        # load defaults. if specified, but either the flag wasn't added or no custom value was added
+        flag_mapping.update({flag_def["name_settings"]: flag_def["default"] 
+                            for flag_def in arg_def["flags"] 
+                            if "default" in flag_def and (
+                                flag_def["name_settings"] not in flag_mapping or
+                                flag_mapping[flag_def["name_settings"]] == None)})
+        
+        logger.debug(f"Merged flag mapping: {flag_mapping}")
+
+        return arg_def, flag_mapping
+
+    except Exception as e:
+        logger.error(f"Error while parsing tokens: {e}")
         return None, None
-    ic(argument)
-    ic(input)
-    ic(arg_def)
-
-    # search for pseudo legal flags and values in the input string
-    flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
-    flags = [ find_matches(r"-[a-zA-Z_-]+(?:\b)", str(fv_pair)) for fv_pair in flag_values ]
-    values = [ find_matches(r"(?<=\").+(?=\")", str(fv_pair)) for fv_pair in flag_values ]
-    ic(flag_values)
-    ic(flags)
-    ic(values)
-
-    flag_mapping = { }
-
-    # load flags specified by user, if no value load `None`
-    [flag_mapping.update({flag_def["name_settings"]: (val[0] if len(val) > 0 else None)})
-                        for flag_def in arg_def["flags"]
-                        for flag, val in zip(flags, values)
-                        if flag[0] in flag_def["names"]]
-    
-    ic (flag_mapping)
-
-    # merge the regiesterd flags and their values
-    # load defaults. if specified, but either the flag wasn't added or no custom value was added
-    flag_mapping.update({flag_def["name_settings"]: flag_def["default"] 
-                        for flag_def in arg_def["flags"] 
-                        if "default" in flag_def and (
-                            flag_def["name_settings"] not in flag_mapping or
-                            flag_mapping[flag_def["name_settings"]] == None)})
-    ic(flag_mapping)
-
-
-    return arg_def, flag_mapping
 
 
 def handle_arg(argument, settings):
-    if (argument is None): return
-    if (settings is None): return
-    ic(threading.Thread(target=argument["function"], args=[settings], daemon=True).start())
+    try:
+        if (argument is None): return
+        if (settings is None): return
+        threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+        logger.info(f"Started handling argument on new daemon: {argument}")
+    except Exception as e:
+        logger.error(f"Error while handling argument: {e}")
+
+
+def safe(**actions):
+    for i, action_name in enumerate(actions):
+        action = actions[action_name]
+        try:
+            logger.info(f"Begin executing action #{i}: {action_name}")
+            action()
+            logger.info(f"Finish executing action #{i}: {action_name}")
+        except Exception as e:
+            logger.error(f"Failed to execute action #{i}: {action_name}")
 
 
 def exit_success(): 
-    ic("Exit success.")
+    logger.info("Exit success.")
     exit()
 
 def exit_failure(): 
-    ic("Exit failure.")
+    logger.info("Exit failure.")
     exit()   
 
 def exit():
     global exit_flag
     exit_flag = True
+    logger.info("Exit program.")
 
+class PaddedLevelFormatter(logging.Formatter):
+    def format(self, record):
+        record.levelname = record.levelname.rjust(8)
+        #  record.name = record.name.ljust(20)
+        return super().format(record)
 
 if __name__ == "__main__":
- 
-    debug_mode = True if len(argv)>1 and "DEBUG" in argv[1] else False
-    if not debug_mode: 
-        def log_to_file(message, log_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "log.txt")):
-            logging.basicConfig(filename=log_file, level=logging.INFO, format='%(message)s') #format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
-            logging.info(message)
-        ic.outputFunction = log_to_file
+    # Initiate Logging
+    logging.getLogger("pytube.helpers").disabled = True
 
+    log_format = '%(asctime)s %(levelname)s  %(name)s - %(message)s'
+    log_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), "log.txt")
+    logging.basicConfig(filename=log_file,
+                        filemode='a',
+                        format=log_format,
+                        level=logging.DEBUG)
+    
+    root_logger = logging.getLogger()
+    root_handler = root_logger.handlers[0]
+    root_handler.setFormatter(PaddedLevelFormatter(log_format))
 
+    logger.info(f"Logging to file enabled. [{log_file}]")
+    
+    #  logger.debug("Debug message")
+    #  logger.info("Info message")
+    #  logger.warn("Warn message")
+    #  logger.error("Error message")
+    #  logger.fatal("Fatal message")
+#  
+    # Initiate debug mode 
+    DEBUG_MODE = True if len(argv)>1 and "DEBUG" in argv[1] else False   
+    logger.info(f"Debug Mode: {DEBUG_MODE}")
+       
+    # Initiate Arguments    
     arguments.initiate([
         {
             # Print 'help.txt'
             "names": [ "help", "-h", "--help" ],
-            "function": lambda settings: ic(client.printHelp()),
+            "function": lambda __s: safe(printHelp=lambda: client.printHelp()),
             "flags": [ 
 
             ]
@@ -102,9 +148,10 @@ if __name__ == "__main__":
         {
             # Play a video or playlist
             "names": [ "play" ],
-            "function":lambda settings: ic(playback.reset()) and ic(playback.play(settings)),
+            "function":lambda __s: safe(reset=lambda: playback.reset(), play=lambda: playback.play(__s)),
             "flags": [
                 {
+
                     "names": [ "--commons", "-c" ],
                     "name_settings": "commons"
                 },
@@ -127,7 +174,7 @@ if __name__ == "__main__":
         {
             # Clear the terminal
             "names": [ "clear", "cls" ],
-            "function":lambda settings: ic(os.system('cls' if os.name=='nt' else 'clear')),
+            "function":lambda __s: safe(clear=lambda: client.clear()),
             "flags": [ 
 
             ]
@@ -135,7 +182,7 @@ if __name__ == "__main__":
         {
             # Pause playback
             "names": [ "pause", "p" ],
-            "function":lambda settings: ic(playback.pause()),
+            "function":lambda __s: safe(pause=lambda: playback.pause()),
             "flags": [ 
 
             ]
@@ -143,7 +190,7 @@ if __name__ == "__main__":
         {
             # Resume playback
             "names": [ "resume", "r" ],
-            "function":lambda settings: ic(playback.resume()),
+            "function":lambda __s: safe(resume=lambda: playback.resume()),
             "flags": [
 
             ]
@@ -151,7 +198,7 @@ if __name__ == "__main__":
         {
             # Exit weevil
             "names": [ "exit", "close", "quit" ],
-            "function":lambda settings: ic(exit_success()), #ic(playback.reset()) and 
+            "function":lambda __s: safe(reset=lambda: playback.reset(), exit=lambda: exit_success()), 
             "flags": [
 
             ]
@@ -159,7 +206,7 @@ if __name__ == "__main__":
         {
             # Get a setting
             "names": [ "get"],
-            "function": lambda s: ic(settings.get(s, print_info=True)),
+            "function": lambda __s: safe(get=lambda: settings.get(__s, print_info=True)),
             "flags": [
                 # dynamic
                 {
@@ -193,7 +240,7 @@ if __name__ == "__main__":
         {
             # Set a settings
             "names": [ "set" ],
-            "function": lambda s: ic(settings.set(s, playback)), 
+            "function": lambda __s: safe(set=lambda: settings.set(__s, playback)), 
             "flags": [
                 # dynamic
                 {
@@ -206,6 +253,7 @@ if __name__ == "__main__":
                 },
 
                 # hardcoded
+                # TODO: remove UI options
                 {
                     "names": [ "--title_declerations", "-t"],
                     "name_settings": "hail"
@@ -231,7 +279,7 @@ if __name__ == "__main__":
         {
             # Manage frequently used urls
             "names": [ "commons", "customs" ],
-            "function": lambda settings: ic(commons.manage(settings)),
+            "function": lambda __s: safe(commons_manage=lambda: commons.manage(__s)),
             "flags": [
                 {
                     # Add a frequently used url
@@ -267,7 +315,7 @@ if __name__ == "__main__":
         {
             # Play next track
             "names": [ "next", "skip", "s" ],
-            "function": lambda settings: ic(playback.skip()),
+            "function": lambda __s: safe(skip=lambda: playback.skip()),
             "flags": [
                 # TODO
                 # {
@@ -280,7 +328,7 @@ if __name__ == "__main__":
         {
             # Play previous track
             "names": [ "previous", "prev" ],
-            "function": lambda settings: ic(playback.prev()),
+            "function": lambda __s: safe(prev=lambda: playback.prev()),
             "flags": [
                 # TODO
                 # {
@@ -293,7 +341,7 @@ if __name__ == "__main__":
         {
             # Print a list of all downloaded playlists and their videos
             "names": [ "list_playlists", "lp" ],
-            "function": lambda settings: ic(client.list_playlists(settings)),
+            "function": lambda __s: safe(list_playlists=lambda: client.list_playlists(__s)),
             "flags": [
                 {
                     "names": [ "--directory", "-dir" ],
@@ -303,14 +351,14 @@ if __name__ == "__main__":
                 {
                     "names": [ "--show_id", "-si" ],
                     "name_settings": "show_id",
-                    "default": str(debug_mode)
+                    "default": DEBUG_MODE
                 }
             ]
         },
         {
             # save current setting config to disc
             "names": [ "config_save", "conf_s" ],
-            "function": lambda s: ic(settings.save_to_files(s)) and ic(commons.save_to_files(s)),
+            "function": lambda __s: safe(save_settings=lambda: settings.save_to_files(__s), save_commons=lambda: commons.save_to_files(__s)),
             "flags": [
                 {
                     # the folder location of that the config files will be generated in
@@ -323,7 +371,7 @@ if __name__ == "__main__":
         {
             # load current setting config from disc
             "names": [ "config_load", "conf_l" ],
-            "function": lambda s: ic(settings.load_from_files(s)) and ic(commons.load_from_files(s)),
+            "function": lambda __s: safe(load_settings=lambda: settings.load_from_files(__s), load_commons=lambda: commons.load_from_files(__s)),
             "flags": [
                 {
                     # the file path to the config.json file
@@ -333,11 +381,10 @@ if __name__ == "__main__":
                 }
             ]
         },
-        #TODO
         {
             # print info
             "names": [ "info" ],
-            "function": lambda s: ic(),
+            "function": lambda __s: safe(print_info=lambda: client.playlist_info({"playback_man": playback}) if "playlist" in __s else client.track_info({"playback_man": playback})),
             "flags": [
                 {
                     # current track
@@ -361,33 +408,42 @@ if __name__ == "__main__":
 
     playback = PlaybackManager()
 
-    client.info("Type 'help' to retrieve documentation.")
+    client.info(message="Type 'help' to retrieve documentation.")
+   
+    logger.info("Initialization complete.")
     
-    while exit_flag == False:
+    while not exit_flag:
         try:
-            tokens = ic(input())
-            try:
-                argument, flags = ic(parse_tokens(tokens, arguments.get()))
-                try:
-                    ic(handle_arg(argument, flags))
-                except Exception as e:
-                    ic(e)
-                    client.fail("Failed to execute your request. If this continues to happen, consider restarting weevil.")
-            except Exception as e:
-                ic(e)
-                client.warn("There seems to be something wrong with your input.")
-        except  HTTPError as e:
-            if debug_mode: 
-                raise(e)
-            else: 
-                ic(e)
-                client.fail("An HTTP Error occured.")
-        except Exception as e:
-            if debug_mode: 
-                raise(e)
-            else: 
-                ic(e)
-                client.warn("An unknown error occured.")
+            # Gather user input
+            tokens = client.get_input()
+            logger.debug(f"User input: {tokens}")
 
-    ic("EXIT PROGRAM")
-    
+            try:
+                argument, flags = parse_tokens(tokens, arguments.get())
+                logger.debug(f"Parsed argument: {argument}")
+                logger.debug(f"Parsed flags: {flags}")
+
+                if argument is None or flags is None: continue
+
+                try:
+                    handle_arg(argument, flags)
+                except Exception as e:
+                    logger.error(f"Failed to execute request: {e}")
+                    client.fail(message="Failed to execute your request. If this continues to happen, consider restarting weevil.")
+            except Exception as e:
+                logger.warning(f"Error parsing tokens: {e}")
+                client.warn(message="There seems to be something wrong with your input.")
+        except  HTTPError as e:
+            if DEBUG_MODE: 
+                raise(e)
+            else: 
+                logger.error(f"An HTTP Error occurred: {e}")
+                client.fail(message="An HTTP Error occurred.")
+        except Exception as e:
+            if DEBUG_MODE: 
+                raise(e)
+            else: 
+                logger.warning(f"An unknown error occurred: {e}")
+                client.warn(message="An unknown error occurred.")
+        
+    logger.info("Exiting program.")   

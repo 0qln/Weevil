@@ -1,11 +1,17 @@
-from icecream import ic
+import logging
 import enum, re, os
+
+
+logger = logging.getLogger(f"root___.weevil_.settngs")
+logger.info(f"Logging to file enabled.")
+
 
 # Inheritance in python sucks, using an enum instead
 class ValueType (enum.Enum):
     Boolean = 1
     PercentInteger = 2
     String = 3
+    Integer = 4
 
     def is_valid(type, value) -> bool:
 
@@ -22,6 +28,10 @@ class ValueType (enum.Enum):
             
         if type is ValueType.String:
             pass
+
+        if type is ValueType.Integer:
+            if (re.search(r"\D", value) is not None):
+                return False
 
         return True
 
@@ -62,7 +72,8 @@ storage = {
     "warn": StorageItem(ValueType.Boolean, True),
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
-    "volume": StorageItem(ValueType.PercentInteger, 30, lambda val, pb: ic(pb.set_volume(int(val)))),
+    "volume": StorageItem(ValueType.PercentInteger, 30, lambda val, pb: logger.info(pb.set_volume(int(val)))),
+    "no_overflow_mode": StorageItem(ValueType.Integer, 1)
 }
 
 
@@ -77,7 +88,8 @@ def get(settings, print_info=False):
         else:
             key = settings["key"]
             value = storage[key].get_value()
-            client.info("Read settings: " + str((key, value)))
+            logger.info("Read settings: " + str((key, value)))
+            if print_info: client.info("Read settings: " + str((key, value)))
     else:
         value = storage[settings].get_value()
 
@@ -87,18 +99,16 @@ def get(settings, print_info=False):
 def set(settings, playback):
     import client
 
-    if (len(settings.keys()) <= 0 or len(settings.values()) <= 0):
-        return
-
-    key, value = (next(iter(settings.items()))
-                    if "key" not in settings or "value" not in settings 
-                    else (settings["key"], settings["value"]))
-    
-    if not storage[key].set_value(value):
-        client.fail("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
-    else:
-        storage[key].invoke(value, playback)
-        client.info("Write settings: " + str((key, value)))
+    if (len(settings.keys()) > 0 and len(settings.values()) > 0):
+        key, value = (next(iter(settings.items()))
+                      if "key" not in settings or "value" not in settings 
+                      else (settings["key"], settings["value"]))
+        
+        if not storage[key].set_value(value):
+            logger.error("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
+        else:
+            storage[key].invoke(value, playback)
+            logger.info("Write settings: " + str((key, value)))
         
 
 def save_to_files(settings):
@@ -120,8 +130,10 @@ def save_to_files(settings):
         os.makedirs(folder_location, exist_ok=True)
         with open(file_path, 'w') as file:
             json.dump(data_to_save, file)
+        logger.info("Settings saved to file: " + file_path)
         client.info("Settings saved to file: " + file_path)
     except Exception as e:
+        logger.error("Failed to save settings to file. Error: " + str(e))
         client.fail("Failed to save settings to file. Error: " + str(e))
 
     return True
@@ -135,6 +147,7 @@ def load_from_files(settings):
     file_path = os.path.join(settings.get("location"), "settings.json")
     
     if not os.path.exists(file_path):
+        logger.warn("The settings file (" + file_path + ") does not exist.")
         client.warn("The settings file (" + file_path + ") does not exist.")
         return
 
@@ -146,10 +159,11 @@ def load_from_files(settings):
             value = data["value"]
             storage[key].set_value(value)
 
-        ic(storage)
-
+        logger.info("Settings loaded from file: " + file_path)
         client.info("Settings loaded from file: " + file_path)
     except Exception as e:
+        logger.error("Failed to load settings from file. Error: " + str(e))
         client.fail("Failed to load settings from file. Error: " + str(e))
 
     return True
+

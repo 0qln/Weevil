@@ -20,6 +20,8 @@ class MediaPlayerState(enum.Enum):
 
 class MediaPlayer:
     def __init__(self) -> None:
+        raise Excpetion("`MediaPlayer` is depricated.")
+
         self.state = MediaPlayerState.NONE
         self.player = None
         self.on_state_change = threading.Event()
