@@ -174,7 +174,7 @@ if __name__ == "__main__":
         {
             # Clear the terminal
             "names": [ "clear", "cls" ],
-            "function":lambda __s: safe(clear=lambda: os.system('cls' if os.name=='nt' else 'clear')),
+            "function":lambda __s: safe(clear=lambda: client.clear()),
             "flags": [ 
 
             ]
