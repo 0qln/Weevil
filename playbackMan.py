@@ -76,7 +76,7 @@ class PlaybackManager:
                     t = next(self.generator)
                     self.current = 0 
                     self.get_current().player.play()
-                    self.announce_current(override=True)
+                    self.announce_current()
             except Exception as e: 
                 logger.error(f"Error playing playlist: {e}")
 
@@ -92,7 +92,7 @@ class PlaybackManager:
                 t.push_handlers(on_end=self.skip)
                 self.current = 0
                 self.get_current().player.play()
-                self.announce_current(override=True)
+                self.announce_current()
             except Exception as e: 
                 logger.error(f"Error playing video: {e}")
 
@@ -103,15 +103,12 @@ class PlaybackManager:
 
         return True
 
-    def announce_current(self, override):
+    def announce_current(self):
         logger.info("Announce track")
         t = self.get_current()
         message = VideoHelper.get_title(t.source)
         name = "Track" if self.content_type == ContentType.VIDEO else "Current Track"
-        if (override):
-            client.info(name=name, message=message)
-        else:
-            client.info(name=name, message=message)
+        client.hail(name=name, message=message)
 
 
     def get_current(self) -> Track | None:
@@ -139,7 +136,7 @@ class PlaybackManager:
         self.current -= 1
         self.get_current().player.seek(0)
         self.get_current().player.play()
-        self.announce_current(override=False)
+        self.announce_current()
 
     def skip(self):
         logger.info("Skipping to next track")
@@ -161,7 +158,7 @@ class PlaybackManager:
         self.current += 1
         self.get_current().player.seek(0)
         self.get_current().player.play()
-        self.announce_current(override=generateNew)
+        self.announce_current()
 
     def set_volume(self, value) -> bool:
         logger.info(f"Setting volume to {value}")

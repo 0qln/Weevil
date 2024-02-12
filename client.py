@@ -12,6 +12,8 @@ logger.info(f"Logging to file enabled.")
     #  print(change_text_color(x) + str(x) + " " + "message")
 #  
 
+def clear():
+    os.system('cls' if os.name=='nt' else 'clear')
 
 def style_reset() -> str: return '\033[0m'
 
