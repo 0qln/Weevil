@@ -153,7 +153,8 @@ class PlaybackManager:
             return
         self.get_current().player.pause()
         # If there is no next track, try to generate one 
-        if self.current + 1 == len(self.tracks):
+        generateNew = self.current + 1 == len(self.tracks)
+        if generateNew:
             if self.generator is None:
                 # End of playlist
                 return
@@ -166,7 +167,7 @@ class PlaybackManager:
         self.current += 1
         self.get_current().player.seek(0)
         self.get_current().player.play()
-        self.announce_current(override=True)
+        self.announce_current(override=generateNew)
 
     def set_volume(self, value) -> bool:
         logger.info(f"Setting volume to {value}")
