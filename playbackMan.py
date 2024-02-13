@@ -12,6 +12,7 @@ import logging
 from PlaylistPlaybackManager import PlaylistPlaybackManager
 from VideoHelper import VideoHelper
 from Track import Track  
+import pyeventdispatcher 
 
 
 logger = logging.getLogger(f"root___.weevil_.playbac")
@@ -26,18 +27,16 @@ class PlaybackManager:
         self.generator = None
         self.volume = int(settings.get("volume"))
         self.playlist_info = None
-
+        pyeventdispatcher.register("track.end", lambda event: self.skip())
 
     def reset(self = None) -> bool:
         logger.info("Resetting playback manager")
         if self is not None:
             for track in self.tracks:
-                track.player.pause()
-                track.player.delete()
+                track.pause()
             self.tracks.clear()
             self.current = -1
             self.generator = None
-
         return True
 
 
@@ -68,14 +67,13 @@ class PlaybackManager:
                             if track_source is None:
                                 continue
                             t = Track(track_source, video)
-                            t.push_handlers(on_end=self.skip)
-                            t.player.volume = self.volume / 100
+                            t.set_volume(self.volume / 100)
                             self.tracks.append(t)
                             yield t
                     self.generator = gen()
-                    t = next(self.generator)
+                    next(self.generator)
                     self.current = 0 
-                    self.get_current().player.play()
+                    self.get_current().play()
                     self.announce_current()
             except Exception as e: 
                 logger.error(f"Error playing playlist: {e}")
@@ -88,10 +86,9 @@ class PlaybackManager:
                     return True
                 t = Track(track_source, video)
                 self.tracks.append(t)
-                t.player.volume = self.volume / 100
-                t.push_handlers(on_end=self.skip)
+                t.set_volume(self.volume / 100)
                 self.current = 0
-                self.get_current().player.play()
+                self.get_current().play()
                 self.announce_current()
             except Exception as e: 
                 logger.error(f"Error playing video: {e}")
@@ -120,32 +117,31 @@ class PlaybackManager:
         logger.info("Pausing playback")
         if self.get_current() is None:
             return
-        self.get_current().player.pause()
+        self.get_current().pause()
 
     def resume(self):
         logger.info("Resuming playback")
         if self.get_current() is None:
             return
-        self.get_current().player.play()
+        self.get_current().play()
 
     def prev(self):
         logger.info("Playing previous track")
         if self.get_current() is None or self.current < 0:
             return
-        self.get_current().player.pause()
+        self.get_current().pause()
         self.current -= 1
-        self.get_current().player.seek(0)
-        self.get_current().player.play()
+        self.get_current().seek(0)
+        self.get_current().play()
         self.announce_current()
 
     def skip(self):
         logger.info("Skipping to next track")
         if self.get_current() is None:
             return
-        self.get_current().player.pause()
+        self.get_current().pause()
         # If there is no next track, try to generate one 
-        generateNew = self.current + 1 == len(self.tracks)
-        if generateNew:
+        if self.current + 1 == len(self.tracks):
             if self.generator is None:
                 # End of playlist
                 return
@@ -156,15 +152,15 @@ class PlaybackManager:
                 return
         # Assign next track
         self.current += 1
-        self.get_current().player.seek(0)
-        self.get_current().player.play()
+        self.get_current().seek(0)
+        self.get_current().play()
         self.announce_current()
 
     def set_volume(self, value) -> bool:
         logger.info(f"Setting volume to {value}")
         self.volume = value
         for track in self.tracks:
-            track.player.volume = value / 100
+            track.set_volume(value / 100)
         return True
 
 

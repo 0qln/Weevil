@@ -86,7 +86,7 @@ def safe(**actions):
             action()
             logger.info(f"Finish executing action #{i}: {action_name}")
         except Exception as e:
-            logger.error(f"Failed to execute action #{i}: {action_name}")
+            logger.error(f"Failed to execute action #{i}: {action_name} Error: {e}")
 
 
 def exit_success(): 
