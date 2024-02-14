@@ -1,5 +1,7 @@
 import logging
-import enum, re, os
+import enum 
+import re
+import os
 
 
 logger = logging.getLogger(f"root___.weevil_.settngs")
@@ -8,6 +10,7 @@ logger.info(f"Logging to file enabled.")
 
 # Inheritance in python sucks, using an enum instead
 class ValueType (enum.Enum):
+    Dict = 0
     Boolean = 1
     PercentInteger = 2
     String = 3
@@ -32,6 +35,9 @@ class ValueType (enum.Enum):
         if type is ValueType.Integer:
             if (re.search(r"\D", value) is not None):
                 return False
+
+        if type is ValueType.Dict:
+            pass
 
         return True
 

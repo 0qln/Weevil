@@ -1,10 +1,8 @@
-from pyglet.event import EventDispatcher
-from mutagen.mp4 import MP4
-import pyglet
-import pytube, os, threading, re, enum, time, datetime
-import settings, client
+import pytube 
+import os 
+import time
+import client
 from pytube.exceptions import AgeRestrictedError
-import pytube.exceptions as pyex
 from ssl import SSLError
 import ffmpeg
 import shutil

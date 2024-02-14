@@ -1,17 +1,14 @@
-from playbackMan import PlaybackManager
-from os import getcwd
 import os
 from sys import argv
 import threading
 import re
 from requests import HTTPError
-import logging
 import client
 import settings
 import arguments
 import commons
 import logging
-
+from playbackMan import PlaybackManager
 
 # Create a logger object with the name 'root.weevil'
 logger = logging.getLogger('root___.weevil_')
@@ -162,7 +159,7 @@ if __name__ == "__main__":
                 { 
                     "names": [ "--output", "-o" ],
                     "name_settings":"output_folder",
-                    "default":getcwd() + "\\"
+                    "default": os.getcwd() + "\\"
                 },
                 { 
                     "names": [ "--fileType", "-f" ], 
@@ -346,7 +343,7 @@ if __name__ == "__main__":
                 {
                     "names": [ "--directory", "-dir" ],
                     "name_settings": "directory",
-                    "default": getcwd()
+                    "default": os.getcwd()
                 },
                 {
                     "names": [ "--show_id", "-si" ],
