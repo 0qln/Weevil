@@ -69,7 +69,12 @@ def handle_arg(argument, settings):
     try:
         if (argument is None): return
         if (settings is None): return
-        threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+
+        if "async" in argument and argument["async"] == False:
+            argument["function"](settings)
+        else:
+            threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+
         logger.info(f"Started handling argument on new daemon: {argument}")
     except Exception as e:
         logger.error(f"Error while handling argument: {e}")
@@ -198,7 +203,8 @@ if __name__ == "__main__":
             "function":lambda __s: safe(reset=lambda: playback.reset(), exit=lambda: exit_success()), 
             "flags": [
 
-            ]
+            ],
+            "async": False
         },
         {
             # Get a setting
