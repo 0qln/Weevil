@@ -119,14 +119,10 @@ class Track(EventDispatcher):
         # Get new player 
         new_audio = self.get_new_audio()
 
-        # Start playback
-        logger.debug(f"Terminate player")
-        self.__player.terminate()
-        logger.debug(f"Create player")
-        self.__player = Process(target=playawe, args=(new_audio, self))
-        logger.debug(f"Start player")
-        self.__player.start()
-
+        # Restart playback
+        self.pause()
+        self.play()
+        
 
     #TODO: fix this
     def set_volume(self, percentage):
