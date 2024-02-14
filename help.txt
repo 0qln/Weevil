@@ -58,7 +58,7 @@
      - --volume, -vol: Set the playback volume.
      Examples: 
         set --key="some_key" --value="new_value"
-        set -vol "69"
+        set -vol "-3.5"
 
 
 9. next, skip, s

@@ -89,7 +89,7 @@ py __main__.py
      
      **Examples:** 
        `set --key="some_key" --value="new_value"`
-       `set -vol "69"`
+       `set -vol "-3.5"`
 
 ## 9. next, skip, s
    - Play the next track.
