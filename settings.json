@@ -1,1 +1,1 @@
-{"fail": {"type": "Boolean", "value": "true"}, "warn": {"type": "Boolean", "value": "true"}, "hail": {"type": "Boolean", "value": "true"}, "info": {"type": "Boolean", "value": "true"}, "volume": {"type": "PercentInteger", "value": "95"}, "no_overflow_mode": {"type": "Integer", "value": "1"}}
+{"fail": {"type": "Boolean", "value": "true"}, "warn": {"type": "Boolean", "value": "true"}, "hail": {"type": "Boolean", "value": "true"}, "info": {"type": "Boolean", "value": "true"}, "volume_db": {"type": "Float", "value": "0"}, "no_overflow_mode": {"type": "Integer", "value": "1"}}

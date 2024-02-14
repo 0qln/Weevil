@@ -27,7 +27,6 @@ class Track(EventDispatcher):
             "play_session_begin": None,
             "ms": 0
         }
-        self.__volume = 1
         self.__decibels_adjust = 0
         logger.info("Finish Initiating Track")
 
@@ -85,7 +84,7 @@ class Track(EventDispatcher):
 
         # Adjust volume
         output += self.__decibels_adjust
-        logger.debug(f"Assign volume: {self.__decibels_adjust}dB / {self.__volume*100}%")
+        logger.debug(f"Assign volume: {self.__decibels_adjust}dB")
 
         # Return output
         logger.debug(f"New sample succsefully generated.")
@@ -124,22 +123,11 @@ class Track(EventDispatcher):
         self.play()
         
 
-    #TODO: fix this
-    def set_volume(self, percentage):
-        if percentage < 0 or percentage > 1:
-            raise Exception("Argument exception: Percentage out of bounds.")
+    def set_volume(self, decibles):
+        self.__decibels_adjust = decibles
 
-        self.__volume = percentage
-
-        decibels_NULL = -120
-        decibels_FULL = 0
-
-        self.__decibels_adjust = decibels_NULL * (1 - percentage)
-
-        logger.info(f"Assign volume to track {self}: {self.__decibels_adjust}dB / {percentage*100}%")
-        
+        logger.info(f"Assign volume to track {self}: {self.__decibels_adjust}dB")
+       
         # Update player
         if not self.is_paused(): self.__reload()
-
-
-
+            
