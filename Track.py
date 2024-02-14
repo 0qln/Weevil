@@ -1,19 +1,20 @@
-import pytube, os, threading, re, enum, time, datetime
-import settings, client
+import time
 import logging
 import pydub
 from pydub.playback import play as pydub_play
 from pydub import AudioSegment
 from multiprocessing import Process
-from pyeventdispatcher import dispatch, Event
+import threading
+from eventdisp import EventDispatcher, Event
 
 logger = logging.getLogger(f"root___.weevil_.track__")
 logger.info(f"Logging to file enabled.")
 
 
-class Track:
+class Track(EventDispatcher):
 
     def __init__(self, source:str=None, video=None) -> None:
+        super().__init__()
         logger.info("Begin Initiating Track")
         # Public 
         self.source = source
@@ -21,6 +22,7 @@ class Track:
         # Private
         self.__audio = AudioSegment.from_file(source) if source else None
         self.__player = None 
+        self.__player_t = None
         self.__timings = {
             "play_session_begin": None,
             "ms": 0
@@ -30,19 +32,34 @@ class Track:
         logger.info("Finish Initiating Track")
 
 
-    #TODO: 
-    @staticmethod
-    def __play_a_w_e(audio_seg, track):
-        pydub_play(audio_seg)
-        dispatch(Event(name="track.end", data={"track": track}))
-
 
     def play(self):
         if self.is_playing(): return
-        logger.debug("Start new process for playback")
-        new_audio = self.get_new_audio()
-        self.__player = Process(target=pydub_play, args=(new_audio,))
-        self.__player.start()
+
+        # This function will run on the player thread
+        def __t_play():
+            logger.debug("Start new process for playback")
+            nonlocal self
+            # Create player proces
+            # Important to leave the comma after the argument input, otherwise 
+            # python will unroll the AudioSegment into it's component and parse
+            # each frame as a single parameter. (F duckdyping :D)
+            self.__player = Process(target=pydub_play, args=(self.get_new_audio(), ))
+            # Start the playback
+            self.__player.start()
+            # Join the 
+            self.__player.join()
+            # If the process exited succsefully without being terminated, the playback has ended.
+            # Thus we dispatch the event that this track ended.
+            if self.__player and self.__player.exitcode == 0:
+                self.dispatch(Event(name="track.end", data={"track":self}))
+
+        # Run process from another thread. Communication from one process to another
+        # is not possible in a clean way, so we run the process from another thread 
+        # that joins the process. The new thread will then be able to communitate 
+        # events back to the main thread.
+        self.__player_t = threading.Thread(target=__t_play)
+        self.__player_t.start()
         self.__timings["play_session_begin"] = time.time_ns() / 1000000
         
 
@@ -106,7 +123,7 @@ class Track:
         logger.debug(f"Terminate player")
         self.__player.terminate()
         logger.debug(f"Create player")
-        self.__player = Process(target=pydub_play, args=(new_audio,))
+        self.__player = Process(target=playawe, args=(new_audio, self))
         logger.debug(f"Start player")
         self.__player.start()
 

@@ -1,22 +1,16 @@
-from pyglet.event import EventDispatcher
-from mutagen.mp4 import MP4
-import pyglet
-import pytube, os, threading, re, enum, time, datetime
-import settings, client
-from pytube.exceptions import AgeRestrictedError
-import pytube.exceptions as pyex
-from ssl import SSLError
-import ffmpeg
-import shutil
+import re 
+import enum
+import settings 
+import client
 import logging
 from PlaylistPlaybackManager import PlaylistPlaybackManager
 from VideoHelper import VideoHelper
-from Track import Track  
-import pyeventdispatcher 
+import Track
 
 
 logger = logging.getLogger(f"root___.weevil_.playbac")
 logger.info(f"Logging to file enabled.")
+
 
 
 class PlaybackManager:    
@@ -27,7 +21,7 @@ class PlaybackManager:
         self.generator = None
         self.volume = int(settings.get("volume"))
         self.playlist_info = None
-        pyeventdispatcher.register("track.end", lambda event: self.skip())
+
 
     def reset(self = None) -> bool:
         logger.info("Resetting playback manager")
@@ -66,8 +60,9 @@ class PlaybackManager:
                             logger.info(f"Yielding new track: {track_source, video}")
                             if track_source is None:
                                 continue
-                            t = Track(track_source, video)
+                            t = Track.Track(track_source, video)
                             t.set_volume(self.volume / 100)
+                            t.register("track.end", lambda e: self.skip())
                             self.tracks.append(t)
                             yield t
                     self.generator = gen()
@@ -84,9 +79,10 @@ class PlaybackManager:
                 track_source, video = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
                 if track_source is None:
                     return True
-                t = Track(track_source, video)
-                self.tracks.append(t)
+                t = Track.Track(track_source, video)
                 t.set_volume(self.volume / 100)
+                t.register("track.end", lambda event: self.skip())
+                self.tracks.append(t)
                 self.current = 0
                 self.get_current().play()
                 self.announce_current()
@@ -108,7 +104,7 @@ class PlaybackManager:
         client.hail(name=name, message=message)
 
 
-    def get_current(self) -> Track | None:
+    def get_current(self) -> Track.Track | None:
         current = self.tracks[self.current] if 0 <= self.current < len(self.tracks) else None
         logger.info(f"Current track: {current}")
         return current
