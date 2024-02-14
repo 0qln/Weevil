@@ -19,7 +19,7 @@ class PlaybackManager:
         self.tracks = []
         self.current = -1    
         self.generator = None
-        self.volume = int(settings.get("volume"))
+        self.volume_db = float(settings.get("volume_db"))
         self.playlist_info = None
 
 
@@ -61,7 +61,7 @@ class PlaybackManager:
                             if track_source is None:
                                 continue
                             t = Track.Track(track_source, video)
-                            t.set_volume(self.volume / 100)
+                            t.set_volume(decibles=self.volume_db)
                             t.register("track.end", lambda e: self.skip())
                             self.tracks.append(t)
                             yield t
@@ -80,7 +80,7 @@ class PlaybackManager:
                 if track_source is None:
                     return True
                 t = Track.Track(track_source, video)
-                t.set_volume(self.volume / 100)
+                t.set_volume(decibles=self.volume_db)
                 t.register("track.end", lambda event: self.skip())
                 self.tracks.append(t)
                 self.current = 0
@@ -152,11 +152,11 @@ class PlaybackManager:
         self.get_current().play()
         self.announce_current()
 
-    def set_volume(self, value) -> bool:
-        logger.info(f"Setting volume to {value}")
-        self.volume = value
+    def set_volume(self, decibles) -> bool:
+        logger.info(f"Setting volume to {decibles = }")
+        self.volume_db = decibles
         for track in self.tracks:
-            track.set_volume(value / 100)
+            track.set_volume(decibles=decibles)
         return True
 
 

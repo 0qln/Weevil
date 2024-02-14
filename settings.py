@@ -15,6 +15,7 @@ class ValueType (enum.Enum):
     PercentInteger = 2
     String = 3
     Integer = 4
+    Float = 5
 
     def is_valid(type, value) -> bool:
 
@@ -38,6 +39,12 @@ class ValueType (enum.Enum):
 
         if type is ValueType.Dict:
             pass
+
+        if type is ValueType.Float:
+            try:
+                float(value)
+            except ValueError:
+                return False
 
         return True
 
@@ -78,7 +85,7 @@ storage = {
     "warn": StorageItem(ValueType.Boolean, True),
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
-    "volume": StorageItem(ValueType.PercentInteger, 30, lambda val, pb: logger.info(pb.set_volume(int(val)))),
+    "volume_db": StorageItem(ValueType.Float, 0, lambda val, pb: pb.set_volume(float(val))),
     "no_overflow_mode": StorageItem(ValueType.Integer, 1)
 }
 

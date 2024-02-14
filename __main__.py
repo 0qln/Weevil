@@ -236,7 +236,7 @@ if __name__ == "__main__":
                 },            
                 {
                     "names": [ "--volume", "-vol"],
-                    "name_settings": "volume"
+                    "name_settings": "volume_db"
                 },
             ]
         },
@@ -275,7 +275,7 @@ if __name__ == "__main__":
                 },         
                 {
                     "names": [ "--volume", "-vol"],
-                    "name_settings": "volume"
+                    "name_settings": "volume_db"
                 }
             ]
         },

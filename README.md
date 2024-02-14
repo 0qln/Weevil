@@ -89,7 +89,7 @@ py __main__.py
      
      **Examples:** 
        `set --key="some_key" --value="new_value"`
-       `set -vol "69"`
+       `set -vol "-3.5"`
 
 ## 9. next, skip, s
    - Play the next track.
@@ -130,3 +130,11 @@ py __main__.py
        - `--location`, `-l`: Specify folder path for config.json file (default: current working directory).
      
      **Example:** `config_load`
+
+## 15. info
+   - Print information about the current playback.
+
+     Flags:
+       - `--playlist`, `-p`: Print information about the current playlist, (e.g. title, track count, owner, views).
+       - `--track`, `-t`: Print information about the currently playing track (e.g. title, author, duration, publish date).
+

@@ -58,7 +58,7 @@
      - --volume, -vol: Set the playback volume.
      Examples: 
         set --key="some_key" --value="new_value"
-        set -vol "69"
+        set -vol "-3.5"
 
 
 9. next, skip, s
@@ -94,6 +94,13 @@
     - Load setting configurations from a file.
       Flags:
       - --location, -l: Specify folder path for config.json file (default: current working directory).
+
+
+15. info
+    - Print information about the current playback.
+      Flags:
+      - --playlist, -p: Print information about the current playlist, such as title, track count, owner, views.
+      - --track, -t: Print information about the currently playing track, such as title, author, duration, publish date.
 
 
 Further information, issues or feedback: https://github.com/0qln/Weevil
