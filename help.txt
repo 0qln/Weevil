@@ -96,5 +96,12 @@
       - --location, -l: Specify folder path for config.json file (default: current working directory).
 
 
+15. info
+    - Print information about the current playback.
+      Flags:
+      - --playlist, -p: Print information about the current playlist, such as title, track count, owner, views.
+      - --track, -t: Print information about the currently playing track, such as title, author, duration, publish date.
+
+
 Further information, issues or feedback: https://github.com/0qln/Weevil
 
