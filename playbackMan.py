@@ -1,21 +1,16 @@
-from pyglet.event import EventDispatcher
-from mutagen.mp4 import MP4
-import pyglet
-import pytube, os, threading, re, enum, time, datetime
-import settings, client
-from pytube.exceptions import AgeRestrictedError
-import pytube.exceptions as pyex
-from ssl import SSLError
-import ffmpeg
-import shutil
+import re 
+import enum
+import settings 
+import client
 import logging
 from PlaylistPlaybackManager import PlaylistPlaybackManager
 from VideoHelper import VideoHelper
-from Track import Track  
+import Track
 
 
 logger = logging.getLogger(f"root___.weevil_.playbac")
 logger.info(f"Logging to file enabled.")
+
 
 
 class PlaybackManager:    
@@ -32,12 +27,10 @@ class PlaybackManager:
         logger.info("Resetting playback manager")
         if self is not None:
             for track in self.tracks:
-                track.player.pause()
-                track.player.delete()
+                track.pause()
             self.tracks.clear()
             self.current = -1
             self.generator = None
-
         return True
 
 
@@ -67,15 +60,15 @@ class PlaybackManager:
                             logger.info(f"Yielding new track: {track_source, video}")
                             if track_source is None:
                                 continue
-                            t = Track(track_source, video)
-                            t.push_handlers(on_end=self.skip)
-                            t.player.volume = self.volume / 100
+                            t = Track.Track(track_source, video)
+                            t.set_volume(self.volume / 100)
+                            t.register("track.end", lambda e: self.skip())
                             self.tracks.append(t)
                             yield t
                     self.generator = gen()
-                    t = next(self.generator)
+                    next(self.generator)
                     self.current = 0 
-                    self.get_current().player.play()
+                    self.get_current().play()
                     self.announce_current()
             except Exception as e: 
                 logger.error(f"Error playing playlist: {e}")
@@ -86,12 +79,12 @@ class PlaybackManager:
                 track_source, video = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
                 if track_source is None:
                     return True
-                t = Track(track_source, video)
+                t = Track.Track(track_source, video)
+                t.set_volume(self.volume / 100)
+                t.register("track.end", lambda event: self.skip())
                 self.tracks.append(t)
-                t.player.volume = self.volume / 100
-                t.push_handlers(on_end=self.skip)
                 self.current = 0
-                self.get_current().player.play()
+                self.get_current().play()
                 self.announce_current()
             except Exception as e: 
                 logger.error(f"Error playing video: {e}")
@@ -111,7 +104,7 @@ class PlaybackManager:
         client.hail(name=name, message=message)
 
 
-    def get_current(self) -> Track | None:
+    def get_current(self) -> Track.Track | None:
         current = self.tracks[self.current] if 0 <= self.current < len(self.tracks) else None
         logger.info(f"Current track: {current}")
         return current
@@ -120,32 +113,31 @@ class PlaybackManager:
         logger.info("Pausing playback")
         if self.get_current() is None:
             return
-        self.get_current().player.pause()
+        self.get_current().pause()
 
     def resume(self):
         logger.info("Resuming playback")
         if self.get_current() is None:
             return
-        self.get_current().player.play()
+        self.get_current().play()
 
     def prev(self):
         logger.info("Playing previous track")
         if self.get_current() is None or self.current < 0:
             return
-        self.get_current().player.pause()
+        self.get_current().pause()
         self.current -= 1
-        self.get_current().player.seek(0)
-        self.get_current().player.play()
+        self.get_current().seek(0)
+        self.get_current().play()
         self.announce_current()
 
     def skip(self):
         logger.info("Skipping to next track")
         if self.get_current() is None:
             return
-        self.get_current().player.pause()
+        self.get_current().pause()
         # If there is no next track, try to generate one 
-        generateNew = self.current + 1 == len(self.tracks)
-        if generateNew:
+        if self.current + 1 == len(self.tracks):
             if self.generator is None:
                 # End of playlist
                 return
@@ -156,15 +148,15 @@ class PlaybackManager:
                 return
         # Assign next track
         self.current += 1
-        self.get_current().player.seek(0)
-        self.get_current().player.play()
+        self.get_current().seek(0)
+        self.get_current().play()
         self.announce_current()
 
     def set_volume(self, value) -> bool:
         logger.info(f"Setting volume to {value}")
         self.volume = value
         for track in self.tracks:
-            track.player.volume = value / 100
+            track.set_volume(value / 100)
         return True
 
 

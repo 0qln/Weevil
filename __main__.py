@@ -1,17 +1,14 @@
-from playbackMan import PlaybackManager
-from os import getcwd
 import os
 from sys import argv
 import threading
 import re
 from requests import HTTPError
-import logging
 import client
 import settings
 import arguments
 import commons
 import logging
-
+from playbackMan import PlaybackManager
 
 # Create a logger object with the name 'root.weevil'
 logger = logging.getLogger('root___.weevil_')
@@ -72,7 +69,12 @@ def handle_arg(argument, settings):
     try:
         if (argument is None): return
         if (settings is None): return
-        threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+
+        if "async" in argument and argument["async"] == False:
+            argument["function"](settings)
+        else:
+            threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
+
         logger.info(f"Started handling argument on new daemon: {argument}")
     except Exception as e:
         logger.error(f"Error while handling argument: {e}")
@@ -86,7 +88,7 @@ def safe(**actions):
             action()
             logger.info(f"Finish executing action #{i}: {action_name}")
         except Exception as e:
-            logger.error(f"Failed to execute action #{i}: {action_name}")
+            logger.error(f"Failed to execute action #{i}: {action_name} Error: {e}")
 
 
 def exit_success(): 
@@ -162,7 +164,7 @@ if __name__ == "__main__":
                 { 
                     "names": [ "--output", "-o" ],
                     "name_settings":"output_folder",
-                    "default":getcwd() + "\\"
+                    "default": os.getcwd() + "\\"
                 },
                 { 
                     "names": [ "--fileType", "-f" ], 
@@ -201,7 +203,8 @@ if __name__ == "__main__":
             "function":lambda __s: safe(reset=lambda: playback.reset(), exit=lambda: exit_success()), 
             "flags": [
 
-            ]
+            ],
+            "async": False
         },
         {
             # Get a setting
@@ -346,7 +349,7 @@ if __name__ == "__main__":
                 {
                     "names": [ "--directory", "-dir" ],
                     "name_settings": "directory",
-                    "default": getcwd()
+                    "default": os.getcwd()
                 },
                 {
                     "names": [ "--show_id", "-si" ],
