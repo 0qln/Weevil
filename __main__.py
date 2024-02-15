@@ -310,7 +310,7 @@ if __name__ == "__main__":
                 },
                 {
                     # Key
-                    "names": [ "--custom_name", "common", "-c" ],
+                    "names": [ "--custom_name", "--common", "-c" ],
                     "name_settings": "customname"
                 }
             ]
