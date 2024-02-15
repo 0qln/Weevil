@@ -318,14 +318,14 @@ if __name__ == "__main__":
         {
             # Play next track
             "names": [ "next", "skip", "s" ],
-            "function": lambda __s: safe(skip=lambda: playback.skip()),
+            "function": lambda __s: safe(skip=lambda: playback.skip_m(__s)),
             "flags": [
                 # TODO
-                # {
-                #     "names": [ "--count", "-c" ],
-                #     "name_settings": "execution_count",
-                #     "default": str(1)
-                # },
+                {
+                    "names": [ "--count", "-c" ],
+                    "name_settings": "count",
+                    "default": 1
+                },
             ]
         },
         {

@@ -191,6 +191,39 @@ class PlaybackManager:
         self.get_current().play()
         self.announce_current()
 
+    def skip_m(self, settings):
+        if "count" not in settings: return
+
+        c = settings["count"]
+
+        logger.info(f"Skipping {c} track(s)")
+
+        if self.get_current() is None:
+            return
+
+        self.get_current().pause()
+
+        # Do not try to skip the generation of tracks that will be skipped. 
+        # Trying to work the iterator back in order to continue generation would
+        # be annoying...
+        # TODO: maybe leave a lambda in it's place that at `self.tracks[i]` that
+        # allows for generation when needed.
+        for i in range(int(c)):
+            # If there is no next track, try to generate one 
+            if self.current + 1 == len(self.tracks):
+                if self.generator is None or next(self.generator, None):
+                    # End of playlist
+                    break
+                else:
+                    # Assign next track
+                    self.current += 1
+
+        # Start playback
+        self.get_current().seek(0)
+        self.get_current().play()
+        self.announce_current()
+        
+    #TODO: fix edgle handling: https://github.com/0qln/Weevil/issues/13
     def skip(self):
         logger.info("Skipping to next track")
         if self.get_current() is None:
