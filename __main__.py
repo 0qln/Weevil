@@ -150,7 +150,7 @@ if __name__ == "__main__":
         {
             # Play a video or playlist
             "names": [ "play" ],
-            "function":lambda __s: safe(reset=lambda: playback.reset(), play=lambda: playback.play(__s)),
+            "function":lambda __s: safe(play=lambda: playback.play(__s)),
             "flags": [
                 {
 
@@ -399,6 +399,53 @@ if __name__ == "__main__":
                     "names": [ "--playlist", "-p" ],
                     "name_settings": "playlist",
                 }
+            ]
+        },
+        {
+            "names": [ "stop" ],
+            "function": lambda __s: safe(stop=lambda: playback.reset()),
+            "flags": [
+                {
+                }
+            ],
+            "async": False
+        },
+        {
+            "names": [ "load" ],
+            "function": lambda __s: safe(load=lambda: playback.load(__s)),
+            "flags": [
+                {
+                    "names": [ "--quit", "-q" ],
+                    "name_settings": "quit"
+                },
+                {
+                    "names": [ "--silent", "-s"],
+                    "name_settings": "silent",
+                },
+                {
+                    "names": [ "--fetch_content", "-fc" ],
+                    "name_settings": "fetch",
+                },
+                {
+
+                    "names": [ "--commons", "-c" ],
+                    "name_settings": "commons"
+                },
+                { 
+                    "names": [ "--url", "-u" ],
+                    "name_settings": "url"
+                },
+                { 
+                    "names": [ "--output", "-o" ],
+                    "name_settings": "output_folder",
+                    "default": os.getcwd() + "\\"
+                },
+                { 
+                    "names": [ "--fileType", "-ft" ], 
+                    "name_settings": "file_type",
+                    "default": 'any'
+                },
+
             ]
         }
     ])

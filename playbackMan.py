@@ -6,6 +6,7 @@ import logging
 from PlaylistPlaybackManager import PlaylistPlaybackManager
 from VideoHelper import VideoHelper
 import Track
+import commons
 
 
 logger = logging.getLogger(f"root___.weevil_.playbac")
@@ -21,80 +22,139 @@ class PlaybackManager:
         self.generator = None
         self.volume_db = float(settings.get("volume_db"))
         self.playlist_info = None
+        self.should_load = False
 
 
     def reset(self = None) -> bool:
         logger.info("Resetting playback manager")
+
         if self is not None:
+            self.content_type = ContentType.NONE
             for track in self.tracks:
                 track.pause()
             self.tracks.clear()
             self.current = -1
             self.generator = None
+            self.playlist_info = None
+            self.should_load = False
+
+        return True
+
+    def load(self, settings) -> bool:
+
+        if "quit" in settings:
+            self.current = 0
+            return True
+
+        logger.info("Loading playback...")
+
+        # Get url
+        url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]] 
+
+        # Determine content type
+        self.content_type = ContentType.get(url)
+        logger.info(f"{self.content_type = }")
+
+        try: 
+            # Begin playback
+            if self.content_type is ContentType.PLAYLIST: self.load_playlist(url, settings)
+            if self.content_type is ContentType.VIDEO: self.load_video(url, settings)
+            if self.content_type is ContentType.NONE: 
+                client.warn("Invalid url.")
+                return False
+        except Exception as e: 
+            logger.error(f"Error loading {self.content_type}: {e}")
+            return False
+
+        return True
+
+
+    def __get_gen(self, iterator):
+        for track_source, video in iterator:
+            logger.info(f"Yielding new track: {track_source, video}")
+            if track_source is None: 
+                continue
+            track = Track.Track(track_source, video)
+            track.set_volume(decibles=self.volume_db)
+            track.register("track.end", lambda e: self.skip())
+            self.tracks.append(track)
+            yield track
+
+
+    def load_playlist(self, url, settings) -> bool:
+        logger.info("Loading playlist...")
+        self.playlist_info = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
+        self.generator = self.__get_gen(self.playlist_info.yield_iterate("silent" in settings))
+        if "fetch" in settings:
+            logger.debug("Fetch content")
+            while next(self.generator) and self.current == -1:
+                pass
+            logger.debug(f"Stop fetching content: {self.generator=} | {next(self.generator)=} | {self.current}")
+            
+        else:
+            logger.debug("Dont fetch content")
+        return True
+
+
+    def play_playlist(self, url, settings) -> bool:
+        #  if url: self.load_playlist(url, settings)
+        logger.info("Playing playlist...")
+        if self.tracks or next(self.generator): 
+            self.current = 0 
+            self.get_current().play()
+            self.announce_current()
+        return True
+
+
+    def load_video(self, url, settings) -> bool:
+        logger.info("Loading track...")
+        track_source, video = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"], "silent" in settings)
+        if track_source is None: return True
+        track = Track.Track(track_source, video)
+        track.set_volume(decibles=self.volume_db)
+        track.register("track.end", lambda e: self.skip())
+        self.tracks.append(track)
+        return True 
+
+
+    def play_video(self, url, settings) -> bool:
+        #  if url: self.load_video(url, settings)
+        logger.info("Playing track...")        
+        if self.tracks:
+            self.current = 0
+            self.get_current().play()
+            self.announce_current()
         return True
 
 
     def play(self, settings) -> bool:
-        logger.info("Starting playback")
-        # get url
-        import commons
-        url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]]
+        # Get url
+        url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]] 
 
-        # determine content type
-        self.content_type = ContentType.NONE
-        if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", url):
-            self.content_type = ContentType.VIDEO
-        if re.search(r"list=[0-9A-Za-z_-]+", url):
-            self.content_type = ContentType.PLAYLIST
-        logger.info(f"Content type: {self.content_type}")
+        if url is not None:
+            # New playback requested
+            logger.debug(f"URL specifiec: {url}")
 
-        if self.content_type is ContentType.PLAYLIST:
-            try:
-                logger.info("Playing playlist")
-                playlist = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
-                self.playlist_info = playlist
-                iterator = playlist.yield_iterate()
-                if playlist.has_next():
-                    def gen():
-                        for track_source, video in iterator:
-                            logger.info(f"Yielding new track: {track_source, video}")
-                            if track_source is None:
-                                continue
-                            t = Track.Track(track_source, video)
-                            t.set_volume(decibles=self.volume_db)
-                            t.register("track.end", lambda e: self.skip())
-                            self.tracks.append(t)
-                            yield t
-                    self.generator = gen()
-                    next(self.generator)
-                    self.current = 0 
-                    self.get_current().play()
-                    self.announce_current()
-            except Exception as e: 
-                logger.error(f"Error playing playlist: {e}")
+            # Load new stuff
+            if not self.load(settings):
+                # Return false if the url contents could not be loaded
+                logger.warn("Could not load url contents.")
+                return False
 
-        if self.content_type is ContentType.VIDEO:
-            try: 
-                logger.info("Playing video...")
-                track_source, video = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"])
-                if track_source is None:
-                    return True
-                t = Track.Track(track_source, video)
-                t.set_volume(decibles=self.volume_db)
-                t.register("track.end", lambda event: self.skip())
-                self.tracks.append(t)
-                self.current = 0
-                self.get_current().play()
-                self.announce_current()
-            except Exception as e: 
-                logger.error(f"Error playing video: {e}")
+        try: 
+            logger.info("Starting playback...")
 
-        try:
-            pyglet.app.run()
-        except Exception as e:
-            pass
+            # Begin playback
+            if self.content_type is ContentType.PLAYLIST: self.play_playlist(url, settings)
+            if self.content_type is ContentType.VIDEO: self.play_video(url, settings)
+            if self.content_type is ContentType.NONE: client.warn("Invalid url.")
+
+        except Exception as e: 
+            logger.error(f"Error playing {self.content_type}: {e}")
+            return False
 
         return True
+
 
     def announce_current(self):
         logger.info("Announce track")
@@ -164,4 +224,13 @@ class ContentType(enum.Enum):
     NONE = -1
     PLAYLIST = 0
     VIDEO = 1
+
+    def get(content):
+        if re.search(r"list=[0-9A-Za-z_-]+", content):
+            return ContentType.PLAYLIST
+        if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", content):
+            return ContentType.VIDEO
+        return ContentType.NONE
+
+        
 
