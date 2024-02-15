@@ -29,6 +29,7 @@ py __main__.py
      
      Flags:
        - `--url`, `-u`: Video or playlist URL.
+       - `--commons`, `-c`: Alias for a link that was saved using the `commons` command.
        - `--output`, `-o`: Output folder (default: current working directory).
        - `--fileType`, `-f`: File type (default: any).
          
@@ -137,4 +138,33 @@ py __main__.py
      Flags:
        - `--playlist`, `-p`: Print information about the current playlist, (e.g. title, track count, owner, views).
        - `--track`, `-t`: Print information about the currently playing track (e.g. title, author, duration, publish date).
+
+## 16. stop
+   - Stop the current playback and free any laoded data. 
+
+## 17. load
+   - Preload a playback info and/or it's content without starting the playback.
+
+     Flags:
+       - `--quit`, `-q`: Quit loading the last requested `load` command.
+       - `--silent`, `-s`: Don't give any output while laoding the requested playback. 
+       - `--fetch_content`, `-fc`: Load the requested playback information and also it's content.
+       - `--commons`, `-c`: Specify the url via a common alias.
+       - `--url`, `-u`: Specify the url.
+       - `--output`, `-o`: Specify the output folder. Default: cwd
+       - `--fileType`, `-ft`: Specify the preferred file_type. Default: any
+
+      **Example:** `load -c "my playlist" -s -fc`
+
+## 17. commons, customs
+   - Manage commonly used url and give them aliases.
+
+     Flags:
+       - `--add`, `-a`: Add a common.
+       - `--remove`, `-r`: Remove a commons.
+       - `--list`, `-l`: Print all the saved commons.
+       - `--url`, `-u`: Specify the url when adding a common.
+       - `--custom_name`, -`-common`, `-c`: Specify the common's name when adding or removing.
+
+      **Example:** `commons --add -c "my_playlist" -u https://www.youtube.com/playlist?list=..."`
 
