@@ -86,6 +86,7 @@ def track_info(settings):
     client.info(name="Author", message=str(track.video.author))
     client.info(name="Duration", message=str(datetime.timedelta(seconds=track.video.length)))
     client.info(name="Publish date", message=str(track.video.publish_date))
+    client.info(name="URL", message=str(track.video.thumbnail_url))
 
     logger.info("Finish writing track info...")
 
@@ -101,13 +102,14 @@ def playlist_info(settings):
     
     playlist = pb.playlist_info.playlist
     logger.info(f"PlaybackManager: {pb}")
-    logger.info(f"Playlist: {playlist}")
     
     client.hail(name="Playlist Info", message=playlist.title)
     client.info(name="Title", message=str(playlist.title))
     client.info(name="Track count", message=str(playlist.length))
     client.info(name="Owner", message=str(playlist.owner))
     client.info(name="Views", message=str(playlist.views))
+    client.info(name="Loaded tracks", message=str(len(pb.tracks)))
+    client.info(name="URL", message=str(playlist.playlist_url))
     
     logger.info("Finish writing playlist info...")
 
