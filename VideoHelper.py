@@ -36,7 +36,7 @@ class VideoHelper:
             return False
 
     @staticmethod
-    def create_playback_from_video(video: pytube.YouTube, output_folder, file_type, retries=10) -> str | None:
+    def create_playback_from_video(video: pytube.YouTube, output_folder, file_type, silent=False, retries=10) -> str | None:
         logger.info(f"Creating playback for video: {video.title}")
         try:
             if not os.path.exists(output_folder):
@@ -48,15 +48,15 @@ class VideoHelper:
 
             if os.path.exists(folder):
                 logger.info("Fetching from local files...")
-                client.info("Fetching from local files...")
+                if not silent: client.info("Fetching from local files...")
                 file_path = os.path.join(folder, os.listdir(folder)[0])
-                client.info(f"Retrieving '{video.title}' from local file: '{file_path}'...")
+                if not silent: client.info(f"Retrieving '{video.title}' from local file: '{file_path}'...")
             else:
                 logger.info("Fetching from servers...")
-                client.info("Fetching from servers...")
+                if not silent: client.info("Fetching from servers...")
                 file_ext = None if file_type == "any" else file_type
                 stream = video.streams.filter(only_audio=True, file_extension=file_ext).first()
-                client.info(f"Downloading '{video.title}'...")
+                if not silent: client.info(f"Downloading '{video.title}'...")
                 file_path = stream.download(folder)
                 logger.info(f"Downloaded file location: {file_path}")
 
@@ -64,29 +64,29 @@ class VideoHelper:
             
             if VideoHelper.is_mp4_corrupt(file_path):
                 if retries > 0:
-                    client.warn(f"'{file_path}' is corrupted. Retrying download...")
+                    if not silent: client.warn(f"'{file_path}' is corrupted. Retrying download...")
                     shutil.rmtree(file_path)
                     return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
                 else:
                     # Unable to fetch file
-                    client.fail(message=f"'{video.title}' cannot be safely downloaded. " + "No retries left. " + f"'{video.title}' will be skipped.")
+                    if not silent: client.fail(message=f"'{video.title}' cannot be safely downloaded. " + "No retries left. " + f"'{video.title}' will be skipped.")
             else:
                 logger.info(f"Successfully acquired '{video.title}'")
                 return file_path
 
         except AgeRestrictedError as e:
             logger.error(f"Age-restricted error: {e}")
-            client.warn(message=f"'{video.title}' is age restricted, and can't be accessed without logging in. " + f"<ID:{video.video_id}>")
+            if not silent: client.warn(message=f"'{video.title}' is age restricted, and can't be accessed without logging in. " + f"<ID:{video.video_id}>")
         
         # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
             logger.error(f"SSL error: {e}")
             if retries > 0:
-                client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retries left: {str(retries)}")
+                if not silent: client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retries left: {str(retries)}")
                 time.sleep(0.1)
                 return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
             else:
-                client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ "No retries left. " + f"'{video.title}' will be skipped.")
+                if not silent: client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ "No retries left. " + f"'{video.title}' will be skipped.")
 
         except Exception as e:
             logger.error(f"An unexpected error occurred: {e}")

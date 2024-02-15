@@ -46,6 +46,8 @@ class Track(EventDispatcher):
             self.__player = Process(target=pydub_play, args=(self.get_new_audio(), ))
             # Start the playback
             self.__player.start()
+            # Notify that the player has started to play
+            self.dispatch(Event(name="track.play", data={"track":self}))
             # Join the 
             self.__player.join()
             # If the process exited succsefully without being terminated, the playback has ended.
