@@ -57,8 +57,9 @@ class PlaybackManager:
 
         try: 
             # Begin loading
-            if self.content_type is ContentType.PLAYLIST: self.load_playlist(url, settings)
-            if self.content_type is ContentType.VIDEO: self.load_video(url, settings)
+            settings["url"] = url
+            if self.content_type is ContentType.PLAYLIST: self.load_playlist(**settings)
+            if self.content_type is ContentType.VIDEO: self.load_video(**settings)
             if self.content_type is ContentType.NONE: 
                 client.warn("Invalid url.")
                 return False
@@ -71,10 +72,9 @@ class PlaybackManager:
 
     def __get_gen(self, iterator, silent):
         for url in iterator:
+            logger.info(f"Yielding new track")
             track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), silent)
-            logger.info(f"Yielding new track: {track_source, video}")
-            if track_source is None: 
-                continue
+            if track_source is None: continue
             track = Track.Track(track_source, video)
             track.set_volume(decibles=self.volume_db)
             track.register("track.end", lambda e: self.skip())
@@ -82,11 +82,11 @@ class PlaybackManager:
             yield track
 
 
-    def load_playlist(self, url, settings) -> bool:
+    def load_playlist(self, url, **kwargs) -> bool:
         logger.info("Loading playlist...")
         self.playlist_info = pytube.Playlist(url) 
-        self.generator = self.__get_gen(self.playlist_info.url_generator(), "silent" in settings)
-        if "fetch" in settings:
+        self.generator = self.__get_gen(self.playlist_info.url_generator(), "silent" in kwargs)
+        if "fetch" in kwargs:
             logger.debug("Fetch content")
             while next(self.generator) and self.current == -1:
                 pass
@@ -97,7 +97,7 @@ class PlaybackManager:
         return True
 
 
-    def play_playlist(self, url, settings) -> bool:
+    def play_playlist(self, url, **kwargs) -> bool:
         logger.info("Playing playlist...")
         if self.tracks or next(self.generator): 
             self.current = 0 
@@ -106,10 +106,10 @@ class PlaybackManager:
         return True
 
 
-    def load_video(self, url, settings) -> bool:
+    def load_video(self, url, **kwargs) -> bool:
         logger.info("Loading track...")
-        track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), "silent" in settings)
-        if track_source is None: return True
+        track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), "silent" in kwargs)
+        if track_source is None: return False
         track = Track.Track(track_source, video)
         track.set_volume(decibles=self.volume_db)
         track.register("track.end", lambda e: self.skip())
@@ -117,7 +117,7 @@ class PlaybackManager:
         return True 
 
 
-    def play_video(self, url, settings) -> bool:
+    def play_video(self, url, **kwargs) -> bool:
         logger.info("Playing track...")        
         if self.tracks:
             self.current = 0
@@ -149,8 +149,10 @@ class PlaybackManager:
             logger.info("Starting playback...")
 
             # Begin playback
-            if self.content_type is ContentType.PLAYLIST: self.play_playlist(url, settings)
-            if self.content_type is ContentType.VIDEO: self.play_video(url, settings)
+            settings["url"] = url
+            logger.info(f'{settings = }')
+            if self.content_type is ContentType.PLAYLIST: self.play_playlist(**settings)
+            if self.content_type is ContentType.VIDEO: self.play_video(**settings)
             if self.content_type is ContentType.NONE: client.warn("Invalid url.")
 
         except Exception as e: 

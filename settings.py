@@ -68,7 +68,7 @@ class StorageItem:
        self.action = action 
 
     def get_value(self) -> str:
-        return self.value
+        return StorageItem.valuefy(self.value)
 
     def set_value(self, value, silent=True) -> bool:
         if ValueType.is_valid(self.type, value):
