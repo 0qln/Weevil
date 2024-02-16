@@ -56,7 +56,7 @@ class PlaybackManager:
         logger.info(f"{self.content_type = }")
 
         try: 
-            # Begin playback
+            # Begin loading
             if self.content_type is ContentType.PLAYLIST: self.load_playlist(url, settings)
             if self.content_type is ContentType.VIDEO: self.load_video(url, settings)
             if self.content_type is ContentType.NONE: 
@@ -133,7 +133,12 @@ class PlaybackManager:
 
         if url is not None:
             # New playback requested
-            logger.debug(f"URL specifiec: {url}")
+            logger.debug(f"URL specified: {url}")
+
+            # Clear potentional old stuff
+            if self.tracks: 
+                self.get_current().pause()
+                self.tracks.clear()
 
             # Load new stuff
             if not self.load(settings):
