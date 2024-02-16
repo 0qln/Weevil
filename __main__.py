@@ -160,17 +160,7 @@ if __name__ == "__main__":
                 { 
                     "names": [ "--url", "-u" ],
                     "name_settings":"url"
-                },
-                { 
-                    "names": [ "--output", "-o" ],
-                    "name_settings":"output_folder",
-                    "default": os.getcwd() + "\\"
-                },
-                { 
-                    "names": [ "--fileType", "-f" ], 
-                    "name_settings":"file_type",
-                    "default":'any'
-                },
+                }, 
             ]
         },
         {
@@ -219,24 +209,32 @@ if __name__ == "__main__":
 
                 # hardcoded
                 {
-                    "names": [ "--title_declerations", "-t"],
+                    "names": [ "--title_declerations"],
                     "name_settings": "hail"
                 },   
                 {
-                    "names": [ "--info", "-i"],
+                    "names": [ "--info"],
                     "name_settings": "info"
                 },     
                 {
-                    "names": [ "--failures", "-f"],
+                    "names": [ "--failures"],
                     "name_settings": "fail"
                 },
                 {
-                    "names": [ "--warnings", "-w"],
+                    "names": [ "--warnings"],
                     "name_settings": "warn"
                 },            
                 {
                     "names": [ "--volume", "-vol"],
                     "name_settings": "volume_db"
+                },
+                { 
+                    "names": [ "--output", "-o" ],
+                    "name_settings":"output_folder",
+                },
+                { 
+                    "names": [ "--fileType", "-f" ], 
+                    "name_settings":"preferred_file_type",
                 },
             ]
         },
@@ -255,28 +253,36 @@ if __name__ == "__main__":
                     "name_settings": "value"
                 },
 
+
                 # hardcoded
-                # TODO: remove UI options
                 {
-                    "names": [ "--title_declerations", "-t"],
+                    "names": [ "--title_declerations"],
                     "name_settings": "hail"
                 },   
                 {
-                    "names": [ "--info", "-i"],
+                    "names": [ "--info"],
                     "name_settings": "info"
                 },     
                 {
-                    "names": [ "--failures", "-f"],
+                    "names": [ "--failures"],
                     "name_settings": "fail"
                 },
                 {
-                    "names": [ "--warnings", "-w"],
+                    "names": [ "--warnings"],
                     "name_settings": "warn"
-                },         
+                },            
                 {
                     "names": [ "--volume", "-vol"],
                     "name_settings": "volume_db"
-                }
+                },
+                { 
+                    "names": [ "--output", "-o" ],
+                    "name_settings":"output_folder",
+                },
+                { 
+                    "names": [ "--fileType", "-f" ], 
+                    "name_settings":"preferred_file_type",
+                },           
             ]
         },
         {
@@ -434,16 +440,6 @@ if __name__ == "__main__":
                 { 
                     "names": [ "--url", "-u" ],
                     "name_settings": "url"
-                },
-                { 
-                    "names": [ "--output", "-o" ],
-                    "name_settings": "output_folder",
-                    "default": os.getcwd() + "\\"
-                },
-                { 
-                    "names": [ "--fileType", "-ft" ], 
-                    "name_settings": "file_type",
-                    "default": 'any'
                 },
 
             ]

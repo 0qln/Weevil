@@ -104,9 +104,10 @@ class VideoHelper:
         return None
 
     @staticmethod
-    def create_playback(url, output_folder, file_type):
+    def create_playback(url, output_folder, file_type, silent=False):
         logger.info(f"Creating playback for URL: {url}")
         yt = pytube.YouTube(url)
-        return VideoHelper.create_playback_from_video(yt, output_folder, file_type), yt
+        yt.url = url
+        return VideoHelper.create_playback_from_video(yt, output_folder, file_type, silent), yt
     
 

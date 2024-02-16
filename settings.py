@@ -16,6 +16,8 @@ class ValueType (enum.Enum):
     String = 3
     Integer = 4
     Float = 5
+    Path = 6
+    AudioFile = 7
 
     def is_valid(type, value) -> bool:
 
@@ -46,6 +48,16 @@ class ValueType (enum.Enum):
             except ValueError:
                 return False
 
+        if type is ValueType.Path:
+            if not os.path.isdir(value):
+                return False
+
+        if type is ValueType.AudioFile:
+            #TODO: figuere out which file types pytube can return
+            if not (value == "any" or
+                    value == "mp4"):
+                return False
+
         return True
 
 
@@ -58,11 +70,14 @@ class StorageItem:
     def get_value(self) -> str:
         return self.value
 
-    def set_value(self, value) -> bool:
-        if (ValueType.is_valid(self.type, value)):
+    def set_value(self, value, silent=True) -> bool:
+        if ValueType.is_valid(self.type, value):
             self.value = StorageItem.valuefy(value)
             return True
         else:
+            if not silent: 
+                import client
+                client.warn(message=f"Value '{value}' does not fit the requirements for {self.type}!")
             return False
 
     def get_type(self) -> ValueType:
@@ -86,7 +101,9 @@ storage = {
     "hail": StorageItem(ValueType.Boolean, True),
     "info": StorageItem(ValueType.Boolean, True),
     "volume_db": StorageItem(ValueType.Float, 0, lambda val, pb: pb.set_volume(float(val))),
-    "no_overflow_mode": StorageItem(ValueType.Integer, 1)
+    "no_overflow_mode": StorageItem(ValueType.Integer, 1),
+    "output_folder": StorageItem(ValueType.Path, os.getcwd()),
+    "preferred_file_type": StorageItem(ValueType.AudioFile, "any")
 }
 
 
@@ -112,22 +129,26 @@ def get(settings, print_info=False):
 def set(settings, playback):
     import client
 
-    if (len(settings.keys()) > 0 and len(settings.values()) > 0):
-        key, value = (next(iter(settings.items()))
-                      if "key" not in settings or "value" not in settings 
-                      else (settings["key"], settings["value"]))
-        
-        if not storage[key].set_value(value):
-            logger.error("There seems to be something wrong with the value: '" + str(value) + "'. An input of type '" + str(storage[key].get_type().name) + "' was expected.")
-        else:
-            storage[key].invoke(value, playback)
-            logger.info("Write settings: " + str((key, value)))
+    if len(settings.keys()) == 0:
+        client.warn("No key specified!")
+        return
+
+    if len(settings.values()) == 0:
+        client.warn("No value specified!")
+        return
+
+    key, value = (next(iter(settings.items()))
+                  if "key" not in settings or "value" not in settings 
+                  else (settings["key"], settings["value"]))
+    
+    if storage[key].set_value(value, silent=False):
+        storage[key].invoke(value, playback)
+        logger.info("Write settings: " + str((key, value)))
         
 
 def save_to_files(settings):
     import json
     import client
-    import os
 
     folder_location = settings["location"]
     file_path = os.path.join(folder_location, "settings.json")
@@ -155,7 +176,6 @@ def save_to_files(settings):
 def load_from_files(settings):
     import json
     import client
-    import os
 
     file_path = os.path.join(settings.get("location"), "settings.json")
     

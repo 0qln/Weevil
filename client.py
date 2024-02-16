@@ -100,7 +100,7 @@ def playlist_info(settings):
         logger.info("No playlist information available.")
         return
     
-    playlist = pb.playlist_info.playlist
+    playlist = pb.playlist_info
     logger.info(f"PlaybackManager: {pb}")
     
     client.hail(name="Playlist Info", message=playlist.title)

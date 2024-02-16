@@ -3,10 +3,10 @@ import enum
 import settings 
 import client
 import logging
-from PlaylistPlaybackManager import PlaylistPlaybackManager
 from VideoHelper import VideoHelper
 import Track
 import commons
+import pytube
 
 
 logger = logging.getLogger(f"root___.weevil_.playbac")
@@ -69,8 +69,9 @@ class PlaybackManager:
         return True
 
 
-    def __get_gen(self, iterator):
-        for track_source, video in iterator:
+    def __get_gen(self, iterator, silent):
+        for url in iterator:
+            track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), silent)
             logger.info(f"Yielding new track: {track_source, video}")
             if track_source is None: 
                 continue
@@ -83,13 +84,13 @@ class PlaybackManager:
 
     def load_playlist(self, url, settings) -> bool:
         logger.info("Loading playlist...")
-        self.playlist_info = PlaylistPlaybackManager(url, settings["output_folder"], settings["file_type"])
-        self.generator = self.__get_gen(self.playlist_info.yield_iterate("silent" in settings))
+        self.playlist_info = pytube.Playlist(url) 
+        self.generator = self.__get_gen(self.playlist_info.url_generator(), "silent" in settings)
         if "fetch" in settings:
             logger.debug("Fetch content")
             while next(self.generator) and self.current == -1:
                 pass
-            logger.debug(f"Stop fetching content: {self.generator=} | {next(self.generator)=} | {self.current}")
+            logger.debug(f"Stop fetching content: {self.generator=} | {next(self.generator)=} | {self.current=}")
             
         else:
             logger.debug("Dont fetch content")
@@ -107,7 +108,7 @@ class PlaybackManager:
 
     def load_video(self, url, settings) -> bool:
         logger.info("Loading track...")
-        track_source, video = VideoHelper.create_playback(url, settings["output_folder"], settings["file_type"], "silent" in settings)
+        track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), "silent" in settings)
         if track_source is None: return True
         track = Track.Track(track_source, video)
         track.set_volume(decibles=self.volume_db)
