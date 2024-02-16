@@ -66,7 +66,7 @@ class VideoHelper:
                 if retries > 0:
                     if not silent: client.warn(f"'{file_path}' is corrupted. Retrying download...")
                     shutil.rmtree(file_path)
-                    return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
+                    return VideoHelper.create_playback_from_video(video, output_folder, file_type, silent, retries - 1)
                 else:
                     # Unable to fetch file
                     if not silent: client.fail(message=f"'{video.title}' cannot be safely downloaded. " + "No retries left. " + f"'{video.title}' will be skipped.")
@@ -74,18 +74,28 @@ class VideoHelper:
                 logger.info(f"Successfully acquired '{video.title}'")
                 return file_path
 
+        # Age restricted videos
         except AgeRestrictedError as e:
             logger.error(f"Age-restricted error: {e}")
-            if not silent: client.warn(message=f"'{video.title}' is age restricted, and can't be accessed without logging in. " + f"<ID:{video.video_id}>")
+            try:
+                logger.info(f"Attempt pypassing age gate of {video = }")
+                if not silent: client.warn(message=f"'{video.title}' is age restricted, attempting to bypass age gate.")
+                video.bypass_age_gate() # This will throw `AgeRestrictedError` if cannot be bypassed
+                return create_playback_from_video(video)
+            except AgeRestrictedError as e:
+                logger.info(f"Failed to pypass age gate of {video = }")
+                if not silent: client.fail(message=f"'{video.title}' is age restricted and cannot be accessed.")
         
         # Internal SSLError from pytube. Most at the time it's a network error
         except SSLError as e:
             logger.error(f"SSL error: {e}")
             if retries > 0:
+                logger.info(f"Attempting retry")
                 if not silent: client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ f"Retries left: {str(retries)}")
                 time.sleep(0.1)
-                return VideoHelper.create_playback_from_video(video, output_folder, file_type, retries - 1)
+                return VideoHelper.create_playback_from_video(video, output_folder, file_type, silent, retries - 1)
             else:
+                logger.info("Give up")
                 if not silent: client.fail(message=f"'{video.title}' could not be downloaded due to a network error. "+ "No retries left. " + f"'{video.title}' will be skipped.")
 
         except Exception as e:
