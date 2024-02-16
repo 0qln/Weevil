@@ -3,7 +3,6 @@ import settings
 import datetime 
 import logging
 import client
-from mpWrapper import MediaPlayer
 
 logger = logging.getLogger(f"root___.weevil_.client_")
 logger.info(f"Logging to file enabled.")
