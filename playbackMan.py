@@ -129,8 +129,8 @@ class PlaybackManager:
         # Get url
         url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]] 
 
+        # A URL was specified
         if url is not None:
-            # New playback requested
             logger.debug(f"URL specified: {url}")
 
             # Clear potentional old stuff

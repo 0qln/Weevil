@@ -19,16 +19,16 @@ def find_matches(pattern, text):
     return [match.group() for match in matches]
 
 def parse_tokens(input:str, arg_library):
+    logger.info(f"Begin parse_tokens: {input = }")
     try:
         # get the argument and it's definition
         argument = re.findall(r"\A[a-zA-Z_]+", input)[0]
+        logger.info(f"{argument = }")
         arg_def = next((arg for arg in arg_library if argument in arg["names"]), None)
+        logger.debug(f"{arg_def = }")
         if arg_def is None: 
             client.warn(message="Specified argument does not exist!")
             return None, None
-        logger.info(f"Parsing tokens for argument: {argument}")
-        logger.debug(f"Input: {input}")
-        logger.debug(f"Argument definition: {arg_def}")
 
         # search for pseudo legal flags and values in the input string
         flag_values = find_matches(r"(-|--)(\w| )+?(\".+?){2}|-[\w-]+", input + ' ')
@@ -341,7 +341,7 @@ if __name__ == "__main__":
                 # },
             ]
         },
-        {
+        #  {
             # DEPRICATED: d5e07db5ce1cd127e3e04c9cde205fb493d05167
             # Print a list of all downloaded playlists and their videos
             #  "names": [ "list_playlists", "lp" ],
@@ -358,7 +358,7 @@ if __name__ == "__main__":
                     #  "default": DEBUG_MODE
                 #  }
             #  ]
-        },
+        #  },
         {
             # save current setting config to disc
             "names": [ "config_save", "conf_s" ],
@@ -428,7 +428,6 @@ if __name__ == "__main__":
                     "name_settings": "fetch",
                 },
                 {
-
                     "names": [ "--commons", "-c" ],
                     "name_settings": "commons"
                 },
@@ -449,6 +448,7 @@ if __name__ == "__main__":
 
             ]
         }
+        
     ])
     
     exit_flag = False
