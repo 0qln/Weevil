@@ -113,7 +113,7 @@ def playlist_info(settings):
     
     logger.info("Finish writing playlist info...")
 
-
+# Depricated
 def list_playlists(settings):
     client.hail(name="Saved Playlists", message=settings["directory"])
     for folder in os.listdir(settings["directory"]):

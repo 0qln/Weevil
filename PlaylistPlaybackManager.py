@@ -26,12 +26,9 @@ class PlaylistPlaybackManager(object):
         self.videos = [str]
         self.current_mp = 0
         self.preferred_file_type = file_type
-        
-        # Replace invalid characters with underscores in the playlist title
-        sanitized_title = re.sub(r'[\\/:*?"<>|]', '_', self.playlist.title)
-        self.path = output_folder + self.playlist.playlist_id + "\\" + sanitized_title + "\\"
-        if not os.path.exists(self.path): 
-            os.makedirs(self.path)
+        self.path = output_folder         
+        if not os.path.exists(self.path): os.makedirs(self.path)
+
         logger.info("PlaylistPlaybackManager initiated successfully. Playlist Title: %s", self.playlist.title)
 
     def fill(self):

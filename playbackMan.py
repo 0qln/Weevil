@@ -97,7 +97,6 @@ class PlaybackManager:
 
 
     def play_playlist(self, url, settings) -> bool:
-        #  if url: self.load_playlist(url, settings)
         logger.info("Playing playlist...")
         if self.tracks or next(self.generator): 
             self.current = 0 
@@ -118,7 +117,6 @@ class PlaybackManager:
 
 
     def play_video(self, url, settings) -> bool:
-        #  if url: self.load_video(url, settings)
         logger.info("Playing track...")        
         if self.tracks:
             self.current = 0

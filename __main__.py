@@ -342,21 +342,22 @@ if __name__ == "__main__":
             ]
         },
         {
+            # DEPRICATED: 
             # Print a list of all downloaded playlists and their videos
-            "names": [ "list_playlists", "lp" ],
-            "function": lambda __s: safe(list_playlists=lambda: client.list_playlists(__s)),
-            "flags": [
-                {
-                    "names": [ "--directory", "-dir" ],
-                    "name_settings": "directory",
-                    "default": os.getcwd()
-                },
-                {
-                    "names": [ "--show_id", "-si" ],
-                    "name_settings": "show_id",
-                    "default": DEBUG_MODE
-                }
-            ]
+            #  "names": [ "list_playlists", "lp" ],
+            #  "function": lambda __s: safe(list_playlists=lambda: client.list_playlists(__s)),
+            #  "flags": [
+                #  {
+                    #  "names": [ "--directory", "-dir" ],
+                    #  "name_settings": "directory",
+                    #  "default": os.getcwd()
+                #  },
+                #  {
+                    #  "names": [ "--show_id", "-si" ],
+                    #  "name_settings": "show_id",
+                    #  "default": DEBUG_MODE
+                #  }
+            #  ]
         },
         {
             # save current setting config to disc
