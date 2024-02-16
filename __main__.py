@@ -342,7 +342,7 @@ if __name__ == "__main__":
             ]
         },
         {
-            # DEPRICATED: 
+            # DEPRICATED: d5e07db5ce1cd127e3e04c9cde205fb493d05167
             # Print a list of all downloaded playlists and their videos
             #  "names": [ "list_playlists", "lp" ],
             #  "function": lambda __s: safe(list_playlists=lambda: client.list_playlists(__s)),
