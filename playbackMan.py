@@ -40,16 +40,16 @@ class PlaybackManager:
 
         return True
 
-    def load(self, settings) -> bool:
+    def load(self, **kwargs) -> bool:
 
-        if "quit" in settings:
+        if "quit" in kwargs:
             self.current = 0
             return True
 
         logger.info("Loading playback...")
 
         # Get url
-        url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]] 
+        url = kwargs.get("url") or kwargs.get("commons") and commons.storage[kwargs["commons"]] 
 
         # Determine content type
         self.content_type = ContentType.get(url)
@@ -57,9 +57,9 @@ class PlaybackManager:
 
         try: 
             # Begin loading
-            settings["url"] = url
-            if self.content_type is ContentType.PLAYLIST: self.load_playlist(**settings)
-            if self.content_type is ContentType.VIDEO: self.load_video(**settings)
+            kwargs["url"] = url
+            if self.content_type is ContentType.PLAYLIST: self.load_playlist(**kwargs)
+            if self.content_type is ContentType.VIDEO: self.load_video(**kwargs)
             if self.content_type is ContentType.NONE: 
                 client.warn("Invalid url.")
                 return False
@@ -127,9 +127,9 @@ class PlaybackManager:
         return True
 
 
-    def play(self, settings) -> bool:
+    def play(self, **kwargs) -> bool:
         # Get url
-        url = settings.get("url") or settings.get("commons") and commons.storage[settings["commons"]] 
+        url = kwargs.get("url") or kwargs.get("commons") and commons.storage[kwargs["commons"]] 
 
         # A URL was specified
         if url is not None:
@@ -141,7 +141,7 @@ class PlaybackManager:
                 self.tracks.clear()
 
             # Load new stuff
-            if not self.load(settings):
+            if not self.load(kwargs):
                 # Return false if the url contents could not be loaded
                 logger.warn("Could not load url contents.")
                 return False
@@ -150,10 +150,10 @@ class PlaybackManager:
             logger.info("Starting playback...")
 
             # Begin playback
-            settings["url"] = url
-            logger.info(f'{settings = }')
-            if self.content_type is ContentType.PLAYLIST: self.play_playlist(**settings)
-            if self.content_type is ContentType.VIDEO: self.play_video(**settings)
+            kwargs["url"] = url
+            logger.info(f'{kwargs = }')
+            if self.content_type is ContentType.PLAYLIST: self.play_playlist(**kwargs)
+            if self.content_type is ContentType.VIDEO: self.play_video(**kwargs)
             if self.content_type is ContentType.NONE: client.warn("Invalid url.")
 
         except Exception as e: 

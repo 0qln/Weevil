@@ -108,7 +108,6 @@ def playlist_info(settings):
     client.info(name="Track count", message=str(playlist.length))
     client.info(name="Owner", message=str(playlist.owner))
     client.info(name="Views", message=str(playlist.views))
-    client.info(name="Loaded tracks", message=str(len(pb.tracks)))
     client.info(name="URL", message=str(playlist.playlist_url))
     
     logger.info("Finish writing playlist info...")

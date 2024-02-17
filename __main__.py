@@ -74,8 +74,6 @@ def handle_arg(argument, settings):
             argument["function"](settings)
         else:
             threading.Thread(target=argument["function"], args=[settings], daemon=True).start()
-
-        logger.info(f"Started handling argument on new daemon: {argument}")
     except Exception as e:
         logger.error(f"Error while handling argument: {e}")
 
@@ -88,7 +86,7 @@ def safe(**actions):
             action()
             logger.info(f"Finish executing action #{i}: {action_name}")
         except Exception as e:
-            logger.error(f"Failed to execute action #{i}: {action_name} Error: {e}")
+            logger.error(f"Failed to execute action #{i}: {action_name}. Error: {e}")
 
 
 def exit_success(): 
@@ -107,8 +105,8 @@ def exit():
 class PaddedLevelFormatter(logging.Formatter):
     def format(self, record):
         record.levelname = record.levelname.rjust(8)
-        #  record.name = record.name.ljust(20)
         return super().format(record)
+
 
 if __name__ == "__main__":
     # Initiate Logging
@@ -126,23 +124,15 @@ if __name__ == "__main__":
     root_handler.setFormatter(PaddedLevelFormatter(log_format))
 
     logger.info(f"Logging to file enabled. [{log_file}]")
-    
-    #  logger.debug("Debug message")
-    #  logger.info("Info message")
-    #  logger.warn("Warn message")
-    #  logger.error("Error message")
-    #  logger.fatal("Fatal message")
-#  
-    # Initiate debug mode 
-    DEBUG_MODE = True if len(argv)>1 and "DEBUG" in argv[1] else False   
-    logger.info(f"Debug Mode: {DEBUG_MODE}")
        
+
     # Initiate Arguments    
-    arguments.initiate([
+    arguments.initiate(
+    [
         {
             # Print 'help.txt'
             "names": [ "help", "-h", "--help" ],
-            "function": lambda __s: safe(printHelp=lambda: client.printHelp()),
+            "function": lambda flags: safe(printHelp=lambda: client.printHelp()),
             "flags": [ 
 
             ]
@@ -150,7 +140,7 @@ if __name__ == "__main__":
         {
             # Play a video or playlist
             "names": [ "play" ],
-            "function":lambda __s: safe(play=lambda: playback.play(__s)),
+            "function":lambda flags: safe(play=lambda: playback.play(**flags)),
             "flags": [
                 {
 
@@ -166,7 +156,7 @@ if __name__ == "__main__":
         {
             # Clear the terminal
             "names": [ "clear", "cls" ],
-            "function":lambda __s: safe(clear=lambda: client.clear()),
+            "function":lambda flags: safe(clear=lambda: client.clear()),
             "flags": [ 
 
             ]
@@ -174,7 +164,7 @@ if __name__ == "__main__":
         {
             # Pause playback
             "names": [ "pause", "p" ],
-            "function":lambda __s: safe(pause=lambda: playback.pause()),
+            "function":lambda flags: safe(pause=lambda: playback.pause()),
             "flags": [ 
 
             ]
@@ -182,7 +172,7 @@ if __name__ == "__main__":
         {
             # Resume playback
             "names": [ "resume", "r" ],
-            "function":lambda __s: safe(resume=lambda: playback.resume()),
+            "function":lambda flags: safe(resume=lambda: playback.resume()),
             "flags": [
 
             ]
@@ -190,7 +180,7 @@ if __name__ == "__main__":
         {
             # Exit weevil
             "names": [ "exit", "close", "quit" ],
-            "function":lambda __s: safe(reset=lambda: playback.reset(), exit=lambda: exit_success()), 
+            "function":lambda flags: safe(reset=lambda: playback.reset(), exit=lambda: exit_success()), 
             "flags": [
 
             ],
@@ -199,7 +189,7 @@ if __name__ == "__main__":
         {
             # Get a setting
             "names": [ "get"],
-            "function": lambda __s: safe(get=lambda: settings.get(__s, print_info=True)),
+            "function": lambda flags: safe(get=lambda: settings.get(flags, print_info=True)),
             "flags": [
                 # dynamic
                 {
@@ -241,7 +231,7 @@ if __name__ == "__main__":
         {
             # Set a settings
             "names": [ "set" ],
-            "function": lambda __s: safe(set=lambda: settings.set(__s, playback)), 
+            "function": lambda flags: safe(set=lambda: settings.set(flags, playback)), 
             "flags": [
                 # dynamic
                 {
@@ -288,7 +278,7 @@ if __name__ == "__main__":
         {
             # Manage frequently used urls
             "names": [ "commons", "customs" ],
-            "function": lambda __s: safe(commons_manage=lambda: commons.manage(__s)),
+            "function": lambda flags: safe(commons_manage=lambda: commons.manage(flags)),
             "flags": [
                 {
                     # Add a frequently used url
@@ -324,7 +314,7 @@ if __name__ == "__main__":
         {
             # Play next track
             "names": [ "next", "skip", "s" ],
-            "function": lambda __s: safe(skip=lambda: playback.skip()),
+            "function": lambda flags: safe(skip=lambda: playback.skip()),
             "flags": [
                 # TODO
                 # {
@@ -337,7 +327,7 @@ if __name__ == "__main__":
         {
             # Play previous track
             "names": [ "previous", "prev" ],
-            "function": lambda __s: safe(prev=lambda: playback.prev()),
+            "function": lambda flags: safe(prev=lambda: playback.prev()),
             "flags": [
                 # TODO
                 # {
@@ -347,28 +337,10 @@ if __name__ == "__main__":
                 # },
             ]
         },
-        #  {
-            # DEPRICATED: d5e07db5ce1cd127e3e04c9cde205fb493d05167
-            # Print a list of all downloaded playlists and their videos
-            #  "names": [ "list_playlists", "lp" ],
-            #  "function": lambda __s: safe(list_playlists=lambda: client.list_playlists(__s)),
-            #  "flags": [
-                #  {
-                    #  "names": [ "--directory", "-dir" ],
-                    #  "name_settings": "directory",
-                    #  "default": os.getcwd()
-                #  },
-                #  {
-                    #  "names": [ "--show_id", "-si" ],
-                    #  "name_settings": "show_id",
-                    #  "default": DEBUG_MODE
-                #  }
-            #  ]
-        #  },
         {
             # save current setting config to disc
             "names": [ "config_save", "conf_s" ],
-            "function": lambda __s: safe(save_settings=lambda: settings.save_to_files(__s), save_commons=lambda: commons.save_to_files(__s)),
+            "function": lambda flags: safe(save_settings=lambda: settings.save_to_files(flags), save_commons=lambda: commons.save_to_files(flags)),
             "flags": [
                 {
                     # the folder location of that the config files will be generated in
@@ -381,7 +353,7 @@ if __name__ == "__main__":
         {
             # load current setting config from disc
             "names": [ "config_load", "conf_l" ],
-            "function": lambda __s: safe(load_settings=lambda: settings.load_from_files(__s), load_commons=lambda: commons.load_from_files(__s)),
+            "function": lambda flags: safe(load_settings=lambda: settings.load_from_files(flags), load_commons=lambda: commons.load_from_files(flags)),
             "flags": [
                 {
                     # the file path to the config.json file
@@ -394,7 +366,7 @@ if __name__ == "__main__":
         {
             # print info
             "names": [ "info" ],
-            "function": lambda __s: safe(print_info=lambda: client.playlist_info({"playback_man": playback}) if "playlist" in __s else client.track_info({"playback_man": playback})),
+            "function": lambda flags: safe(print_info=lambda: client.playlist_info({"playback_man": playback}) if "playlist" in flags else client.track_info({"playback_man": playback})),
             "flags": [
                 {
                     # current track
@@ -410,7 +382,7 @@ if __name__ == "__main__":
         },
         {
             "names": [ "stop" ],
-            "function": lambda __s: safe(stop=lambda: playback.reset()),
+            "function": lambda flags: safe(stop=lambda: playback.reset()),
             "flags": [
                 {
                 }
@@ -419,7 +391,7 @@ if __name__ == "__main__":
         },
         {
             "names": [ "load" ],
-            "function": lambda __s: safe(load=lambda: playback.load(__s)),
+            "function": lambda flags: safe(load=lambda: playback.load(**flags)),
             "flags": [
                 {
                     "names": [ "--quit", "-q" ],
@@ -465,32 +437,21 @@ if __name__ == "__main__":
             tokens = client.get_input()
             logger.debug(f"User input: {tokens}")
 
+            argument, flags = parse_tokens(tokens, arguments.get())
+            logger.debug(f"Parsed argument: {argument}")
+            logger.debug(f"Parsed flags: {flags}")
+
+            if argument is None or flags is None: continue
+
             try:
-                argument, flags = parse_tokens(tokens, arguments.get())
-                logger.debug(f"Parsed argument: {argument}")
-                logger.debug(f"Parsed flags: {flags}")
-
-                if argument is None or flags is None: continue
-
-                try:
-                    handle_arg(argument, flags)
-                except Exception as e:
-                    logger.error(f"Failed to execute request: {e}")
-                    client.fail(message="Failed to execute your request. If this continues to happen, consider restarting weevil.")
+                handle_arg(argument, flags)
             except Exception as e:
-                logger.warning(f"Error parsing tokens: {e}")
-                client.warn(message="There seems to be something wrong with your input.")
-        except  HTTPError as e:
-            if DEBUG_MODE: 
-                raise(e)
-            else: 
-                logger.error(f"An HTTP Error occurred: {e}")
-                client.fail(message="An HTTP Error occurred.")
+                logger.error(f"Failed to execute request: {e}")
+                client.fail(message="Failed to execute your request. If this continues to happen, consider restarting weevil.")
+        except HTTPError as e:
+            logger.error(f"Unexpected HTTP Error: {e}")
         except Exception as e:
-            if DEBUG_MODE: 
-                raise(e)
-            else: 
-                logger.warning(f"An unknown error occurred: {e}")
-                client.warn(message="An unknown error occurred.")
+            logger.error(f"An unknown error occurred: {e}")
+            client.error(message="An unknown error occurred. Consider restarting weevil.")
         
     logger.info("Exiting program.")   
