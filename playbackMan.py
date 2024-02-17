@@ -85,13 +85,12 @@ class PlaybackManager:
     def load_playlist(self, url, **kwargs) -> bool:
         logger.info("Loading playlist...")
         self.playlist_info = pytube.Playlist(url) 
+        if not "silent" in kwargs: client.hail(name="Loading Playlist", message=self.playlist_info.title)
         self.generator = self.__get_gen(self.playlist_info.url_generator(), "silent" in kwargs)
         if "fetch" in kwargs:
-            logger.debug("Fetch content")
-            while next(self.generator) and self.current == -1:
-                pass
+            logger.debug("Start bulk fetching content")
+            while next(self.generator) and self.current == -1: pass
             logger.debug(f"Stop fetching content: {self.generator=} | {next(self.generator)=} | {self.current=}")
-            
         else:
             logger.debug("Dont fetch content")
         return True
@@ -99,16 +98,17 @@ class PlaybackManager:
 
     def play_playlist(self, url, **kwargs) -> bool:
         logger.info("Playing playlist...")
-        if self.tracks or next(self.generator): 
-            self.current = 0 
-            self.get_current().play()
-            self.announce_current()
+        if not "silent" in kwargs:
+            client.hail(name="Playing Playlist", message=self.playlist_info.title)
+        self.play_video()
         return True
 
 
     def load_video(self, url, **kwargs) -> bool:
         logger.info("Loading track...")
-        track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), "silent" in kwargs)
+        if not "silent" in kwargs: 
+            client.hail(name="Loading Track", message="")
+        track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), "silent" in kwargs) 
         if track_source is None: return False
         track = Track.Track(track_source, video)
         track.set_volume(decibles=self.volume_db)
@@ -117,12 +117,13 @@ class PlaybackManager:
         return True 
 
 
-    def play_video(self, url, **kwargs) -> bool:
+    def play_video(self, **kwargs) -> bool:
         logger.info("Playing track...")        
-        if self.tracks:
+        if self.tracks or next(self.generator):
             self.current = 0
             self.get_current().play()
-            self.announce_current()
+            if not "silent" in kwargs: 
+                client.hail(name="Playing Track", message=self.get_current().video.title)
         return True
 
 
@@ -161,18 +162,9 @@ class PlaybackManager:
 
         return True
 
-
-    def announce_current(self):
-        logger.info("Announce track")
-        t = self.get_current()
-        message = VideoHelper.get_title(t.source)
-        name = "Track" if self.content_type == ContentType.VIDEO else "Current Track"
-        client.hail(name=name, message=message)
-
-
     def get_current(self) -> Track.Track | None:
         current = self.tracks[self.current] if 0 <= self.current < len(self.tracks) else None
-        logger.info(f"Current track: {current}")
+        logger.info(f"Get {current}")
         return current
 
     def pause(self):
@@ -195,7 +187,7 @@ class PlaybackManager:
         self.current -= 1
         self.get_current().seek(0)
         self.get_current().play()
-        self.announce_current()
+        client.hail(name="Playing Track", message=self.get_current().video.title)
 
     def skip(self):
         logger.info("Skipping to next track")
@@ -216,7 +208,7 @@ class PlaybackManager:
         self.current += 1
         self.get_current().seek(0)
         self.get_current().play()
-        self.announce_current()
+        client.hail(name="Playing Track", message=self.get_current().video.title)
 
     def set_volume(self, decibles) -> bool:
         logger.info(f"Setting volume to {decibles = }")

@@ -85,7 +85,8 @@ def track_info(settings):
     client.info(name="Author", message=str(track.video.author))
     client.info(name="Duration", message=str(datetime.timedelta(seconds=track.video.length)))
     client.info(name="Publish date", message=str(track.video.publish_date))
-    client.info(name="URL", message=str(track.video.thumbnail_url))
+    client.info(name="Playback Source", message=str(track.source))
+    client.info(name="URL", message=str(track.video.url))
 
     logger.info("Finish writing track info...")
 
