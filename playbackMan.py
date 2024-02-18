@@ -201,7 +201,8 @@ class PlaybackManager:
         logger.info(f"Setting volume to {decibles = }")
         self.volume_db = decibles
         for track in self.tracks:
-            track.set_volume(decibles=decibles)
+            if not track.is_disposed():
+                track.set_volume(decibles=decibles)
         return True
 
 

@@ -65,6 +65,9 @@ class Track(EventDispatcher):
                                       output=True)
         def stream_write():
             for chunk in self.__chunks:
+                # Prepare chunk volume
+                chunk += self.__decibels_adjust
+
                 # Return so the thread can be terminated
                 if self.__state == TrackState.Dispose: return 0
 
@@ -147,4 +150,3 @@ class Track(EventDispatcher):
 
         self.__decibels_adjust = decibles
         logger.info(f"Assign volume to track {self}: {self.__decibels_adjust}dB")
-        # TODO: 
