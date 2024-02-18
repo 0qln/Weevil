@@ -40,6 +40,7 @@ class PlaybackManager:
 
         return True
 
+
     def load(self, **kwargs) -> bool:
 
         if "quit" in kwargs:
@@ -141,7 +142,7 @@ class PlaybackManager:
                 self.tracks.clear()
 
             # Load new stuff
-            if not self.load(kwargs):
+            if not self.load(**kwargs):
                 # Return false if the url contents could not be loaded
                 logger.warn("Could not load url contents.")
                 return False
