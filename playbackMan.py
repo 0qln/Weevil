@@ -22,7 +22,6 @@ class PlaybackManager:
         self.generator = None
         self.volume_db = float(settings.get("volume_db"))
         self.playlist_info = None
-        self.should_load = False
 
 
     def reset(self = None) -> bool:
@@ -31,12 +30,13 @@ class PlaybackManager:
         if self is not None:
             self.content_type = ContentType.NONE
             for track in self.tracks:
-                track.pause()
+                if not track.disposed():
+                    track.pause()
+                    track.dispose()
             self.tracks.clear()
             self.current = -1
             self.generator = None
             self.playlist_info = None
-            self.should_load = False
 
         return True
 
@@ -74,13 +74,8 @@ class PlaybackManager:
     def __get_gen(self, iterator, silent):
         for url in iterator:
             logger.info(f"Yielding new track")
-            track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), silent)
-            if track_source is None: continue
-            track = Track.Track(track_source, video)
-            track.set_volume(decibles=self.volume_db)
-            track.register("track.end", lambda e: self.skip())
-            self.tracks.append(track)
-            yield track
+            if self.load_video(url, **{ ("silent" if silent else ""):True } ):
+                yield True 
 
 
     def load_playlist(self, url, **kwargs) -> bool:
@@ -99,20 +94,18 @@ class PlaybackManager:
 
     def play_playlist(self, url, **kwargs) -> bool:
         logger.info("Playing playlist...")
-        if not "silent" in kwargs:
-            client.hail(name="Playing Playlist", message=self.playlist_info.title)
+        if not "silent" in kwargs: client.hail(name="Playing Playlist", message=self.playlist_info.title)
+        next(self.generator, None)
         self.play_video()
         return True
 
 
     def load_video(self, url, **kwargs) -> bool:
         logger.info("Loading track...")
-        if not "silent" in kwargs: 
-            client.hail(name="Loading Track", message="")
+        if not "silent" in kwargs: client.hail(name="Loading Track", message="")
         track_source, video = VideoHelper.create_playback(url, settings.get("output_folder"), settings.get("preferred_file_type"), "silent" in kwargs) 
         if track_source is None: return False
-        track = Track.Track(track_source, video)
-        track.set_volume(decibles=self.volume_db)
+        track = Track.Track(track_source, video, dB=self.volume_db)
         track.register("track.end", lambda e: self.skip())
         self.tracks.append(track)
         return True 
@@ -120,11 +113,10 @@ class PlaybackManager:
 
     def play_video(self, **kwargs) -> bool:
         logger.info("Playing track...")        
-        if self.tracks or next(self.generator):
-            self.current = 0
+        if self.tracks:
+            self.get_current().initiate()
             self.get_current().play()
-            if not "silent" in kwargs: 
-                client.hail(name="Playing Track", message=self.get_current().video.title)
+            if not "silent" in kwargs: client.hail(name="Playing Track", message=self.get_current().video.title)
         return True
 
 
@@ -137,9 +129,7 @@ class PlaybackManager:
             logger.debug(f"URL specified: {url}")
 
             # Clear potentional old stuff
-            if self.tracks: 
-                self.get_current().pause()
-                self.tracks.clear()
+            if self.tracks: self.reset()
 
             # Load new stuff
             if not self.load(**kwargs):
@@ -153,9 +143,9 @@ class PlaybackManager:
             # Begin playback
             kwargs["url"] = url
             logger.info(f'{kwargs = }')
+            self.current = 0
             if self.content_type is ContentType.PLAYLIST: self.play_playlist(**kwargs)
             if self.content_type is ContentType.VIDEO: self.play_video(**kwargs)
-            if self.content_type is ContentType.NONE: client.warn("Invalid url.")
 
         except Exception as e: 
             logger.error(f"Error playing {self.content_type}: {e}")
@@ -184,9 +174,9 @@ class PlaybackManager:
         logger.info("Playing previous track")
         if self.get_current() is None or self.current < 0:
             return
-        self.get_current().pause()
+        self.get_current().dispose()
         self.current -= 1
-        self.get_current().seek(0)
+        self.get_current().initiate()
         self.get_current().play()
         client.hail(name="Playing Track", message=self.get_current().video.title)
 
@@ -194,20 +184,16 @@ class PlaybackManager:
         logger.info("Skipping to next track")
         if self.get_current() is None:
             return
-        self.get_current().pause()
+
         # If there is no next track, try to generate one 
         if self.current + 1 == len(self.tracks):
-            if self.generator is None:
+            if self.generator is None or next(self.generator, None) is None:
                 # End of playlist
                 return
-            # New track needs to get generated
-            next_track = next(self.generator, None)
-            if next_track is None:
-                # End of playlist
-                return
-        # Assign next track
+
+        self.get_current().dispose()
         self.current += 1
-        self.get_current().seek(0)
+        self.get_current().initiate()
         self.get_current().play()
         client.hail(name="Playing Track", message=self.get_current().video.title)
 

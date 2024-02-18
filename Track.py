@@ -3,94 +3,121 @@ import logging
 import pydub
 from pydub.playback import play as pydub_play
 from pydub import AudioSegment
+from pydub.utils import make_chunks
 from multiprocessing import Process
 import threading
 from eventdisp import EventDispatcher, Event
+import enum
+import pyaudio
 
 logger = logging.getLogger(f"root___.weevil_.track__")
 logger.info(f"Logging to file enabled.")
 
 
+class TrackState(enum.Enum):
+    Dispose = -1
+    Play = 1
+    Pause = 2
+    Initiated = 3
+
 class Track(EventDispatcher):
 
-    def __init__(self, source:str=None, video=None) -> None:
+
+    def __init__(self, source:str=None, video=None, dB=0) -> None:
         super().__init__()
         logger.info("Begin Initiating Track")
         # Public 
         self.source = source
         self.video = video
         # Private
+        self.__CHUNK_LEN = 64
+        self.__i = 0
+        self.__decibels_adjust = dB
         self.__audio = AudioSegment.from_file(source) if source else None
-        self.__player = None 
-        self.__player_t = None
-        self.__timings = {
-            "play_session_begin": None,
-            "ms": 0
-        }
-        self.__decibels_adjust = 0
-        logger.info("Finish Initiating Track")
+        self.__state = TrackState.Dispose       
+        self.__output_stream = None
+        self.__pyaudio = None
+        self.__chunks = None
+        logger.info("Finish preparing track for initiation.")
 
 
+    def dispose(self): 
+        if self.__state == TrackState.Dispose:
+            raise Exception("Track is already disposed.")  
 
-    def play(self):
-        if self.is_playing(): return
+        self.__state = TrackState.Dispose
+        self.__output_stream.stop_stream()
+        self.__output_stream.close()
+        self.__pyaudio.terminate()
+        self.__pyaudio = None
 
-        # This function will run on the player thread
-        def __t_play():
-            logger.debug("Start new process for playback")
-            nonlocal self
-            # Create player proces
-            # Important to leave the comma after the argument input, otherwise 
-            # python will unroll the AudioSegment into it's component and parse
-            # each frame as a single parameter. (F duckdyping :D)
-            self.__player = Process(target=pydub_play, args=(self.get_new_audio(), ))
-            # Start the playback
-            self.__player.start()
-            # Notify that the player has started to play
-            self.dispatch(Event(name="track.play", data={"track":self}))
-            # Join the 
-            self.__player.join()
-            # If the process exited succsefully without being terminated, the playback has ended.
-            # Thus we dispatch the event that this track ended.
-            if self.__player and self.__player.exitcode == 0:
-                self.dispatch(Event(name="track.end", data={"track":self}))
 
-        # Run process from another thread. Communication from one process to another
-        # is not possible in a clean way, so we run the process from another thread 
-        # that joins the process. The new thread will then be able to communitate 
-        # events back to the main thread.
-        self.__player_t = threading.Thread(target=__t_play)
-        self.__player_t.start()
-        self.__timings["play_session_begin"] = time.time_ns() / 1000000
+    def initiate(self):
+        if self.__state != TrackState.Dispose:
+            raise Exception("Threack is already initiated.")
+
+        self.__state = TrackState.Pause
+        self.__chunks = self.__audio[::self.__CHUNK_LEN]
+        self.__pyaudio = pyaudio.PyAudio()
+        self.__output_stream = self.__pyaudio.open(format=self.__pyaudio.get_format_from_width(self.__audio.sample_width),
+                                      channels=self.__audio.channels,
+                                      rate=self.__audio.frame_rate,
+                                      output=True)
+        def stream_write():
+            for chunk in self.__chunks:
+                # Return so the thread can be terminated
+                if self.__state == TrackState.Dispose: return 0
+
+                # Only continue the audio output we should
+                while (self.__state == TrackState.Pause): 
+                    # Return so the thread can be terminated
+                    if self.__state == TrackState.Dispose: return 0
+                    # Sleep 50ms before checking the state again
+                    time.sleep(0.05)
+                
+                # Return so the thread can be terminated
+                if self.__state == TrackState.Dispose: return 0
+
+                # Playback audio
+                self.__output_stream.write(chunk._data)
+
+            # If we are out of audio data, the track has ended.
+            self.dispatch(Event(name="track.end", data={"track":self}))
+
+        # Start playback thread
+        threading.Thread(target=stream_write, daemon=True).start()
+
+        logger.info("Track initiated.")
+
+        self.__state = TrackState.Initiated
         
 
-    def pause(self):
-        logger.info(f"Pause track {self}")
-        logger.debug(f"Paused: {self.is_paused()}")
+    def play(self): 
+        if self.is_disposed():
+            raise Exception("Track is already disposed.")  
+
+        if self.is_playing(): return
+
+        self.__state =TrackState.Play
+
+
+    def pause(self): 
+        if self.is_disposed():
+            raise Exception("Track is already disposed.")  
+
         if self.is_paused(): return
-        self.__player.terminate()
-        self.__player = None
-        self.__timings["ms"] += time.time_ns() / 1000000 - self.__timings["play_session_begin"]
+
+        self.__state = TrackState.Pause
+
+    
+    def is_disposed(self):
+        return self.__state == TrackState.Dispose
 
 
     def get_current_time_ms(self):
-        result = self.__timings["ms"] 
-        logger.debug(f"Current time: {result}ms (track: {self})")
-        return result
-        
+        if self.is_disposed(): raise Exception("Track is already disposed.")  
 
-    def get_new_audio(self) -> AudioSegment:
-        logger.debug(f"Generate new sample of track {self}:")
-        # Crop the original
-        output = self.__audio[(self.get_current_time_ms() - len(self.__audio)):]
-
-        # Adjust volume
-        output += self.__decibels_adjust
-        logger.debug(f"Assign volume: {self.__decibels_adjust}dB")
-
-        # Return output
-        logger.debug(f"New sample succsefully generated.")
-        return output
+        return self.__i * self.__CHUNK_LEN
 
 
     def get_duration_ms(self):
@@ -98,38 +125,26 @@ class Track(EventDispatcher):
 
     
     def seek(self, milliseconds):
-        # set time stamp
-        self.__timings["begin"] = time.time_ns() / 1000000 - milliseconds
-        self.__timings["end"] = None
-        self.__timings["ms"] = milliseconds
+        if self.is_disposed(): raise Exception("Track is already disposed.")  
 
-        # Update player
-        if not self.is_paused(): self.__reload()
+        self.__i = milliseconds / self.__CHUNK_LEN
 
 
     def is_paused(self):
-        return self.__player is None
+        if self.is_disposed(): raise Exception("Track is already disposed.")  
+
+        return self.__state ==TrackState.Pause
 
 
     def is_playing(self):
-        return self.__player is not None
+        if self.is_disposed(): raise Exception("Track is already disposed.")  
 
-    
-    def __reload(self):
-        logger.debug(f"Begin reload track {self}")
-        # Get new player 
-        new_audio = self.get_new_audio()
+        return self.__state ==TrackState.Play
 
-        # Restart playback
-        self.pause()
-        self.play()
-        
 
     def set_volume(self, decibles):
-        self.__decibels_adjust = decibles
+        if self.is_disposed(): raise Exception("Track is already disposed.")  
 
+        self.__decibels_adjust = decibles
         logger.info(f"Assign volume to track {self}: {self.__decibels_adjust}dB")
-       
-        # Update player
-        if not self.is_paused(): self.__reload()
-            
+        # TODO: 
