@@ -30,7 +30,7 @@ class PlaybackManager:
         if self is not None:
             self.content_type = ContentType.NONE
             for track in self.tracks:
-                if not track.disposed():
+                if not track.is_disposed():
                     track.pause()
                     track.dispose()
             self.tracks.clear()
