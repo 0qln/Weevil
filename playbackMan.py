@@ -218,8 +218,12 @@ class ContentType(enum.Enum):
     NONE = -1
     PLAYLIST = 0
     VIDEO = 1
+    CHANNEL = 2
 
     def get(content):
+        # if re.search(r"youtube.com/(@.*|channel/[a-zA-Z-_0-9]{24})", content):
+        if re.search(r"youtube.com/channel/[a-zA-Z-_0-9]{24}", content):
+            return ContentType.CHANNEL
         if re.search(r"list=[0-9A-Za-z_-]+", content):
             return ContentType.PLAYLIST
         if re.search(r"(?:v=|\/)([0-9A-Za-z_-]{11}).*", content):
