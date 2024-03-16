@@ -65,7 +65,7 @@ class VideoHelper:
             if VideoHelper.is_mp4_corrupt(file_path):
                 if retries > 0:
                     if not silent: client.warn(f"'{file_path}' is corrupted. Retrying download...")
-                    shutil.rmtree(file_path)
+                    shutil.rmtree(folder)
                     return VideoHelper.create_playback_from_video(video, output_folder, file_type, silent, retries - 1)
                 else:
                     # Unable to fetch file
@@ -81,7 +81,7 @@ class VideoHelper:
                 logger.info(f"Attempt pypassing age gate of {video = }")
                 if not silent: client.warn(message=f"'{video.title}' is age restricted, attempting to bypass age gate.")
                 video.bypass_age_gate() # This will throw `AgeRestrictedError` if cannot be bypassed
-                return create_playback_from_video(video)
+                return create_playback_from_video(video, output_folder, file_type, silent, retries=0)
             except AgeRestrictedError as e:
                 logger.info(f"Failed to pypass age gate of {video = }")
                 if not silent: client.fail(message=f"'{video.title}' is age restricted and cannot be accessed.")
