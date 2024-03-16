@@ -174,7 +174,8 @@ class PlaybackManager:
         logger.info("Playing previous track")
         if self.get_current() is None or self.current < 0:
             return
-        self.get_current().dispose()
+        if not self.get_current().is_disposed():
+            self.get_current().dispose()
         self.current -= 1
         self.get_current().initiate()
         self.get_current().play()
@@ -185,14 +186,21 @@ class PlaybackManager:
         if self.get_current() is None:
             return
 
+        # Stop current
+        if not self.get_current().is_disposed():
+            self.get_current().dispose()
+
         # If there is no next track, try to generate one 
         if self.current + 1 == len(self.tracks):
-            if self.generator is None or next(self.generator, None) is None:
+            if self.video_generator is None or next(self.video_generator, None) is None:
                 # End of playlist
                 return
 
-        self.get_current().dispose()
+        # Start next
         self.current += 1
+        if self.current == len(self.tracks) :
+            # No new track was generated
+            return
         self.get_current().initiate()
         self.get_current().play()
         client.hail(name="Playing Track", message=self.get_current().video.title)
