@@ -19,9 +19,11 @@ class PlaybackManager:
         self.content_type = ContentType.NONE
         self.tracks = []
         self.current = -1    
-        self.generator = None
+        self.video_generator = None
+        self.playlist_generator = None
         self.volume_db = float(settings.get("volume_db"))
         self.playlist_info = None
+        self.channel_info = None
 
 
     def reset(self = None) -> bool:
@@ -35,8 +37,9 @@ class PlaybackManager:
                     track.dispose()
             self.tracks.clear()
             self.current = -1
-            self.generator = None
+            self.video_generator = None
             self.playlist_info = None
+            self.channel_info = None
 
         return True
 
@@ -61,6 +64,7 @@ class PlaybackManager:
             kwargs["url"] = url
             if self.content_type is ContentType.PLAYLIST: self.load_playlist(**kwargs)
             if self.content_type is ContentType.VIDEO: self.load_video(**kwargs)
+            if self.content_type is ContentType.CHANNEL: self.load_channel(**kwargs)
             if self.content_type is ContentType.NONE: 
                 client.warn("Invalid url.")
                 return False
@@ -71,10 +75,18 @@ class PlaybackManager:
         return True
 
 
-    def __get_gen(self, iterator, silent):
-        for url in iterator:
+    def __gen_video(self, urls, silent):
+        for url in urls:
             logger.info(f"Yielding new track")
             if self.load_video(url, **{ ("silent" if silent else ""):True } ):
+                yield True 
+
+
+    def __gen_playlist(self, urls, silent):
+        for url in urls:
+            logger.info(f"Yielding new playlist")
+            if (self.load_playlist(url, **{ ("silent" if silent else ""):True } ) and 
+                self.play_playlist(url, **{ ("silent" if silent else ""):True } )):
                 yield True 
 
 
@@ -82,11 +94,11 @@ class PlaybackManager:
         logger.info("Loading playlist...")
         self.playlist_info = pytube.Playlist(url) 
         if not "silent" in kwargs: client.hail(name="Loading Playlist", message=self.playlist_info.title)
-        self.generator = self.__get_gen(self.playlist_info.url_generator(), "silent" in kwargs)
+        self.video_generator = self.__gen_video(self.playlist_info.url_generator(), "silent" in kwargs)
         if "fetch" in kwargs:
             logger.debug("Start bulk fetching content")
-            while next(self.generator) and self.current == -1: pass
-            logger.debug(f"Stop fetching content: {self.generator=} | {next(self.generator)=} | {self.current=}")
+            while next(self.video_generator) and self.current == -1: pass
+            logger.debug(f"Stop fetching content: {self.video_generator=} | {self.current=}")
         else:
             logger.debug("Dont fetch content")
         return True
@@ -95,8 +107,35 @@ class PlaybackManager:
     def play_playlist(self, url, **kwargs) -> bool:
         logger.info("Playing playlist...")
         if not "silent" in kwargs: client.hail(name="Playing Playlist", message=self.playlist_info.title)
-        next(self.generator, None)
+        next(self.video_generator, None)
         self.play_video()
+        return True
+
+    
+    def load_channel(self, url, **kwargs) -> bool:
+        logger.info("Loading from channel...")
+        self.channel_info = pytube.Channel(url)
+        if not "silent" in kwargs: client.hail(name="Loading from Channel", message=self.channel_info.channel_name)
+        html = self.channel_info.playlists_html
+        playlistsIDs = set([p.group() for p in re.finditer(r"(?<=\"playlistId\":\")[0-9A-Za-z_-]*(?=\")", html)])
+        playlistsURLs = ["https://www.youtube.com/playlist?list="+id for id in playlistsIDs]
+        if not "silent" in kwargs: 
+            client.hail(name="Playlists found on channel", message="")
+            [client.info(name="url", message=id) for id in playlistsURLs]
+        self.playlist_generator = self.__gen_playlist(playlistsURLs, "silent" in kwargs)
+        if "fetch" in kwargs:
+            logger.debug("Start bulk fetching content")
+            while next(self.playlist_generator): pass
+            logger.debug(f"Stop fetching content: {self.playlist_generator=} | {self.current=}")
+        else:
+            logger.debug("Dont fetch content")
+        return True
+
+
+    def play_channel(self, url, **kwargs) -> bool:
+        logger.info("Playing channel...")
+        if not "silent" in kwargs: client.hail(name="Playing Channel", message=self.channel_info.channel_name)
+        next(self.playlist_generator, None)
         return True
 
 
@@ -146,6 +185,7 @@ class PlaybackManager:
             self.current = 0
             if self.content_type is ContentType.PLAYLIST: self.play_playlist(**kwargs)
             if self.content_type is ContentType.VIDEO: self.play_video(**kwargs)
+            if self.content_type is ContentType.CHANNEL: self.play_channel(**kwargs)
 
         except Exception as e: 
             logger.error(f"Error playing {self.content_type}: {e}")
@@ -181,29 +221,32 @@ class PlaybackManager:
         self.get_current().play()
         client.hail(name="Playing Track", message=self.get_current().video.title)
 
+
     def skip(self):
-        logger.info("Skipping to next track")
+        logger.info("Skipping to next track or playlist")
         if self.get_current() is None:
-            return
+            return 
 
         # Stop current
         if not self.get_current().is_disposed():
             self.get_current().dispose()
 
         # If there is no next track, try to generate one 
-        if self.current + 1 == len(self.tracks):
+        self.current += 1
+        if self.current == len(self.tracks):
             if self.video_generator is None or next(self.video_generator, None) is None:
                 # End of playlist
-                return
+                self.playlist_generator is not None and next(self.playlist_generator, None)
+                return 
 
         # Start next
-        self.current += 1
         if self.current == len(self.tracks) :
             # No new track was generated
-            return
+            return 
         self.get_current().initiate()
         self.get_current().play()
         client.hail(name="Playing Track", message=self.get_current().video.title)
+        return 
 
     def set_volume(self, decibles) -> bool:
         logger.info(f"Setting volume to {decibles = }")
