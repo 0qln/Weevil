@@ -297,7 +297,13 @@ class ChannelPlayer(Player):
 
     @staticmethod
     def is_source(url:str) -> bool:
-        return bool(re.search(r"youtube.com/channel/[a-zA-Z-_0-9]{24}", url))
+        return ( 
+            # URL
+            bool(re.search(r"youtube.com/channel/[a-zA-Z-_0-9]{24}", url))
+            # Vanity URL
+            # Pytube does not support vanity urls
+            # bool(re.search(r"youtube.com/@.*"))
+        )
 
 
     def initializer(self, playlist_url) -> PlaylistPlayer:
@@ -333,7 +339,7 @@ class PlaybackManager(Player):
                 TrackPlayer(url, self.silent, self.do_load) if TrackPlayer.is_source(url) else
                 None)
         if player is None:
-            client.warn("Input", f"'{url=}' cannot be deciphered.")
+            client.warn(f"'{url=}' cannot be deciphered or is unsupported (e.g. Vanity URLs).")
             return None
 
         player.register("player.end", lambda e: self.skip() or self.dispatch_end())
