@@ -127,8 +127,28 @@ def playlist_info(settings):
     logger.info("Finish writing playlist info...")
 
 
-def channel_info(settigns):
-    ...
+def channel_info(settings):
+    from Player import Player, PlaybackManager, PlaylistPlayer, ChannelPlayer
+    from pytube import Channel 
+
+    logger.info("Start writing channel info...")
+
+    pb:PlaybackManager = settings["playback_man"]
+    info:Channel = (pb.get_curr().info if pb.get_curr().__class__ == ChannelPlayer else None)
+
+    if info is None:
+        logger.info("No channel information available.")
+        return
+    
+    logger.info(f"PlaybackManager: {pb}")
+    
+    client.hail(name="Channel Info", message=info.channel_name)
+    client.info(name="Title", message=str(info.channel_name))
+    client.info(name="Id", message=str(info.channel_id))
+    client.info(name="URL", message=str(info.channel_url))
+    client.info(name="Vanity URL", message=str(info.vanity_url))
+    
+    logger.info("Finish writing channel info...")
 
 
 # Depricated
