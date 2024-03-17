@@ -151,6 +151,28 @@ def channel_info(settings):
     logger.info("Finish writing channel info...")
 
 
+def pbman_info(settings):
+    from Player import Player, PlaybackManager, PlaylistPlayer, ChannelPlayer
+
+    logger.info("Start writing pbman info...")    
+
+    pb:PlaybackManager = settings["playback_man"]
+    logger.info(f"PlaybackManager: {pb}")
+
+    if pb is None:
+        logger.info("No pbman available.")
+        return
+    
+    client.hail(name="Playback Manager Info", message="")
+    result = pb.count_items()
+    padding = len(max(result.keys(), key=lambda x: len(x.__name__)).__name__) + 1
+    for class_type, count in result.items():
+        client.info(name=str(class_type.__name__).ljust(padding, '.'), message=count)
+
+    logger.info("Finish writing channel info...")
+
+
+
 def printHelp():
     try: 
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "help.txt"), "r") as file:

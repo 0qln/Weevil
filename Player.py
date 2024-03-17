@@ -66,6 +66,26 @@ class Player(ABC, EventDispatcher):
     def set_load(self, value:bool) -> None: self.do_load[0] = value
 
 
+    def count_items(self) -> dict:
+        result = {}
+        # Add count for the class if it already exists in the result dictionary
+        if self.__class__ in result:
+            result[self.__class__] += 1
+        else:
+            result[self.__class__] = 1
+
+        # Iterate over item_storage and update counts recursively
+        for player in self.item_storage:
+            for class_key, count in player.count_items().items():
+                # Add count for each class encountered
+                if class_key in result:
+                    result[class_key] += count
+                else:
+                    result[class_key] = count
+
+        return result
+
+
     def stop_curr(self) -> None:
         item:Player|None = self.get_curr()
         self.logger.info(f"stop {item=}")
@@ -211,6 +231,11 @@ class TrackPlayer(Player):
         track = Track.Track(track_source, dB=float(settings.get("volume_db")))
         track.register("track.end", lambda e: self.dispatch_end())
         return track
+
+
+    def count_items(self) -> dict:
+        result = { self.__class__: 1 }
+        return result
 
 
     def init_next(self) -> bool:
@@ -365,5 +390,6 @@ class PlaybackManager(Player):
             logging.getLogger(f"root___.weevil_.pbman__")
         )
         self.logger.info(f"Initiated")
+
 
 

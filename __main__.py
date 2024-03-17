@@ -393,6 +393,7 @@ if __name__ == "__main__":
             "names": [ "info" ],
             "function": lambda flags: safe(
                 print_info=lambda: 
+                    client.pbman_info({"playback_man": playback}) if "pbman" in flags else
                     client.playlist_info({"playback_man": playback}) if "playlist" in flags else 
                     client.channel_info({"playback_man": playback}) if "channel" in flags else
                     client.track_info({"playback_man": playback})),
@@ -412,6 +413,12 @@ if __name__ == "__main__":
                     # TODO: add official documentation
                     "names": [ "--channel", "-c" ],
                     "name_settings": "channel"
+                },
+                {
+                    # current playback
+                    #TODO: add official documentation
+                    "names": [ "--playback_manager", "-pbman" ],
+                    "name_settings": "pbman"
                 }
             ]
         },
