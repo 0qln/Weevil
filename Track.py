@@ -23,12 +23,11 @@ class TrackState(enum.Enum):
 class Track(EventDispatcher):
 
 
-    def __init__(self, source:str=None, video=None, dB=0) -> None:
+    def __init__(self, source:str=None, dB=0) -> None:
         super().__init__()
         logger.info("Begin Initiating Track")
         # Public 
         self.source = source
-        self.video = video
         # Private
         self.__CHUNK_LEN = 64
         self.__i = 0
@@ -54,7 +53,7 @@ class Track(EventDispatcher):
 
     def initiate(self):
         if self.__state != TrackState.Dispose:
-            raise Exception("Threack is already initiated.")
+            raise Exception("Track is already initiated.")
 
         self.__state = TrackState.Pause
         self.__chunks = self.__audio[::self.__CHUNK_LEN]
