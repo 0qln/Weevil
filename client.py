@@ -67,50 +67,69 @@ def _print(name, message, style):
 
 def track_info(settings):
     from Track import Track
-    from playbackMan import PlaybackManager, ContentType
+    from Player import Player, PlaybackManager, PlaylistPlayer, ChannelPlayer, TrackPlayer
+    from pytube import YouTube
+
+    logger.info("Getting track info...")
+
+    pb:PlaybackManager = settings["playback_man"]
+    logger.info(f"{pb=}")
+    if pb is None: return
+
+    tp:TrackPlayer = (pb.get_curr() if pb.get_curr().__class__ == TrackPlayer else 
+                      pb.get_curr().get_curr() if pb.get_curr().__class__ == PlaylistPlayer else
+                      pb.get_curr().get_curr().get_curr() if pb.get_curr().__class__ == ChannelPlayer else
+                      None)
+    logger.info(f"{tp=}")
+    if tp is None: return
+
+    yt:YouTube = tp.info
+    logger.info(f"{yt=}")
+    if yt is None: return
 
     logger.info("Start writing track info...")
 
-    pb = settings["playback_man"]
-    track:Track = pb.get_current()
-    if pb is None: return
-    logger.info(f"PlaybackManager: {pb}")
-    if track is None: return
-    logger.info(f"Track: {track}")
-    if track.video is None: return
-    logger.info(f"Track.video: {track.video}")
-
-    client.hail(name="Track Info", message=str(track.video.title))
-    client.info(name="Title", message=str(track.video.title))
-    client.info(name="Author", message=str(track.video.author))
-    client.info(name="Duration", message=str(datetime.timedelta(seconds=track.video.length)))
-    client.info(name="Publish date", message=str(track.video.publish_date))
-    client.info(name="Playback Source", message=str(track.source))
-    client.info(name="URL", message=str(track.video.url))
+    client.hail(name="Track Info", message=str(yt.title))
+    client.info(name="Title", message=str(yt.title))
+    client.info(name="Author", message=str(yt.author))
+    client.info(name="Duration", message=str(datetime.timedelta(seconds=yt.length)))
+    client.info(name="Publish date", message=str(yt.publish_date))
+    client.info(name="Playback Source", message=str(tp.get_curr().source))
+    client.info(name="URL", message=str(tp.url))
 
     logger.info("Finish writing track info...")
 
 
 def playlist_info(settings):
-    from playbackMan import PlaybackManager
+    from Player import Player, PlaybackManager, PlaylistPlayer, ChannelPlayer
+    from pytube import Playlist
 
     logger.info("Start writing playlist info...")
+
     pb:PlaybackManager = settings["playback_man"]
-    if pb.playlist_info is None:
+    info:Playlist = (pb.get_curr().info if pb.get_curr().__class__ == PlaylistPlayer else
+                     pb.get_curr().get_curr().info if pb.get_curr().__class__ == ChannelPlayer else
+                     None)
+
+    if info is None:
         logger.info("No playlist information available.")
         return
     
-    playlist = pb.playlist_info
     logger.info(f"PlaybackManager: {pb}")
     
-    client.hail(name="Playlist Info", message=playlist.title)
-    client.info(name="Title", message=str(playlist.title))
-    client.info(name="Track count", message=str(playlist.length))
-    client.info(name="Owner", message=str(playlist.owner))
-    client.info(name="Views", message=str(playlist.views))
-    client.info(name="URL", message=str(playlist.playlist_url))
+    client.hail(name="Playlist Info", message=info.title)
+    client.info(name="Title", message=str(info.title))
+    client.info(name="Track count", message=str(info.length))
+    client.info(name="Owner", message=str(info.owner))
+    client.info(name="Views", message=str(info.views))
+    client.info(name="URL", message=str(info.playlist_url))
     
     logger.info("Finish writing playlist info...")
+
+
+def channel_info(settigns):
+    ...
+
 
 # Depricated
 def list_playlists(settings):

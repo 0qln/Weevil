@@ -387,7 +387,11 @@ if __name__ == "__main__":
         {
             # print info
             "names": [ "info" ],
-            "function": lambda flags: safe(print_info=lambda: client.playlist_info({"playback_man": playback}) if "playlist" in flags else client.track_info({"playback_man": playback})),
+            "function": lambda flags: safe(
+                print_info=lambda: 
+                    client.playlist_info({"playback_man": playback}) if "playlist" in flags else 
+                    client.channel_info({"playback_man": playback}) if "channel" in flags else
+                    client.track_info({"playback_man": playback})),
             "flags": [
                 {
                     # current track
@@ -398,6 +402,11 @@ if __name__ == "__main__":
                     # current playlist
                     "names": [ "--playlist", "-p" ],
                     "name_settings": "playlist",
+                },
+                {
+                    # current channel
+                    "names": [ "--channel", "-c" ],
+                    "name_settings": "channel"
                 }
             ]
         },

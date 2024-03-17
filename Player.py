@@ -185,6 +185,7 @@ class TrackPlayer(Player):
 
     def __init__(self, url, silent=[False], do_load=[True]) -> None:
         self.info = pytube.YouTube(url)
+        self.url = url
         super().__init__(
             Track.Track, 
             lambda video_url: self.create_track(video_url),
@@ -201,7 +202,7 @@ class TrackPlayer(Player):
         track_source, video = VideoHelper.VideoHelper.create_playback(
             url, settings.get("output_folder"), settings.get("preferred_file_type"), self.silent[0]) 
         if track_source is None: return False
-        track = Track.Track(track_source, video, dB=float(settings.get("volume_db")))
+        track = Track.Track(track_source, dB=float(settings.get("volume_db")))
         track.register("track.end", lambda e: self.dispatch_end())
         return track
 

@@ -23,12 +23,11 @@ class TrackState(enum.Enum):
 class Track(EventDispatcher):
 
 
-    def __init__(self, source:str=None, video=None, dB=0) -> None:
+    def __init__(self, source:str=None, dB=0) -> None:
         super().__init__()
         logger.info("Begin Initiating Track")
         # Public 
         self.source = source
-        self.video = video
         # Private
         self.__CHUNK_LEN = 64
         self.__i = 0
