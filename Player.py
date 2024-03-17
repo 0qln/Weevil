@@ -106,6 +106,12 @@ class Player(ABC, EventDispatcher):
         return True 
     
 
+    def set_volume(self, value) -> bool:
+        item:Player|None = self.get_curr()
+        self.logger.info(f"set vol {item=}")
+        if item is not None: item.set_volume(value)
+
+
     '''
     Returns: Wether a skip has been made
     '''
@@ -256,6 +262,12 @@ class TrackPlayer(Player):
         item:Track.Track|None = self.get_curr()
         self.logger.info(f"resume {item=}")
         if item is not None: item.play()
+
+
+    def set_volume(self, value) -> bool:
+        item:Track.Track|None = self.get_curr()
+        self.logger.info(f"set vol {item=}")
+        if item is not None: item.set_volume(value)
 
 
     def fetch_all(self) -> None:
