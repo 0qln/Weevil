@@ -54,7 +54,7 @@ class Track(EventDispatcher):
 
     def initiate(self):
         if self.__state != TrackState.Dispose:
-            raise Exception("Threack is already initiated.")
+            raise Exception("Track is already initiated.")
 
         self.__state = TrackState.Pause
         self.__chunks = self.__audio[::self.__CHUNK_LEN]

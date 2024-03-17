@@ -24,6 +24,7 @@ class PlaybackManager:
         self.volume_db = float(settings.get("volume_db"))
         self.playlist_info = None
         self.channel_info = None
+        self.is_fetching = False
 
 
     def reset(self = None) -> bool:
@@ -40,11 +41,14 @@ class PlaybackManager:
             self.video_generator = None
             self.playlist_info = None
             self.channel_info = None
+            self.is_fetching = False
 
         return True
 
 
     def load(self, **kwargs) -> bool:
+
+        self.is_fetching = "fetch" in kwargs
 
         if "quit" in kwargs:
             self.current = 0
@@ -85,8 +89,11 @@ class PlaybackManager:
     def __gen_playlist(self, urls, silent):
         for url in urls:
             logger.info(f"Yielding new playlist")
-            if (self.load_playlist(url, **{ ("silent" if silent else ""):True } ) and 
-                self.play_playlist(url, **{ ("silent" if silent else ""):True } )):
+            if self.load_playlist(url, **{ 
+                ("silent" if silent else ""):True, 
+                ("fetch" if self.is_fetching else ""):True }):
+                if not self.is_fetching:
+                    self.play_playlist(url, **{ ("silent" if silent else ""):True } )
                 yield True 
 
 
@@ -104,7 +111,7 @@ class PlaybackManager:
         return True
 
 
-    def play_playlist(self, url, **kwargs) -> bool:
+    def play_playlist(self, **kwargs) -> bool:
         logger.info("Playing playlist...")
         if not "silent" in kwargs: client.hail(name="Playing Playlist", message=self.playlist_info.title)
         next(self.video_generator, None)
@@ -116,7 +123,6 @@ class PlaybackManager:
         logger.info("Loading from channel...")
         self.channel_info = pytube.Channel(url)
         if not "silent" in kwargs: client.hail(name="Loading from Channel", message=self.channel_info.channel_name)
-        html = self.channel_info.playlists_html
         playlistsIDs = set([p.group() for p in re.finditer(r"(?<=\"playlistId\":\")[0-9A-Za-z_-]*(?=\")", html)])
         playlistsURLs = ["https://www.youtube.com/playlist?list="+id for id in playlistsIDs]
         if not "silent" in kwargs: 
@@ -132,7 +138,7 @@ class PlaybackManager:
         return True
 
 
-    def play_channel(self, url, **kwargs) -> bool:
+    def play_channel(self, **kwargs) -> bool:
         logger.info("Playing channel...")
         if not "silent" in kwargs: client.hail(name="Playing Channel", message=self.channel_info.channel_name)
         next(self.playlist_generator, None)

@@ -8,7 +8,7 @@ import settings
 import arguments
 import commons
 import logging
-from playbackMan import PlaybackManager
+import Player
 
 # Create a logger object with the name 'root.weevil'
 logger = logging.getLogger('root___.weevil_')
@@ -17,6 +17,7 @@ logger = logging.getLogger('root___.weevil_')
 def find_matches(pattern, text):
     matches = re.finditer(pattern, text, re.MULTILINE)
     return [match.group() for match in matches]
+
 
 def parse_tokens(input:str, arg_library):
     logger.info(f"Begin parse_tokens: {input = }")
@@ -140,10 +141,21 @@ if __name__ == "__main__":
         {
             # Play a video or playlist
             "names": [ "play" ],
-            "function":lambda flags: safe(play=lambda: playback.play(**flags)),
+            "function":lambda flags: 
+                safe(
+                    not_silent=lambda: playback.set_silent(False),
+                    allow_load=lambda: playback.set_load(True),
+                    load=lambda: playback.load_source(flags.get("url") or flags.get("commons") and commons.storage[flags["commons"]]),
+                    init=lambda: playback.init_next(),
+                    play=lambda: playback.start_curr()
+                ) if flags else
+                safe(
+                    not_silent=lambda: playback.set_silent(False),
+                    allow_load=lambda: playback.set_load(True),
+                    play=lambda: playback.start_curr()
+                ),
             "flags": [
                 {
-
                     "names": [ "--commons", "-c" ],
                     "name_settings": "commons"
                 },
@@ -164,7 +176,7 @@ if __name__ == "__main__":
         {
             # Pause playback
             "names": [ "pause", "p" ],
-            "function":lambda flags: safe(pause=lambda: playback.pause()),
+            "function":lambda flags: safe(pause=lambda: playback.pause_curr()),
             "flags": [ 
 
             ]
@@ -172,7 +184,7 @@ if __name__ == "__main__":
         {
             # Resume playback
             "names": [ "resume", "r" ],
-            "function":lambda flags: safe(resume=lambda: playback.resume()),
+            "function":lambda flags: safe(resume=lambda: playback.resume_curr()),
             "flags": [
 
             ]
@@ -180,7 +192,10 @@ if __name__ == "__main__":
         {
             # Exit weevil
             "names": [ "exit", "close", "quit" ],
-            "function":lambda flags: safe(reset=lambda: playback.reset(), exit=lambda: exit_success()), 
+            "function":lambda flags: safe(
+                allow_load=lambda: playback.set_load(False),
+                reset=lambda: playback.stop_curr(), 
+                exit=lambda: exit_success()), 
             "flags": [
 
             ],
@@ -314,7 +329,10 @@ if __name__ == "__main__":
         {
             # Play next track
             "names": [ "next", "skip", "s" ],
-            "function": lambda flags: safe(skip=lambda: playback.skip()),
+            "function": lambda flags: safe(
+                not_silent=lambda: playback.set_silent(False),
+                allow_load=lambda: playback.set_load(True),
+                skip=lambda: playback.skip()),
             "flags": [
                 # TODO
                 # {
@@ -327,7 +345,10 @@ if __name__ == "__main__":
         {
             # Play previous track
             "names": [ "previous", "prev" ],
-            "function": lambda flags: safe(prev=lambda: playback.prev()),
+            "function": lambda flags: safe(
+                not_silent=lambda: playback.set_silent(False),
+                allow_load=lambda: playback.set_load(True),
+                prev=lambda: playback.prev()),
             "flags": [
                 # TODO
                 # {
@@ -382,7 +403,10 @@ if __name__ == "__main__":
         },
         {
             "names": [ "stop" ],
-            "function": lambda flags: safe(stop=lambda: playback.reset()),
+            "function": lambda flags: safe(
+                forbid_load=lambda: playback.set_load(False),
+                stop=lambda: playback.stop_curr(playback.get_curr()),
+                clear=lambda: playback.clear()),
             "flags": [
                 {
                 }
@@ -391,7 +415,17 @@ if __name__ == "__main__":
         },
         {
             "names": [ "load" ],
-            "function": lambda flags: safe(load=lambda: playback.load(**flags)),
+            "function": lambda flags: 
+                safe(
+                    allow_load=lambda: playback.set_load(True),
+                    silent=lambda: playback.set_silent("silent" in flags),
+                    load=lambda: playback.load_source(flags.get("url") or flags.get("commons") and commons.storage[flags["commons"]]),
+                    fetch=lambda: playback.fetch_all(),
+                    reset=lambda: playback.set_silent(False)
+                ) if "quit" not in flags else 
+                safe(
+                    quit=lambda: playback.set_load(False)
+                ),
             "flags": [
                 {
                     "names": [ "--quit", "-q" ],
@@ -425,7 +459,7 @@ if __name__ == "__main__":
     settings.load_from_files({ "location": os.getcwd() })
     commons.load_from_files({ "location": os.getcwd() })
 
-    playback = PlaybackManager()
+    playback = Player.PlaybackManager()
 
     client.info(message="Type 'help' to retrieve documentation.")
    
@@ -452,6 +486,6 @@ if __name__ == "__main__":
             logger.error(f"Unexpected HTTP Error: {e}")
         except Exception as e:
             logger.error(f"An unknown error occurred: {e}")
-            client.error(message="An unknown error occurred. Consider restarting weevil.")
+            client.fail(message="An unknown error occurred. Consider restarting weevil.")
         
     logger.info("Exiting program.")   
