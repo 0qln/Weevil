@@ -126,6 +126,10 @@ if __name__ == "__main__":
 
     logger.info(f"Logging to file enabled. [{log_file}]")
        
+    playback = Player.PlaybackManager()
+    def reset_playback():
+        global playback
+        playback = Player.PlaybackManager()
 
     # Initiate Arguments    
     arguments.initiate(
@@ -405,17 +409,20 @@ if __name__ == "__main__":
                 },
                 {
                     # current channel
+                    # TODO: add official documentation
                     "names": [ "--channel", "-c" ],
                     "name_settings": "channel"
                 }
             ]
         },
         {
-            "names": [ "stop" ],
+            "names": [ "stop", "reset" ],
             "function": lambda flags: safe(
                 forbid_load=lambda: playback.set_load(False),
-                stop=lambda: playback.stop_curr(playback.get_curr()),
-                clear=lambda: playback.clear()),
+                stop=lambda: playback.stop_curr(),
+                clear=lambda: playback.clear(),
+                reset=lambda: reset_playback()
+            ),
             "flags": [
                 {
                 }
@@ -467,8 +474,6 @@ if __name__ == "__main__":
     # load config
     settings.load_from_files({ "location": os.getcwd() })
     commons.load_from_files({ "location": os.getcwd() })
-
-    playback = Player.PlaybackManager()
 
     client.info(message="Type 'help' to retrieve documentation.")
    
