@@ -151,20 +151,6 @@ def channel_info(settings):
     logger.info("Finish writing channel info...")
 
 
-# Depricated
-def list_playlists(settings):
-    client.hail(name="Saved Playlists", message=settings["directory"])
-    for folder in os.listdir(settings["directory"]):
-        if not os.path.isdir(folder):
-            continue
-        if (len(os.listdir(folder)) > 0):
-            p_id = folder
-            p_name = os.listdir(folder)[0]
-            if not os.path.isdir(os.path.join(settings["directory"], p_id, p_name)): continue
-            msg = p_name
-            client.info(name=(p_id if settings["show_id"] else "Name"), message=msg)
-
-
 def printHelp():
     try: 
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "help.txt"), "r") as file:
