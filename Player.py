@@ -202,7 +202,7 @@ class TrackPlayer(Player):
             url, settings.get("output_folder"), settings.get("preferred_file_type"), self.silent[0]) 
         if track_source is None: return False
         track = Track.Track(track_source, video, dB=float(settings.get("volume_db")))
-        track.register("track.end", lambda e: self.skip_item())
+        track.register("track.end", lambda e: self.dispatch_end())
         return track
 
 
@@ -271,11 +271,18 @@ class PlaylistPlayer(Player):
         return bool(re.search(r"list=[0-9A-Za-z_-]+", url))
 
 
+    def initializer(self, track_url) -> TrackPlayer:
+        t = TrackPlayer(track_url, self.silent, self.do_load)
+        t.register("player.end", lambda e: self.skip() or self.dispatch_end())
+        return t
+
+
     def __init__(self, url, silent=[False], do_load=[True]) -> None:
         self.info = pytube.Playlist(url)
+        
         super().__init__(
             TrackPlayer,
-            lambda track_url: TrackPlayer(track_url, self.silent, self.do_load),
+            self.initializer,
             logging.getLogger(f"root___.weevil_.p_playr"),
             silent,
             do_load)
@@ -292,14 +299,21 @@ class ChannelPlayer(Player):
         return bool(re.search(r"youtube.com/channel/[a-zA-Z-_0-9]{24}", url))
 
 
+    def initializer(self, playlist_url) -> PlaylistPlayer:
+        p = PlaylistPlayer(playlist_url, self.silent, self.do_load)
+        p.register("player.end", lambda e: self.skip() or self.dispatch_end())
+        return p
+
+
     def __init__(self, url, silent=[False], do_load=[True]) -> None:
         self.info = pytube.Channel(url)
         playlistsIDs = set([p.group() for p in re.finditer(
             r"(?<=\"playlistId\":\")[0-9A-Za-z_-]*(?=\")", 
             self.info.playlists_html)])
+        
         super().__init__(
             PlaylistPlayer, 
-            lambda playlist_url: PlaylistPlayer(playlist_url, self.silent, self.do_load),
+            self.initializer,
             logging.getLogger(f"root___.weevil_.c_playr"),
             silent,
             do_load)
@@ -311,14 +325,24 @@ class ChannelPlayer(Player):
 
 class PlaybackManager(Player):
     
-    def __init__(self) -> None:
-        super().__init__(
-            Player,
-            lambda url: (
+    def initializer(self, url) -> Player|None:
+        player = (
                 ChannelPlayer(url, self.silent, self.do_load) if ChannelPlayer.is_source(url) else
                 PlaylistPlayer(url, self.silent, self.do_load) if PlaylistPlayer.is_source(url) else
                 TrackPlayer(url, self.silent, self.do_load) if TrackPlayer.is_source(url) else
-                None),  
+                None)
+        if player is None:
+            client.warn("Input", f"'{url=}' cannot be deciphered.")
+            return None
+
+        player.register("player.end", lambda e: self.skip() or self.dispatch_end())
+        return player
+
+
+    def __init__(self) -> None:
+        super().__init__(
+            Player,
+            self.initializer,  
             logging.getLogger(f"root___.weevil_.pbman__")
         )
         self.logger.info(f"Initiated")
