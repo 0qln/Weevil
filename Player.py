@@ -253,20 +253,22 @@ class TrackPlayer(Player):
 
 
     def peek_incr(self) -> bool: 
+        self.logger.info("Peek Increment")
         return False
 
 
     def peek_decr(self) -> bool:
+        self.logger.info("Peek Decrement")
         return False
 
 
     def skip(self) -> bool:
-        self.logger.info("Skip track")
+        self.logger.info("Skip")
         return False
 
 
     def prev(self) -> bool:
-        self.logger.info("Previous track")
+        self.logger.info("Previous")
         return False
 
 
