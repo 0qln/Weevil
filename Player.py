@@ -76,21 +76,18 @@ class Player(ABC, EventDispatcher):
 
     def count_items(self) -> dict:
         result = {}
-        # Add count for the class if it already exists in the result dictionary
-        if self.__class__ in result:
-            result[self.__class__] += 1
-        else:
-            result[self.__class__] = 1
-
-        # Iterate over item_storage and update counts recursively
+        def add(key, value):
+            nonlocal result
+            if key in result:
+                result[key] += value
+            else:
+                result[key] = value
+        
+        add(self.__class__, 1)
         for player in self.item_storage:
             for class_key, count in player.count_items().items():
-                # Add count for each class encountered
-                if class_key in result:
-                    result[class_key] += count
-                else:
-                    result[class_key] = count
-
+                add(class_key, count)
+                
         return result
 
 
