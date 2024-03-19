@@ -363,7 +363,6 @@ class ChannelPlayer(Player):
         playlistsIDs = set([p.group() for p in re.finditer(
             r"(?<=\"playlistId\":\")[0-9A-Za-z_-]*(?=\")", 
             self.info.playlists_html)])
-        
         super().__init__(
             PlaylistPlayer, 
             self.initializer,
@@ -380,10 +379,11 @@ class PlaybackManager(Player):
     
     def initializer(self, url) -> Player|None:
         player = (
-                ChannelPlayer(url, self.silent, self.do_load) if ChannelPlayer.is_source(url) else
-                PlaylistPlayer(url, self.silent, self.do_load) if PlaylistPlayer.is_source(url) else
-                TrackPlayer(url, self.silent, self.do_load) if TrackPlayer.is_source(url) else
-                None)
+            ChannelPlayer(url, self.silent, self.do_load) if ChannelPlayer.is_source(url) else
+            PlaylistPlayer(url, self.silent, self.do_load) if PlaylistPlayer.is_source(url) else
+            TrackPlayer(url, self.silent, self.do_load) if TrackPlayer.is_source(url) else
+            None)
+
         if player is None:
             client.warn(f"'{url=}' cannot be deciphered or is unsupported (e.g. Vanity URLs).")
             return None
