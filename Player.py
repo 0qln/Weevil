@@ -150,37 +150,25 @@ class Player(ABC, EventDispatcher):
     def skip(self) -> bool:
         self.logger.info(f"skip {self.get_curr()=}")
 
-        if self.get_curr().skip(): 
-            # A child has skipped succesfully, return true
-            self.logger.info(f"skip RET: child +")
-            return True
+        # Recursive call has priority
+        if self.get_curr().skip(): return True
 
+        # Actual skipping logic
         self.stop_curr() 
 
         if self.peek_incr():
-            self.logger.info(f"skip RET: old -")
             self.start_curr()
-            self.logger.info(f"skip RET: old +")
             return True
 
-        # Try generating a new item, if needed
-        self.logger.info(f"{next(self.item_generator)=}")
+        next(self.item_generator)
+        if not self.peek_incr(): return False
 
-        if self.peek_incr():
-            self.logger.info(f"skip RET: new -")
-            while not self.get_curr().init_next():
-                self.logger.info(f"{next(self.item_generator)=}")
-                if not self.peek_incr():
-                    self.logger.info(f"skip RET: new none +")
-                    return False
-            self.start_curr()
-            self.logger.info(f"skip RET: new +")
-            return True
+        while not self.get_curr().init_next():
+            next(self.item_generator)
+            if not self.peek_incr(): return False
 
-        # No new item could be generated, return false
-        self.logger.info(f"skip RET: none +")
-        return False
-
+        self.start_curr()
+        return True
 
 
     '''
@@ -189,11 +177,11 @@ class Player(ABC, EventDispatcher):
     def prev(self) -> bool:
         self.logger.info(f"prev {self.get_curr()=}")
 
+        # Recursive call has priority
         if self.get_curr().prev():
-            # A child has preved succesfully, return true
             return True
         
-        # Pause current track and decrease index
+        # Prev logic
         self.stop_curr()
 
         if self.peek_decr():
