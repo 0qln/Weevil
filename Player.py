@@ -29,11 +29,13 @@ class Player(ABC, EventDispatcher):
         def generate():
             for source in self.item_sources:
                 newItem = self.converter(source)
-                self.item_storage.append(newItem)
-                self.logger.info(f"Yield new item from source: {newItem=}")
-                yield True
-            self.logger.info(f"Yield finish flag.")
+                if newItem:
+                    self.item_storage.append(newItem)
+                    self.logger.info(f"Yield new item from source: {newItem=}")
+                    yield True
+            self.logger.info(f"Item generator exhausted.")
             yield False
+
         self.item_generator = generate()
 
 
@@ -55,10 +57,16 @@ class Player(ABC, EventDispatcher):
         return current
 
 
+    '''
+    Returns: Wether the initialization was a success. 
+    '''
     def init_next(self) -> bool:
+        self.logger.info("Init next begin")
         result:bool = next(self.item_generator)
         item:Player|None = self.get_curr()
-        if result == True: item.init_next()
+        if result == True: 
+            result = item.init_next()
+        self.logger.info(f"Init next {result=}")
         return result
 
    
@@ -132,6 +140,10 @@ class Player(ABC, EventDispatcher):
         if item is not None: item.set_volume(value)
 
 
+    def has_curr(self):
+        return self.get_curr() is not None and self.get_curr().has_curr()
+
+
     '''
     Returns: Wether a skip has been made
     '''
@@ -152,11 +164,15 @@ class Player(ABC, EventDispatcher):
             return True
 
         # Try generating a new item, if needed
-        next(self.item_generator, None)
+        self.logger.info(f"{next(self.item_generator)=}")
 
         if self.peek_incr():
             self.logger.info(f"skip RET: new -")
-            self.get_curr().init_next()
+            while not self.get_curr().init_next():
+                self.logger.info(f"{next(self.item_generator)=}")
+                if not self.peek_incr():
+                    self.logger.info(f"skip RET: new none +")
+                    return False
             self.start_curr()
             self.logger.info(f"skip RET: new +")
             return True
@@ -227,11 +243,15 @@ class TrackPlayer(Player):
         self.logger.info(f"create track {url=}")
         track_source, video = VideoHelper.VideoHelper.create_playback(
             url, settings.get("output_folder"), settings.get("preferred_file_type"), self.silent[0]) 
-        if track_source is None: return False
+        if track_source is None: 
+            return None
         track = Track.Track(track_source, dB=float(settings.get("volume_db")))
         track.register("track.end", lambda e: self.dispatch_end())
         return track
 
+
+    def has_curr(self):
+        return self.get_curr() is not None
 
     def count_items(self) -> dict:
         result = { self.__class__: 1 }
@@ -240,6 +260,7 @@ class TrackPlayer(Player):
 
     def init_next(self) -> bool:
         result:bool = next(self.item_generator)
+        self.logger.info(f"Init next track {result=}")
         return result
 
 
