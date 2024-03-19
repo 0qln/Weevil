@@ -81,7 +81,7 @@ class VideoHelper:
                 logger.info(f"Attempt pypassing age gate of {video = }")
                 if not silent: client.warn(message=f"'{video.title}' is age restricted, attempting to bypass age gate.")
                 video.bypass_age_gate() # This will throw `AgeRestrictedError` if cannot be bypassed
-                return create_playback_from_video(video, output_folder, file_type, silent, retries=0)
+                return VideoHelper.create_playback_from_video(video, output_folder, file_type, silent, retries=0)
             except AgeRestrictedError as e:
                 logger.info(f"Failed to pypass age gate of {video = }")
                 if not silent: client.fail(message=f"'{video.title}' is age restricted and cannot be accessed.")
